@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ejercicios/ejercicio.dart';
-import 'ejercicios/ejercicioXML.dart';
+import 'ejercicios/ejercicioP.dart';
 
 class MyRecom extends StatelessWidget {
   @override
