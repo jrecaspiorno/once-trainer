@@ -33,6 +33,7 @@ class MyList extends StatelessWidget {
             ),
             title: Text('Lista Ejercicios'),
           ),
+          extendBodyBehindAppBar: false,
           body: Container(
             child: FutureBuilder(
               future: getEjercicios(context),
@@ -42,18 +43,27 @@ class MyList extends StatelessWidget {
                   return ListView.builder(
                       itemCount: ejercicios.length,
                       itemBuilder: (context,index){
-                        return RaisedButton(
-                          onPressed: () {
-                            final Ejercicio ejercicio = ejercicios[index];
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
-                            ));
-                          },
-                          color: Colors.blue,
-                          textColor: Colors.white,
-                          padding: EdgeInsets.all(24.0),
-                          child: Text(ejercicios[index].name, style: TextStyle(fontSize: 30)),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 30),
+                        );
+                        return Column(
+                          children: [
+                            const SizedBox(height: 40),
+                            RaisedButton(
+                              onPressed: () {
+                              final Ejercicio ejercicio = ejercicios[index];
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
+                                ));
+                              },
+                              color: Colors.blue,
+                              textColor: Colors.white,
+                              padding: EdgeInsets.all(24.0),
+                              child: Text(ejercicios[index].name, style: TextStyle(fontSize: 30)),
+                            ),
+                            //const SizedBox(height: 20),
+                          ],
                         );
                       },
 

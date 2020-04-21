@@ -39,7 +39,7 @@ class BuildEjercicio extends StatelessWidget {
                       style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25.0,
-                    ),),
+                    ), ),
 
                   ),
                   Text("Descripcion: " + ejercicio.description, style: TextStyle(
