@@ -1,3 +1,5 @@
+apply plugin: 'com.android.application'
+
 buildscript {
     ext.kotlin_version = '1.3.50'
     repositories {
@@ -28,4 +30,11 @@ subprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+//----
+
+dependencies {
+    implementation 'com.google.android.gms:play-services-fitness:18.0.0'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
 }
