@@ -1,5 +1,3 @@
-apply plugin: 'com.android.application'
-
 buildscript {
     ext.kotlin_version = '1.3.50'
     repositories {
@@ -11,6 +9,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
+
 }
 
 allprojects {
@@ -30,11 +29,4 @@ subprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-//----
-
-dependencies {
-    implementation 'com.google.android.gms:play-services-fitness:18.0.0'
-    implementation 'com.google.android.gms:play-services-auth:18.0.0'
 }
