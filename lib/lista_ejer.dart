@@ -3,7 +3,7 @@ import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:xml/xml.dart' as xml;
 
-import 'ejercicios/ejercicioP.dart';
+
 
 class MyList extends StatelessWidget {
   @override
@@ -81,45 +81,10 @@ class MyList extends StatelessWidget {
   }
 }
 
-class MyListType extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const SizedBox(height: 20),
-          _buildEjer('Ejercicio Ejemplo XML', MyEjercicio(), context),
-          _buildEjer('Ejercicio Ejemplo 1', MyEjercicio1(), context),
-          _buildEjer('Ejercicio Ejemplo 2', MyEjercicio2(), context),
-          _buildEjer('Ejercicio Ejemplo 3', MyEjercicio3(), context),
-        ],
-      ),
-    );
-  }
-  Column _buildEjer (String label, Widget funcion, BuildContext context){
-    return Column(
-      // mainAxisSize: MainAxisSize.min,
-      children: [
-        RaisedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => funcion),
-            );
-          },
-          color: Colors.blue,
-          textColor: Colors.white,
-          padding: EdgeInsets.all(24.0),
-          child: Text(label, style: TextStyle(fontSize: 30)),
-        ),
-        const SizedBox(height: 40),
-      ],
-    );
-  }
 
 
 
-  }
+
+
 
 

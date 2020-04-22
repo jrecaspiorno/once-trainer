@@ -23,6 +23,13 @@
             </list>
           </value>
         </entry>
+        <entry key="audioplayer">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayer-0.8.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="audioplayers">
           <value>
             <list>
@@ -274,6 +281,7 @@
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/archive-2.0.11/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/args-1.5.2/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.4.0/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayer-0.8.1/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/audioplayers-0.15.1/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-1.0.5/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.1.2/lib" />

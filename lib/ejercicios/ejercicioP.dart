@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'ejercicioXML.dart';
 
 class MyEjercicio extends StatelessWidget {
   @override
@@ -21,7 +20,7 @@ class MyEjercicio extends StatelessWidget {
               children: [
                 const SizedBox(height: 10),
                 MyEjercicioCrono(),
-                imprimeEjer(),
+
               ]
           )
       ),

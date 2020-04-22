@@ -18,11 +18,16 @@ class BuildEjercicio extends StatefulWidget {
 }
 
 class _BuildEjercicioState extends State<BuildEjercicio> {
-  static AudioCache player = new AudioCache();
-  final String alarmAudioPath  = "assest/Sounds/beep-09.mp3";
+
+  static AudioCache player  = AudioCache();
+  String  alarmAudioPath  = "beep.mp3";
+
+
   @override
   Widget build(BuildContext context) {
+    player.play(alarmAudioPath);
     // TODO: implement build
+
 
     return MaterialApp(
       title: 'App actividad física',
@@ -97,9 +102,11 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         seconds: 1), (Timer t){
       setState(() {
         if(time4Timer < 1 || checktimer == false){
-          if(time4Timer < 1 ) {player.play(alarmAudioPath);
-          stopispressed = true;
-          resetispressd = false;
+          if(time4Timer < 1 ) {
+            player.load(alarmAudioPath);
+            player.play(alarmAudioPath);
+            stopispressed = true;
+            resetispressd = false;
           }
 
           t.cancel();
@@ -112,9 +119,11 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       });
     });
 
-
-
   }
+
+
+
+
 
   void stopStopwatch(){
 
