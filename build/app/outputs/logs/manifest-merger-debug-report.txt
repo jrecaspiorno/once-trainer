@@ -5,6 +5,7 @@ INJECTED from F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\A
 INJECTED from F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:1:1-30:12
 INJECTED from F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:1:1-30:12
 MERGED from F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:1:1-30:12
+MERGED from [:health] F:\enriq\AndroidStudioProjects\once-trainer\build\health\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:fit_kit] F:\enriq\AndroidStudioProjects\once-trainer\build\fit_kit\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:17:1-39:12
 MERGED from [com.google.android.gms:play-services-fitness:18.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\2eced076da498cbe371c56ace40357b1\play-services-fitness-18.0.0\AndroidManifest.xml:17:1-24:12
@@ -111,6 +112,8 @@ uses-sdk
 INJECTED from F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml
 INJECTED from F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml
+MERGED from [:health] F:\enriq\AndroidStudioProjects\once-trainer\build\health\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:health] F:\enriq\AndroidStudioProjects\once-trainer\build\health\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:fit_kit] F:\enriq\AndroidStudioProjects\once-trainer\build\fit_kit\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:fit_kit] F:\enriq\AndroidStudioProjects\once-trainer\build\fit_kit\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:20:5-44

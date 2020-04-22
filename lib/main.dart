@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
 
 import 'Perfil.dart';
 import 'lista_ejer.dart';
 import 'recomendados.dart';
+import 'pulsera/pulsera.dart';
 
 void main(){
   // Instancia un objeto, es como poner (new Center())
+  debugPrint = (String message, {int wrapWidth}) {};
+  developer.log('log me', name: 'once_trainer');
   runApp(MyApp());
 }
 
@@ -36,6 +40,7 @@ class MyButtonType extends StatelessWidget {
           _buildButton('Recomendaciones', MyRecom(), context),
           _buildButton('Lista Ejercicios', MyList(), context),
           _buildButton('Perfil', MyProfile(), context),
+          _buildButton('Prueba pulsera', MyPulsera(), context),
         ],
       ),
     );
