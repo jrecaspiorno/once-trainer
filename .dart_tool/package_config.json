@@ -74,6 +74,12 @@
       "languageVersion": "2.2"
     },
     {
+      "name": "health",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/health-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "image",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/image-2.1.4",
       "packageUri": "lib/",
@@ -182,7 +188,7 @@
       "languageVersion": "2.1"
     }
   ],
-  "generated": "2020-04-21T08:28:41.650226Z",
+  "generated": "2020-04-22T08:58:34.408861Z",
   "generator": "pub",
   "generatorVersion": "2.7.0"
 }

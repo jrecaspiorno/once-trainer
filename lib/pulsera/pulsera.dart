@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
+
 import 'package:fit_kit/fit_kit.dart';
+import 'package:health/health.dart';
 
-void read() async {
-  final results = await FitKit.read(
-    DataType.HEART_RATE,
-    dateFrom: DateTime.now().subtract(Duration(days: 5)),
-    dateTo: DateTime.now(),
-  );
-}
+void _getHealthDataPoints() async {
 
-void readLast() async {
-  final result = await FitKit.readLast(DataType.HEIGHT);
-}
+  List<HealthDataType> types = [
+    HealthDataType.WEIGHT,
+    HealthDataType.HEIGHT,
+    HealthDataType.STEPS,
+  ];
 
-void readAll() async {
-  if (await FitKit.requestPermissions(DataType.values)) {
-    for (DataType type in DataType.values) {
-      final results = await FitKit.read(
-        type,
-        dateFrom: DateTime.now().subtract(Duration(days: 5)),
-        dateTo: DateTime.now(),
-      );
+  DateTime startDate = DateTime.utc(2001, 01, 01);
+  DateTime endDate = DateTime.now();
+
+  List<HealthDataPoint> healthDataList = List<HealthDataPoint>();
+
+  Future.delayed(Duration(seconds: 2), () async {
+    bool isAuthorized = await Health.requestAuthorization();
+    if (isAuthorized) {
+      for (HealthDataType type in types) {
+        /// Calls to 'Health.getHealthDataFromType' must be wrapped in a try catch block.
+        try {
+          List<HealthDataPoint> healthData = await Health.getHealthDataFromType(startDate, endDate, type);
+          healthDataList.addAll(healthData);
+        } catch (exception) {
+          print(exception.toString());
+        }
+      }
     }
-  }
+    /// Do something with the health data list
+    for (var healthData in healthDataList) {
+      print(healthData);
+    }
+  });
 }
