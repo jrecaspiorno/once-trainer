@@ -48,15 +48,15 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                 const SizedBox(height: 20,),
 
                 Expanded(
-                    flex: 1,
-                    child: SingleChildScrollView(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 19,
-                        ),
-                        child: Text("Descripcion: " + widget.ejercicio.description, style: TextStyle(
-                          fontSize: 27,))
-                    ),
+                  flex: 1,
+                  child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 19,
+                      ),
+                      child: Text("Descripcion: " + widget.ejercicio.description, style: TextStyle(
+                        fontSize: 27,))
+                  ),
 
                 ),
               ],
@@ -98,8 +98,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       setState(() {
         if(time4Timer < 1 || checktimer == false){
           if(time4Timer < 1 ) {player.play(alarmAudioPath);
-            stopispressed = true;
-            resetispressd = false;
+          stopispressed = true;
+          resetispressd = false;
           }
 
           t.cancel();

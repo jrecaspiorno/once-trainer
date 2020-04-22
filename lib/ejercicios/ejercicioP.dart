@@ -5,7 +5,7 @@ import 'ejercicioXML.dart';
 class MyEjercicio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    // TODO: implement buildS
     return MaterialApp(
       title: 'App actividad física',
       home: Scaffold( // Widget con app prediseñada, esquema
