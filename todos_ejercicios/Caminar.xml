@@ -1,0 +1,11 @@
+<data>
+    <name>Ej1</name>
+    <time>00:05</time>
+    <description>Ejercicio1</description>
+    <calories>650</calories>
+    <muscles>
+        <tag>rodilla</tag>
+        <tag>tobillo</tag>
+        <tag>cadera</tag>
+    </muscles>
+</data>
