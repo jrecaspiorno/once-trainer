@@ -1,0 +1,14 @@
+<data>
+    <name>Subir y bajar escaleras</name>
+    <series>3</series>
+    <number>20 peldaños</number>
+    <description>
+        Sube y baja escaleras, al comienzo ayudándote de la barandilla. Si te sientes con confianza puedes soltar la barandilla o incluso subir las escaleras de dos en dos peldaños.
+    </description>
+    <calories>650</calories>
+    <muscles>
+        <tag>rodilla</tag>
+        <tag>tobillo</tag>
+        <tag>cadera</tag>
+    </muscles>
+</data>
