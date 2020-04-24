@@ -8,6 +8,7 @@ MERGED from C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\
 MERGED from [:audioplayers] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\audioplayers\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:path_provider] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:path_provider_macos] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\path_provider_macos\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:audioplayer] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\audioplayer\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:health] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\health\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:fit_kit] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\fit_kit\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:17:1-39:12
@@ -121,6 +122,8 @@ MERGED from [:path_provider] C:\Users\Ricardo\AndroidStudioProjects\once-trainer
 MERGED from [:path_provider] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider_macos] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\path_provider_macos\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider_macos] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\path_provider_macos\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:audioplayer] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\audioplayer\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:audioplayer] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\audioplayer\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:health] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\health\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:health] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\health\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:fit_kit] C:\Users\Ricardo\AndroidStudioProjects\once-trainer\build\fit_kit\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44

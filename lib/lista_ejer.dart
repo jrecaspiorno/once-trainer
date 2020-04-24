@@ -11,15 +11,22 @@ class MyList extends StatelessWidget {
     // TODO: implement build
 
     Future<List<Ejercicio>> getEjercicios(BuildContext context)async{
-    String xmlS = await DefaultAssetBundle.of(context).loadString("todos_ejercicios/Ejercicios.xml");
-    var file = xml.parse(xmlS);
-    var elements = file.findAllElements("ejercicio");
-    return elements.map((elements){
-      return Ejercicio(elements.findElements("name").first.text
-          , elements.findElements("time").first.text
-          , elements.findElements("description").first.text
-          ,  int.parse(elements.findElements("calories").first.text));
-    }).toList();
+      List<String> XMLS = List();
+      List <Ejercicio> ejercicios = List();
+      XMLS = ["Caminar.xml", "Ej1.xml"];
+      for(int i = 0; i < XMLS.length ; ++i){
+        String xmlS = await DefaultAssetBundle.of(context).loadString("todos_ejercicios/"+XMLS[i]);
+        var file = xml.parse(xmlS);
+        Ejercicio ej = Ejercicio(file.findAllElements('name').first.text
+            , file.findAllElements("time").first.text
+            , file.findAllElements("description").first.text
+            ,  int.parse(file.findAllElements("calories").first.text));
+
+        ejercicios.add(ej);
+
+      }
+
+      return ejercicios;
     }
 
     return MaterialApp(
