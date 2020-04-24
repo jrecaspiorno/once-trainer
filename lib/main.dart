@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         home: Scaffold( // Widget con app prediseñada, esquema
           appBar: AppBar(
             title: Text('Menu'),
+            backgroundColor: Colors.indigo,
           ),
           body: MyButtonType(),
         ),
@@ -85,7 +86,7 @@ class MyButtonType extends StatelessWidget {
               MaterialPageRoute(builder: (context) => funcion),
             );
           },
-          color: Colors.blue,
+          color: Colors.indigo,
           textColor: Colors.white,
           padding: EdgeInsets.all(24.0),
           child: Text(label, style: TextStyle(fontSize: 30)),

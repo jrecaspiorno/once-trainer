@@ -95,6 +95,7 @@ class MyPulsera extends StatelessWidget {
               },
             ),
             title: Text('Prueba pulsera'),
+            backgroundColor: Colors.indigo,
           ),
           body: _healthDataList.isEmpty
               ? Text('$_healthKitOutput\n')

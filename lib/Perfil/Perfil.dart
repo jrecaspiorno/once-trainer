@@ -22,6 +22,7 @@ class MyProfile extends StatelessWidget {
             },
           ),
           title: Text('Perfil'),
+          backgroundColor: Colors.indigo,
         ),
         body: ListView(
           children: [
@@ -46,7 +47,7 @@ class MyButtonType extends StatelessWidget {
           const SizedBox(height: 20),
           _buildButton('Historial Actividades', MyProfile.fromMyProfile(), context),
           _buildButton('Historial Clínico', MyProfile.fromMyProfile(), context),
-          _buildButton('Preferencias', Dolencias(), context),
+          _buildButton('Dolencias', Dolencias(), context),
         ],
       ),
     );
@@ -62,7 +63,7 @@ class MyButtonType extends StatelessWidget {
               MaterialPageRoute(builder: (context) => funcion),
             );
           },
-          color: Colors.blue,
+          color: Colors.indigo,
           textColor: Colors.white,
           padding: EdgeInsets.all(24.0),
           child: Text(label, style: TextStyle(fontSize: 30)),

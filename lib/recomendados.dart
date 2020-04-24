@@ -16,6 +16,7 @@ class MyRecom extends StatelessWidget {
               },
             ),
             title: Text('Lista Ejercicios'),
+            backgroundColor: Colors.indigo,
           ),
           body: ListView(
               children: [
@@ -54,7 +55,7 @@ class MyRecomType extends StatelessWidget {
               MaterialPageRoute(builder: (context) => funcion),
             );
           },
-          color: Colors.blue,
+          color: Colors.indigo,
           textColor: Colors.white,
           padding: EdgeInsets.all(24.0),
           child: Text(label, style: TextStyle(fontSize: 30)),

@@ -24,6 +24,7 @@ class _StateDolencias extends State<Dolencias> {
             Navigator.pop(context);
           }),
           title: Text("Dolencias"),
+          backgroundColor: Colors.indigo,
         ),
         body: ListView.builder(
           itemCount: Dolencias.length,

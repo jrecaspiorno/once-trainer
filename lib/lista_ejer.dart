@@ -39,6 +39,7 @@ class MyList extends StatelessWidget {
               },
             ),
             title: Text('Lista Ejercicios'),
+            backgroundColor: Colors.indigo,
           ),
           extendBodyBehindAppBar: false,
           body: Container(
@@ -64,7 +65,7 @@ class MyList extends StatelessWidget {
                                 MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
                                 ));
                               },
-                              color: Colors.blue,
+                              color: Colors.indigo,
                               textColor: Colors.white,
                               padding: EdgeInsets.all(24.0),
                               child: Text(ejercicios[index].name, style: TextStyle(fontSize: 30)),

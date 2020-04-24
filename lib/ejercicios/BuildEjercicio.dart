@@ -37,6 +37,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
             },
           ),
           title: Text(widget.ejercicio.name),
+          backgroundColor: Colors.indigo,
         ),
         body: Container(
 
