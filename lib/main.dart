@@ -73,7 +73,6 @@ class MyButtonType extends StatelessWidget {
   }
 
 
-
   Column _buildButton (String label, Widget funcion, BuildContext context){
 
     return Column(
