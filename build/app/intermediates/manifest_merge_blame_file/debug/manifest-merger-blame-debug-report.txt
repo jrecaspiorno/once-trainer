@@ -12,8 +12,8 @@
 12         to allow setting breakpoints, to provide hot reload, etc.
 13    -->
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\debug\AndroidManifest.xml:6:5-66
-14-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\debug\AndroidManifest.xml:6:22-64
+14-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\debug\AndroidManifest.xml:6:5-66
+14-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\debug\AndroidManifest.xml:6:22-64
 15    <!--
 16     io.flutter.app.FlutterApplication is an android.app.Application that
 17         calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -22,39 +22,39 @@
 20         FlutterApplication and put your custom class here.
 21    -->
 22    <application
-22-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:8:5-29:19
+22-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:8:5-29:19
 23        android:name="io.flutter.app.FlutterApplication"
-23-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:9:9-57
+23-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:9:9-57
 24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-24-->[androidx.core:core:1.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\0a271e99b6771ad4a84318244d532fb7\core-1.0.0\AndroidManifest.xml:22:18-86
+24-->[androidx.core:core:1.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\0a271e99b6771ad4a84318244d532fb7\core-1.0.0\AndroidManifest.xml:22:18-86
 25        android:debuggable="true"
 26        android:icon="@mipmap/ic_launcher"
-26-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:11:9-43
+26-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:11:9-43
 27        android:label="flutterapp" >
-27-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:10:9-35
+27-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:10:9-35
 28        <activity
-28-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:12:9-23:20
+28-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:12:9-23:20
 29            android:name="com.example.flutterapp.MainActivity"
-29-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:13:13-41
+29-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:13:13-41
 30            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-30-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:16:13-163
+30-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:16:13-163
 31            android:hardwareAccelerated="true"
-31-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:17:13-47
+31-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:17:13-47
 32            android:launchMode="singleTop"
-32-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:14:13-43
+32-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:14:13-43
 33            android:theme="@style/LaunchTheme"
-33-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:15:13-47
+33-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:15:13-47
 34            android:windowSoftInputMode="adjustResize" >
-34-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:18:13-55
+34-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:18:13-55
 35            <intent-filter>
-35-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:19:13-22:29
+35-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:19:13-22:29
 36                <action android:name="android.intent.action.MAIN" />
-36-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:20:17-68
-36-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:20:25-66
+36-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:20:17-68
+36-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:20:25-66
 37
 38                <category android:name="android.intent.category.LAUNCHER" />
-38-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:21:17-76
-38-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:21:27-74
+38-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:21:17-76
+38-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:21:27-74
 39            </intent-filter>
 40        </activity>
 41        <!--
@@ -62,50 +62,50 @@
 43             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
 44        -->
 45        <meta-data
-45-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:26:9-28:33
+45-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:26:9-28:33
 46            android:name="flutterEmbedding"
-46-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:27:13-44
+46-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:27:13-44
 47            android:value="2" />
-47-->C:\Users\Ricardo\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:28:13-30
+47-->F:\enriq\AndroidStudioProjects\once-trainer\android\app\src\main\AndroidManifest.xml:28:13-30
 48
 49        <activity
-49-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:23:9-27:75
+49-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:23:9-27:75
 50            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
-50-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:24:13-93
+50-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:24:13-93
 51            android:excludeFromRecents="true"
-51-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:25:13-46
+51-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:25:13-46
 52            android:exported="false"
-52-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:26:13-37
+52-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:26:13-37
 53            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-53-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:27:13-72
+53-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:27:13-72
 54        <!--
 55            Service handling Google Sign-In user revocation. For apps that do not integrate with
 56            Google Sign-In, this service will never be started.
 57        -->
 58        <service
-58-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:33:9-36:110
+58-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:33:9-36:110
 59            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
-59-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:34:13-89
+59-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:34:13-89
 60            android:exported="true"
-60-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:35:13-36
+60-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:35:13-36
 61            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
-61-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:36:13-107
+61-->[com.google.android.gms:play-services-auth:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\fd205c025c68f477e55689cc4832ba77\play-services-auth-17.0.0\AndroidManifest.xml:36:13-107
 62
 63        <activity
-63-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\1cad50e824c2a91bda736a296b3e673e\play-services-base-17.1.0\AndroidManifest.xml:23:9-26:75
+63-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\1cad50e824c2a91bda736a296b3e673e\play-services-base-17.1.0\AndroidManifest.xml:23:9-26:75
 64            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-64-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\1cad50e824c2a91bda736a296b3e673e\play-services-base-17.1.0\AndroidManifest.xml:24:13-79
+64-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\1cad50e824c2a91bda736a296b3e673e\play-services-base-17.1.0\AndroidManifest.xml:24:13-79
 65            android:exported="false"
-65-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\1cad50e824c2a91bda736a296b3e673e\play-services-base-17.1.0\AndroidManifest.xml:25:13-37
+65-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\1cad50e824c2a91bda736a296b3e673e\play-services-base-17.1.0\AndroidManifest.xml:25:13-37
 66            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-66-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\1cad50e824c2a91bda736a296b3e673e\play-services-base-17.1.0\AndroidManifest.xml:26:13-72
+66-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\1cad50e824c2a91bda736a296b3e673e\play-services-base-17.1.0\AndroidManifest.xml:26:13-72
 67
 68        <meta-data
-68-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\6b9ab98ecfa761fde5af6e5826889564\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+68-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\49bb6aa1bef8b565b6192b7907dd14f6\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
 69            android:name="com.google.android.gms.version"
-69-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\6b9ab98ecfa761fde5af6e5826889564\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+69-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\49bb6aa1bef8b565b6192b7907dd14f6\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
 70            android:value="@integer/google_play_services_version" />
-70-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Ricardo\.gradle\caches\transforms-2\files-2.1\6b9ab98ecfa761fde5af6e5826889564\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+70-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\enriq\.gradle\caches\transforms-2\files-2.1\49bb6aa1bef8b565b6192b7907dd14f6\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
 71    </application>
 72
 73</manifest>

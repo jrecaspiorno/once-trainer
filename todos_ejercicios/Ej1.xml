@@ -1,9 +1,11 @@
 <data>
-    <name>Caminar</name>
-    <time>02:00</time>
-    <description>
-        Camina mirando al frente, no hacia el suelo. Primero apoya el talón y luego los dedos. Mantén los hombros relajados y los brazos balanceándose ligeramente. Termina las series caminando lentamente durante 2 minutos para relajarte.
-        *Camina a un ritmo que puedas mantener una conversación de manera continua pero que te cueste un poco de esfuerzo.
-    </description>
-        <calories>650</calories>
+<name>Ej1</name>
+<time>00:05</time>
+<description>Ejercicio1</description>
+<calories>650</calories>
+<muscles>
+    <tag>rodilla</tag>
+    <tag>tobillo</tag>
+    <tag>cadera</tag>
+</muscles>
 </data>
