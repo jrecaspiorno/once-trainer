@@ -4,6 +4,7 @@ import 'package:flutterapp/ejercicios/AppTimer.dart';
 
 import 'Ejercicio.dart';
 
+
 class BuildEjercicio extends StatefulWidget {
   Ejercicio ejercicio;
 
