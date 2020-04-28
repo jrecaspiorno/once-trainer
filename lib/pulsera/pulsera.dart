@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:googleapis/fitness/v1.dart';
+
 import 'package:fit_kit/fit_kit.dart';
 import 'package:health/health.dart';
 
@@ -41,9 +43,11 @@ class MyPulsera extends StatelessWidget {
       HealthDataType.IRREGULAR_HEART_RATE_EVENT,
     ];
 
+    // Set up dates
     DateTime startDate = DateTime.utc(2001, 01, 01);
     DateTime endDate = DateTime.now();
 
+    // Fetch call
     List<HealthDataPoint> healthDataList = List<HealthDataPoint>();
 
     Future.delayed(Duration(seconds: 2), () async {
