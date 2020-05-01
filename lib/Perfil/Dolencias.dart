@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Dolencias extends StatefulWidget {
+
+class Dolencias extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _StateDolencias();
+
 }
 
 class _StateDolencias extends State<Dolencias> {
@@ -14,9 +16,29 @@ class _StateDolencias extends State<Dolencias> {
     "Brazo": false,
     "Muñeca": false
   };
+
+//  Widget build(BuildContext context) {
+//    return Expanded(
+//      child: StreamBuilder<List<Restricciones>>(
+//        stream: restriccionesDao.findAllRestFromUser(),
+//        builder: (_, snapshot) {
+//          if (snapshot.hasData) return Container();
+//          final restricciones = snapshot.data;
+//          return ListView.builder(
+//              itemCount: restricciones.length,
+//              itemBuilder: (_, index) {
+//                return Card(
+//                  child: Container(),
+//                );
+//              });
+//        },
+//      ),
+//    );
+//  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(

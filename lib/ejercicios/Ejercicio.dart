@@ -1,7 +1,6 @@
 
 
 
-
 class Ejercicio {
   List <String> _tags;
   String _name, _time, _description;
