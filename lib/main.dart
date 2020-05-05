@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart' as xml;
+import 'dart:io';
 
 import 'Perfil/Perfil.dart';
 import 'ejercicios/Ejercicio.dart';
@@ -35,12 +36,14 @@ class MyApp extends StatelessWidget {
 }
 
 class MyButtonType extends StatelessWidget {
-
-
   Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
     List<String> XMLS = List();
     List <Ejercicio> ejercicios = List();
-    XMLS = ["Caminar.xml", "Ej1.xml"];
+    var ejDir = new Directory('./todos_ejercicios/');
+    ejDir.list(recursive: false,followLinks: false).listen((FileSystemEntity entity) {
+      developer.log(entity.path);
+      XMLS.add(entity.path);
+    });
     for(int i = 0; i < XMLS.length ; ++i){
       String xmlS =  await DefaultAssetBundle.of(context).loadString("todos_ejercicios/"+XMLS[i]);
       var file = xml.parse(xmlS);
@@ -48,12 +51,8 @@ class MyButtonType extends StatelessWidget {
       , file.findAllElements("time").first.text
       , file.findAllElements("description").first.text
       ,  int.parse(file.findAllElements("calories").first.text));
-
       ejercicios.add(ej);
-
-
     }
-
     return ejercicios;
   }
 

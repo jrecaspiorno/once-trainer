@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:xml/xml.dart' as xml;
+import 'dart:io';
 
 
 
 class MyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     Future<List<Ejercicio>> getEjercicios(BuildContext context)async{
       List<String> XMLS = List();
       List <Ejercicio> ejercicios = List();
-      XMLS = ["Caminar.xml", "Ej1.xml"];
+      var ejDir = new Directory('todos_ejercicios/');
+      ejDir.list(recursive: false,followLinks: false).listen((FileSystemEntity entity) {
+        XMLS.add(entity.path);
+      });
       for(int i = 0; i < XMLS.length ; ++i){
         String xmlS = await DefaultAssetBundle.of(context).loadString("todos_ejercicios/"+XMLS[i]);
         var file = xml.parse(xmlS);
