@@ -59,7 +59,7 @@ flutter:
     - todos_ejercicios/LevantarBotella.xml
     - todos_ejercicios/LevantarseSilla.xml
     - todos_ejercicios/SubirEscaleras.xml
-    - assest/beep.mp3
+    - Tags/tags.xml
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

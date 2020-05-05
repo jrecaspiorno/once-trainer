@@ -18,6 +18,7 @@ class _MenuState extends State<Menu> {
       home: Scaffold(
         appBar: AppBar(
           title: Text("Menu"),
+          backgroundColor: Colors.indigo,
         ),
         body: MenuView(context),
       ),
