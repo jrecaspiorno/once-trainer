@@ -56,6 +56,9 @@ class RestriccionesDAO extends DatabaseAccessor<AppDatabase>
     with _$RestriccionesDAOMixin {
   final AppDatabase db;
   RestriccionesDAO(this.db) : super(db);
+  Future<List<Restriccione>> resActivas(){
+    return (select(restricciones)..where((t) => t.activo.equals(true))).get();
+  }
   Stream<List<RestWithUser>> watchRest() {
     return (select(restricciones)
           ..orderBy([
