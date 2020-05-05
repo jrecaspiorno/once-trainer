@@ -86,26 +86,41 @@ class _StateDolencias extends State<Dolencias> {
                           Map<int, Pair> map = ListtoMap(rests);
                           int key = map.keys.elementAt(index);
                           String s = map.values.elementAt(index).s;
-                          return Card(
-                            child: Container(
-                              padding: EdgeInsets.all(1),
-                              child: Column(
-                                children: <Widget>[
-                                  CheckboxListTile(
-                                    value: map[key].b,
-                                    title: Text(
-                                      "$s",
-                                      style: TextStyle(
-                                        fontSize: 25,
+                          return Semantics(
+                            value: TextoLabel(map[key].b),
+                            onTapHint: TextoLabel(map[key].b),
+                            child: Card(
+                              child: Container(
+                                padding: EdgeInsets.all(1),
+                                child: Column(
+                                  children: <Widget>[
+                                    Tooltip(
+                                      waitDuration: Duration(
+                                        seconds: 20,
+                                      ),
+                                      message: TextoLabel(map[key].b),
+                                      child: CheckboxListTile(
+                                        value: map[key].b,
+                                        title: Text(
+                                          "$s",
+                                          style: TextStyle(
+                                            fontSize: 25,
+                                          ),
+                                        ),
+                                        onChanged: (bool dolencia) {
+                                          setState(() {
+                                            database.restriccionesDAO.updateRes(
+                                                Restriccione(
+                                                    id: key,
+                                                    idUser: 0,
+                                                    activo: dolencia,
+                                                    tipo: s));
+                                          });
+                                        },
                                       ),
                                     ),
-                                    onChanged: (bool dolencia) {
-                                      setState(() {
-                                        database.restriccionesDAO.updateRes(Restriccione(id: key,idUser: 0,activo: dolencia, tipo: s ));
-                                      });
-                                    },
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -116,23 +131,30 @@ class _StateDolencias extends State<Dolencias> {
     );
   }
 
-  Map<int,Pair> ListtoMap(List<Restriccione> restwuser){
-    if(restwuser.length > 0) {
+  Map<int, Pair> ListtoMap(List<Restriccione> restwuser) {
+    if (restwuser.length > 0) {
       Map<int, Pair> res = Map();
       Map<int, Pair> aux;
       for (int i = 0; i < restwuser.length; ++i) {
         Restriccione r = restwuser[i];
         Pair pr = Pair(s: r.tipo, b: r.activo);
-        res[r.id]= pr;
+        res[r.id] = pr;
       }
       return res;
-    }
-    else return null;
+    } else
+      return null;
+  }
+
+  String TextoLabel(bool b) {
+    if (b)
+      return "marcada";
+    else
+      return "no marcada";
   }
 }
 
-class Pair{
+class Pair {
   final String s;
   final bool b;
-  const Pair({@required this.s, @required  this.b}) ;
+  const Pair({@required this.s, @required this.b});
 }
