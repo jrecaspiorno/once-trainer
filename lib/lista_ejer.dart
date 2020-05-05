@@ -21,7 +21,7 @@ class MyList extends StatelessWidget {
             file.findAllElements("time").first.text,
             file.findAllElements("description").first.text,
             int.parse(file.findAllElements("calories").first.text),
-            file.findAllElements("tags").map((element) {
+            file.findAllElements("muscles").map((element) {
               return element.findElements("tag").first.text;
             }).toList());
         ejercicios.add(ej);

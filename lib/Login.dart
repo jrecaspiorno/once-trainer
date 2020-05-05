@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
   }
 
   Widget LoginView(UsuarioDAO usuarioDAO, BuildContext context) {
-    
+    estoyLogeado(usuarioDAO, context);
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -67,21 +67,42 @@ class _LoginState extends State<Login> {
     );
   }
 
-//  Widget AceptarCambios(UsuarioDAO usuarioDAO){
-//    return RaisedButton(
-//      onPressed: (){
-//        Insertable<UsuarioData> user = UsuarioData(id: null, nombre: _MycontrollerN.text, apellido: _MycontrollerA.text, edad: int.parse(_MycontrollerE.text ));
-//        //usuarioDAO.insertUser(user);
-//        Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//              builder: (context) => (Menu(
-//
-//              )),
-//            ));
-//      },
-//    );
-//  }
+  void estoyLogeado(UsuarioDAO dao, BuildContext context) async{
+    List<UsuarioData> data = await dao.getUsers();
+    if(data.length > 0){
+      _showDialog();
+    }
+
+  }
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Login Error"),
+          content: new Text("Usted ya esta logeado"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (Menu()),
+                      fullscreenDialog: Navigator.of(context).pop()
+                    ));
+
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   
   Widget AceptarCambios(UsuarioDAO usuarioDAO){
     return RaisedButton(
@@ -92,6 +113,7 @@ class _LoginState extends State<Login> {
           style: TextStyle(fontSize: 30)),
       onPressed: (){
         usuarioDAO.insertUser(UsuarioData(nombre: _MycontrollerN.text, apellido: _MycontrollerA.text, edad: int.parse(_MycontrollerE.text) ));
+
         Navigator.push(
             context,
             MaterialPageRoute(
