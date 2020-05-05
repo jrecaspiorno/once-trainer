@@ -1,39 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
-import 'package:flutterapp/ejercicios/Ejercicio.dart';
+import 'package:provider/provider.dart';
 
 class MyProfile extends StatelessWidget {
-  List<Ejercicio> ejercicios;
 
-  MyProfile(List<Ejercicio> ejercicios){
-    this.ejercicios = ejercicios;
-  }
-  MyProfile.fromMyProfile();
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    final database = Provider.of<AppDatabase>(context);
+
     return MaterialApp(
       title: 'App actividad física',
-      home: Scaffold( // Widget con app prediseñada, esquema
-        appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              Navigator.pop(context);
+      home: Scaffold(
+          // Widget con app prediseñada, esquema
+          appBar: AppBar(
+            leading: BackButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: Text('Perfil'),
+            backgroundColor: Colors.indigo,
+          ),
+          body: FutureBuilder(
+            future: getData(database.usuarioDAO),
+            builder: (context,data){
+              if(data.hasData){
+                List<UsuarioData> users = data.data;
+                UsuarioData mainUser = users[0];
+                return ListView(
+                  children: <Widget>[
+                    const SizedBox(height: 20),
+                      MyData(usuarioData: mainUser ),
+                      MyButtonType(
+
+                     ),
+                  ],
+                );
+              }else{
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             },
           ),
-          title: Text('Perfil'),
-          backgroundColor: Colors.indigo,
-        ),
-        body: ListView(
-          children: [
-            const SizedBox(height: 20),
-            MyData(),
-            MyButtonType(),
-          ]
-        )
-      ),
+//            ListView(children: [
+//            const SizedBox(height: 20),
+//            MyData(usuarioData: ),
+//            MyButtonType(
+//
+//            ),
+//          ])
+          ),
     );
   }
+  Future<List<UsuarioData>> getData(UsuarioDAO usuarioDAO) async {
+    return usuarioDAO.getUsers();
+  }
+
 }
 
 class MyButtonType extends StatelessWidget {
@@ -45,14 +69,20 @@ class MyButtonType extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const SizedBox(height: 20),
-          _buildButton('Historial Actividades', MyProfile.fromMyProfile(), context),
-          _buildButton('Historial Clínico', MyProfile.fromMyProfile(), context),
-          _buildButton('Dolencias', Dolencias(), context),
+          _buildButton('Historial Actividades', MyProfile(), context),
+          _buildButton('Historial Clínico', MyProfile(), context),
+          _buildButton(
+              'Dolencias',
+              Dolencias(
+
+              ),
+              context),
         ],
       ),
     );
   }
-  Column _buildButton (String label, Widget funcion, BuildContext context){
+
+  Column _buildButton(String label, Widget funcion, BuildContext context) {
     return Column(
       // mainAxisSize: MainAxisSize.min,
       children: [
@@ -74,15 +104,27 @@ class MyButtonType extends StatelessWidget {
   }
 }
 
-class MyData extends StatelessWidget{
+class MyData extends StatelessWidget {
+  final UsuarioData usuarioData;
+
+
+  const MyData({Key key, @required this.usuarioData}) : super(key: key);
+
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
+
     return Center(
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Image.asset('images/avatar.jpg', width: 200, height: 200, fit: BoxFit.cover,),
-          Text('Pepito Pérez', style: TextStyle(fontSize: 30)),
+          Image.asset(
+            'images/avatar.jpg',
+            width: 100,
+            height: 100,
+            fit: BoxFit.cover,
+          ),
+          Text(usuarioData.nombre + " "+ usuarioData.apellido, style: TextStyle(fontSize: 30)),
         ],
       ),
     );

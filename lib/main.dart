@@ -1,79 +1,58 @@
 import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
-import 'package:xml/xml.dart' as xml;
-import 'dart:io';
+import 'package:flutterapp/Data/moor_database.dart';
+import 'package:provider/provider.dart';
 
-import 'Perfil/Perfil.dart';
-import 'ejercicios/Ejercicio.dart';
-import 'lista_ejer.dart';
-import 'pulsera/pulsera.dart';
-import 'recomendados.dart';
+import 'Login.dart';
+import 'Menu/Menu.dart';
 
-void main(){
-  // Instancia un objeto, es como poner (new Center())
+
+Future<void> main() async {
   debugPrint = (String message, {int wrapWidth}) {};
   developer.log('log me', name: 'once_trainer');
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  @override // Sobrescribir para indicar que creamos nuestro widget
 
+  @override // Sobrescribir para indicar que creamos nuestro widget
   Widget build(BuildContext context) {
-    // TODO: implement build
-      return MaterialApp(
+    return Provider(
+      create: (_) => AppDatabase(),
+      child: MaterialApp(
         title: 'App actividad física',
-        home: Scaffold( // Widget con app prediseñada, esquema
+        home: Scaffold(
+          // Widget con app prediseñada, esquema
           appBar: AppBar(
-            title: Text('Menu'),
+            title: Text('Home'),
             backgroundColor: Colors.indigo,
           ),
-          body: MyButtonType(),
+          body: Home(),
         ),
-      );
+      ),
+    );
   }
 }
 
-class MyButtonType extends StatelessWidget {
-  Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
-    List<String> XMLS = List();
-    List <Ejercicio> ejercicios = List();
-    var ejDir = new Directory('./todos_ejercicios/');
-    ejDir.list(recursive: false,followLinks: false).listen((FileSystemEntity entity) {
-      developer.log(entity.path);
-      XMLS.add(entity.path);
-    });
-    for(int i = 0; i < XMLS.length ; ++i){
-      String xmlS =  await DefaultAssetBundle.of(context).loadString("todos_ejercicios/"+XMLS[i]);
-      var file = xml.parse(xmlS);
-      Ejercicio ej = Ejercicio(file.findAllElements('name').first.text
-      , file.findAllElements("time").first.text
-      , file.findAllElements("description").first.text
-      ,  int.parse(file.findAllElements("calories").first.text));
-      ejercicios.add(ej);
-    }
-    return ejercicios;
-  }
 
+
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final database = Provider.of<AppDatabase>(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _buildButton('Recomendaciones', MyRecom(), context),
-          _buildButton('Lista Ejercicios', MyList(), context),
-          _buildButton('Perfil', MyProfile.fromMyProfile(), context),
-          _buildButton('Prueba pulsera', MyPulsera(), context),
+          _buildButton('Login', Login(database.usuarioDAO) , context),
+          _buildButton('Menu', Menu() , context)
         ],
       ),
     );
   }
 
-
-  Column _buildButton (String label, Widget funcion, BuildContext context){
-
+  Column _buildButton(String label, Widget funcion, BuildContext context) {
     return Column(
       // mainAxisSize: MainAxisSize.min,
       children: [
@@ -93,4 +72,12 @@ class MyButtonType extends StatelessWidget {
       ],
     );
   }
+
+
+
 }
+
+
+
+
+

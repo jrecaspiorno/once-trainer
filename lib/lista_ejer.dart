@@ -4,13 +4,18 @@ import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:xml/xml.dart' as xml;
 import 'dart:io';
 
-
-
 class MyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future<List<Ejercicio>> getEjercicios(BuildContext context)async{
+    // TODO: implement build
+
+    Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       List<String> XMLS = List();
+      List<Ejercicio> ejercicios = List();
+      XMLS = ["Caminar.xml", "Ej1.xml"];
+      for (int i = 0; i < XMLS.length; ++i) {
+        String xmlS = await DefaultAssetBundle.of(context)
+            .loadString("todos_ejercicios/" + XMLS[i]);
       List <Ejercicio> ejercicios = List();
       var ejDir = new Directory('todos_ejercicios/');
       ejDir.list(recursive: false,followLinks: false).listen((FileSystemEntity entity) {
@@ -19,11 +24,16 @@ class MyList extends StatelessWidget {
       for(int i = 0; i < XMLS.length ; ++i){
         String xmlS = await DefaultAssetBundle.of(context).loadString("todos_ejercicios/"+XMLS[i]);
         var file = xml.parse(xmlS);
-        Ejercicio ej = Ejercicio(file.findAllElements('name').first.text
-            , file.findAllElements("time").first.text
-            , file.findAllElements("description").first.text
-            ,  int.parse(file.findAllElements("calories").first.text));
+        var tags =  file.findAllElements("tag").map((element){
+            return element.text;
+          }).toList();
 
+        Ejercicio ej = Ejercicio(
+            file.findAllElements('name').first.text,
+            file.findAllElements("time").first.text,
+            file.findAllElements("description").first.text,
+            int.parse(file.findAllElements("calories").first.text),
+            tags);
         ejercicios.add(ej);
 
       }
@@ -33,7 +43,8 @@ class MyList extends StatelessWidget {
 
     return MaterialApp(
       title: 'App actividad física',
-      home: Scaffold( // Widget con app prediseñada, esquema
+      home: Scaffold(
+          // Widget con app prediseñada, esquema
           appBar: AppBar(
             leading: BackButton(
                   onPressed: () {
