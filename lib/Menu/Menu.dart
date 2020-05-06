@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
-import 'package:flutterapp/pulsera/pulsera.dart';
+import 'package:flutterapp/pulsera/pulseraDatos.dart';
 
 import '../lista_ejer.dart';
 import '../recomendados.dart';

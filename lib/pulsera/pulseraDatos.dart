@@ -47,9 +47,6 @@ class MyPulsera extends StatelessWidget {
     DateTime startDate = DateTime.utc(2001, 01, 01);
     DateTime endDate = DateTime.now();
 
-    // Fetch call
-    List<HealthDataPoint> healthDataList = List<HealthDataPoint>();
-
     Future.delayed(Duration(seconds: 2), () async {
       _isAuthorized = await Health.requestAuthorization();
 
@@ -78,7 +75,7 @@ class MyPulsera extends StatelessWidget {
           }
         }
 
-        for (var healthData in healthDataList) {
+        for (var healthData in _healthDataList) {
           print("Data: $healthData");
         }
       }
