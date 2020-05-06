@@ -16,14 +16,16 @@ class MyList extends StatelessWidget {
         String xmlS = await DefaultAssetBundle.of(context)
             .loadString("todos_ejercicios/" + XMLS[i]);
         var file = xml.parse(xmlS);
+        var tags =  file.findAllElements("tag").map((element){
+            return element.text;
+          }).toList();
+
         Ejercicio ej = Ejercicio(
             file.findAllElements('name').first.text,
             file.findAllElements("time").first.text,
             file.findAllElements("description").first.text,
             int.parse(file.findAllElements("calories").first.text),
-            file.findAllElements("tags").map((element) {
-              return element.findElements("tag").first.text;
-            }).toList());
+            tags);
         ejercicios.add(ej);
       }
 

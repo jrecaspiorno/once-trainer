@@ -28,11 +28,11 @@ class Historials extends Table {
 
 @UseMoor(
     tables: [Usuario, Restricciones, Historials],
-    daos: [UsuarioDAO, RestriccionesDAO, HistorialDAO])
-class AppDatabase extends _$AppDatabase {
+  daos: [UsuarioDAO, RestriccionesDAO, HistorialDAO])
+  class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super(FlutterQueryExecutor.inDatabaseFolder(
-            path: 'OnceTrainerDB.sqlite', logStatements: true));
+  path: 'OnceTrainerDB.sqlite', logStatements: true));
   @override
   int get schemaVersion => 1;
 }
@@ -56,6 +56,9 @@ class RestriccionesDAO extends DatabaseAccessor<AppDatabase>
     with _$RestriccionesDAOMixin {
   final AppDatabase db;
   RestriccionesDAO(this.db) : super(db);
+  Future<List<Restriccione>> resActivas(){
+    return (select(restricciones)..where((t) => t.activo.equals(true))).get();
+  }
   Stream<List<RestWithUser>> watchRest() {
     return (select(restricciones)
           ..orderBy([
@@ -72,9 +75,14 @@ class RestriccionesDAO extends DatabaseAccessor<AppDatabase>
               );
             }).toList());
   }
-
+  Stream<List<Restriccione>> wachAllRest() => select(restricciones).watch();
+  Future deleteAllRes()=>delete(restricciones).go();
   Future insertRest(Insertable<Restriccione> res) =>
       into(restricciones).insert(res);
+  Future updateRes(Insertable<Restriccione> res) =>
+      update(restricciones).replace(res);
+  Future<List<Restriccione>> getAllRest() =>select(restricciones).get();
+
 }
 
 @UseDao(tables: [Historials, Usuario])

@@ -18,6 +18,7 @@ class _MenuState extends State<Menu> {
       home: Scaffold(
         appBar: AppBar(
           title: Text("Menu"),
+          backgroundColor: Colors.indigo,
         ),
         body: MenuView(context),
       ),
@@ -30,7 +31,7 @@ class _MenuState extends State<Menu> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-                _buildButton('Recomendaciones', MyRecom(), context),
+                _buildButton('Recomendaciones', MyRecomList(), context),
                 _buildButton('Lista Ejercicios', MyList(), context),
                 _buildButton('Perfil', MyProfile(), context),
                 _buildButton('Prueba pulsera', MyPulsera(), context),
