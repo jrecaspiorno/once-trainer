@@ -45,6 +45,7 @@ class Home extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          
           _buildButton('Login', Login(database.usuarioDAO) , context),
           _buildButton('Menu', Menu() , context)
         ],
@@ -52,6 +53,7 @@ class Home extends StatelessWidget {
     );
   }
 
+  
   Column _buildButton(String label, Widget funcion, BuildContext context) {
     return Column(
       // mainAxisSize: MainAxisSize.min,

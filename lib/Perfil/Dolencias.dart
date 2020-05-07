@@ -12,32 +12,8 @@ class Dolencias extends StatefulWidget {
 }
 
 class _StateDolencias extends State<Dolencias> {
-  Map<String, bool> Dolencias = {
-    "Rodilla": false,
-    "Cadera": false,
-    "Tobillo": false,
-    "Brazo": false,
-    "Muñeca": false
-  };
 
-//  Widget build(BuildContext context) {
-//    return Expanded(
-//      child: StreamBuilder<List<Restricciones>>(
-//        stream: restriccionesDao.findAllRestFromUser(),
-//        builder: (_, snapshot) {
-//          if (snapshot.hasData) return Container();
-//          final restricciones = snapshot.data;
-//          return ListView.builder(
-//              itemCount: restricciones.length,
-//              itemBuilder: (_, index) {
-//                return Card(
-//                  child: Container(),
-//                );
-//              });
-//        },
-//      ),
-//    );
-//  }
+
 
   @override
   Widget build(BuildContext context) {

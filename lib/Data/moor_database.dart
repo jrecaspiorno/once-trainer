@@ -90,6 +90,10 @@ class HistorialDAO extends DatabaseAccessor<AppDatabase>
     with _$HistorialDAOMixin {
   final AppDatabase db;
   HistorialDAO(this.db) : super(db);
+  Future<List<Historial>> getallHist() => select(historials).get();
+  Future insertHistorial(Insertable<Historial> hist) => into(historials).insert(hist);
+  Stream<List<Historial>> watchallHist()=> select(historials).watch();
+  Future deleteHist() => delete(historials).go();
 }
 
 class RestWithUser {

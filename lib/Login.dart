@@ -93,7 +93,7 @@ class _LoginState extends State<Login> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => (Menu()),
-                      fullscreenDialog: Navigator.of(context).pop()
+                      //fullscreenDialog: Navigator.of(context).pop()
                     ));
 
               },
