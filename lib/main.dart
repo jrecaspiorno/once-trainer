@@ -1,12 +1,14 @@
 import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/Login/GoogleLogin.dart';
 import 'package:provider/provider.dart';
 
-import 'Login.dart';
-import 'Menu/Menu.dart';
+import 'package:flutterapp/Data/moor_database.dart';
 
+
+import 'Login/Login.dart';
+import 'Menu/Menu.dart';
 
 Future<void> main() async {
   debugPrint = (String message, {int wrapWidth}) {};
@@ -45,13 +47,15 @@ class Home extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _buildButton('Login', Login(database.usuarioDAO) , context),
+          
+          _buildButton('Login', GoogleSingUp() , context),
           _buildButton('Menu', Menu() , context)
         ],
       ),
     );
   }
 
+  
   Column _buildButton(String label, Widget funcion, BuildContext context) {
     return Column(
       // mainAxisSize: MainAxisSize.min,

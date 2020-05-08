@@ -1,47 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/Menu/Menu.dart';
 
-import 'Menu/Menu.dart';
+
 
 class Login extends StatefulWidget {
-  UsuarioDAO usuarioDAO;
-
   Login(this.usuarioDAO);
+
+  UsuarioDAO usuarioDAO;
 
   @override
   State<StatefulWidget> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  final String labelNombre = 'Introduzca su nombre';
-  final String labelApellido = 'Introduzca su apellido';
-  final String labelEdad = 'Introduzca su edad';
-  final _MycontrollerN = TextEditingController();
-  final _MycontrollerA = TextEditingController();
-  final _MycontrollerE = TextEditingController();
-  
-  String Nombre;
   String Apellido;
   int edad;
+  final String labelApellido = 'Introduzca su apellido';
+  final String labelEdad = 'Introduzca su edad';
+  final String labelNombre = 'Introduzca su nombre';
+  String Nombre;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Text("Login"),
-          backgroundColor: Colors.indigo,
-        ),
-        body: LoginView(widget.usuarioDAO, context),
-      ),
-    );
-  }
+  final _MycontrollerA = TextEditingController();
+  final _MycontrollerE = TextEditingController();
+  final _MycontrollerN = TextEditingController();
 
   Widget LoginView(UsuarioDAO usuarioDAO, BuildContext context) {
     estoyLogeado(usuarioDAO, context);
@@ -80,6 +63,7 @@ class _LoginState extends State<Login> {
     }
 
   }
+
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -99,7 +83,7 @@ class _LoginState extends State<Login> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => (Menu()),
-                      fullscreenDialog: Navigator.of(context).pop()
+                      //fullscreenDialog: Navigator.of(context).pop()
                     ));
 
               },
@@ -109,7 +93,7 @@ class _LoginState extends State<Login> {
       },
     );
   }
-  
+
   Widget AceptarCambios(UsuarioDAO usuarioDAO){
     return RaisedButton(
       color: Colors.indigo ,
@@ -128,7 +112,7 @@ class _LoginState extends State<Login> {
       },
     );
   }
-  
+
   Widget CampoNombre(String text ){
     return Container(
       width: 300,
@@ -157,6 +141,7 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
   Widget CampoApellido(String text ){
     return Container(
       width: 300,
@@ -185,6 +170,7 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
   Widget CampoEdad(String text ){
     return Container(
       width: 300,
@@ -210,6 +196,18 @@ class _LoginState extends State<Login> {
 
             ],
           )
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Login"),
+        ),
+        body: LoginView(widget.usuarioDAO, context),
       ),
     );
   }
