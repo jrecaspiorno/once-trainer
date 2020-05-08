@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 
-import 'sacaDatos.dart';
+import 'sacaDatosRitmoCardiaco.dart';
 
 class MyPideDatos extends StatelessWidget {
 

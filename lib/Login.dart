@@ -30,7 +30,13 @@ class _LoginState extends State<Login> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           title: Text("Login"),
+          backgroundColor: Colors.indigo,
         ),
         body: LoginView(widget.usuarioDAO, context),
       ),

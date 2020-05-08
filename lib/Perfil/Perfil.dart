@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
+import 'package:flutterapp/Perfil/historialClinico.dart';
 import 'package:provider/provider.dart';
 
 class MyProfile extends StatelessWidget {
@@ -70,7 +71,7 @@ class MyButtonType extends StatelessWidget {
         children: <Widget>[
           const SizedBox(height: 20),
           _buildButton('Historial Actividades', MyProfile(), context),
-          _buildButton('Historial Clínico', MyProfile(), context),
+          _buildButton('Historial Clínico', MyHistorial(), context),
           _buildButton(
               'Dolencias',
               Dolencias(
