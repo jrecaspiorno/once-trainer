@@ -1,6 +1,6 @@
 import 'package:health/health.dart';
 
-List<HealthDataPoint> MySacaDatosSemana(String tipo) {
+Future <List<HealthDataPoint>> MySacaDatosSemana(String tipo) async{
   var _healthKitOutput;
   var _healthDataList = List<HealthDataPoint>();
   bool _isAuthorized = false;
@@ -54,6 +54,8 @@ List<HealthDataPoint> MySacaDatosSemana(String tipo) {
       }
       print("hola desde dentro");
       print(_healthDataList);
+
+      return _healthDataList;
     }).timeout(const Duration (seconds: 5), onTimeout: (){
         throw('Timeout');
      });
@@ -63,7 +65,6 @@ List<HealthDataPoint> MySacaDatosSemana(String tipo) {
     print("hola desde fuera");
     print(_healthDataList);
     //_healthDataList = then(_completer.future);
-    return _healthDataList;
 }
 
 _onTimeout() => print("Time Out occurs");

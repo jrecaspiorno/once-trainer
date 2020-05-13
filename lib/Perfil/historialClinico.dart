@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
-import 'package:flutterapp/pulsera/sacaDatosSemana.dart';
 import 'package:health/health.dart';
 
 import '../lista_ejer.dart';
 import '../recomendados.dart';
-import '../pulsera/tablaDatos.dart';
+import '../pulsera/datosHistorial/tablaDatos.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
 

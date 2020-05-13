@@ -3,7 +3,8 @@ import 'dart:io';
 /// Example of a time series chart using a bar renderer.
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import 'package:flutterapp/pulsera/sacaDatosSemana.dart';
+import 'package:flutterapp/pulsera/datosHistorial/sacaDatosSemana.dart';
+
 import 'package:health/health.dart';
 
 class TimeSeriesBar extends StatelessWidget {
@@ -42,7 +43,12 @@ class TimeSeriesBar extends StatelessWidget {
 
   /// Create one series with sample hard coded data.
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(String tipo) {
-    List<HealthDataPoint> _healthDataList = MySacaDatosSemana(tipo);
+    List <HealthDataPoint> _healthDataList;
+    Future.delayed(Duration(seconds: 1), () async {
+      _healthDataList = await MySacaDatosSemana(tipo);
+    }).timeout(const Duration (seconds: 5), onTimeout: (){
+      throw('Timeout');
+    });
     //sleep(Duration (seconds: 2));
     DateTime endDate = DateTime.now();
     DateTime startDate = endDate.subtract(Duration(days: 7));
