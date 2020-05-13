@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
+import 'package:flutterapp/Perfil/historialClinico.dart';
+import 'package:flutterapp/pulsera/tablaDatos.dart';
 
 import '../lista_ejer.dart';
 import '../recomendados.dart';
@@ -38,7 +40,7 @@ class _MenuState extends State<Menu> {
                 _buildButton('Recomendaciones', MyRecomList(), context),
                 _buildButton('Lista Ejercicios', MyList(), context),
                 _buildButton('Perfil', MyProfile(), context),
-                //_buildButton('Prueba pulsera', SimpleTimeSeriesChart([]), context),
+                _buildButton('Prueba pulsera', MyHistorial(), context),
             ],
       )),
     );

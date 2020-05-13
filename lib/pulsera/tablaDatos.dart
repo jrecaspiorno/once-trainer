@@ -1,3 +1,5 @@
+import 'dart:io';
+
 /// Example of a time series chart using a bar renderer.
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
@@ -41,6 +43,7 @@ class TimeSeriesBar extends StatelessWidget {
   /// Create one series with sample hard coded data.
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(String tipo) {
     List<HealthDataPoint> _healthDataList = MySacaDatosSemana(tipo);
+    //sleep(Duration (seconds: 2));
     DateTime endDate = DateTime.now();
     DateTime startDate = endDate.subtract(Duration(days: 7));
 
