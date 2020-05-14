@@ -4,7 +4,7 @@
             "outputFile": "F:\\enriq\\AndroidStudioProjects\\once-trainer\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sq\\values-sq.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\enriq\\.gradle\\caches\\transforms-2\\files-2.1\\1cad50e824c2a91bda736a296b3e673e\\play-services-base-17.1.0\\res\\values-sq\\values.xml",
+                    "source": "C:\\Users\\enriq\\.gradle\\caches\\transforms-2\\files-2.1\\81afe58a448e3ee778bc0f2a4c0fa85d\\play-services-base-17.1.0\\res\\values-sq\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\enriq\\.gradle\\caches\\transforms-2\\files-2.1\\0a271e99b6771ad4a84318244d532fb7\\core-1.0.0\\res\\values-sq\\values-sq.xml",
+                    "source": "C:\\Users\\enriq\\.gradle\\caches\\transforms-2\\files-2.1\\3f003e2cfc9865ae49ff938367e20140\\core-1.0.0\\res\\values-sq\\values-sq.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\enriq\\.gradle\\caches\\transforms-2\\files-2.1\\49bb6aa1bef8b565b6192b7907dd14f6\\jetified-play-services-basement-17.0.0\\res\\values-sq\\values.xml",
+                    "source": "C:\\Users\\enriq\\.gradle\\caches\\transforms-2\\files-2.1\\08d97d48c8c24ddfc65f3024b9bc4b1e\\jetified-play-services-basement-17.0.0\\res\\values-sq\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

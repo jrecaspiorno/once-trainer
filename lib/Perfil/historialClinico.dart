@@ -58,7 +58,7 @@ class MyHistorial extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TimeSeriesBar.withSampleData(tipo)),
+              MaterialPageRoute(builder: (context) => MyHistorial()),
             );
           },
           color: Colors.indigo,

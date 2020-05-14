@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutterapp/pulsera/datosRitmoTR/pideDatos.dart';
 import 'dart:developer';
 import 'dart:io';
 
@@ -30,9 +31,9 @@ List<HealthDataPoint> getHealthRate() {
     ];
 
     // Set up dates
-    DateTime startDate = DateTime.now();
-    Future.delayed(Duration(seconds: 1), () async{});
-    DateTime endDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+    DateTime startDate = endDate.subtract(Duration(seconds: 3));
+    //Future.delayed(Duration(seconds: 1), () async{});
 
     Future.delayed(Duration(seconds: 2), () async {
       _isAuthorized = await Health.requestAuthorization();
@@ -46,6 +47,7 @@ List<HealthDataPoint> getHealthRate() {
               List<HealthDataPoint> healthData = await Health
                   .getHealthDataFromType(startDate, endDate, type);
               _healthDataList.addAll(healthData);
+              //MyPideDatos(_healthDataList);
             }
             /*
             else{

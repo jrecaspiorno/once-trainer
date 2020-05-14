@@ -14,9 +14,9 @@ class TimeSeriesBar extends StatelessWidget {
   TimeSeriesBar(this.seriesList, {this.animate});
 
   /// Creates a [TimeSeriesChart] with sample data and no transition.
-  factory TimeSeriesBar.withSampleData(String tipo) {
+  factory TimeSeriesBar.withSampleData(String tipo, List <HealthDataPoint> _healthDataList) {
     return new TimeSeriesBar(
-      _createSampleData(tipo),
+      _createSampleData(tipo, _healthDataList),
       // Disable animations for image tests.
       animate: false,
     );
@@ -42,13 +42,15 @@ class TimeSeriesBar extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(String tipo) {
+  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(String tipo, List <HealthDataPoint> _healthDataList) {
+    /*
     List <HealthDataPoint> _healthDataList;
     Future.delayed(Duration(seconds: 1), () async {
       _healthDataList = await MySacaDatosSemana(tipo);
     }).timeout(const Duration (seconds: 5), onTimeout: (){
       throw('Timeout');
     });
+    */
     //sleep(Duration (seconds: 2));
     DateTime endDate = DateTime.now();
     DateTime startDate = endDate.subtract(Duration(days: 7));

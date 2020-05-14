@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 import 'package:health/health.dart';
 
-import 'sacaDatosRitmoCardiaco.dart';
 
 class MyPideDatos extends StatelessWidget {
+  var _healtDataList;
+  MyPideDatos( List<HealthDataPoint> lista){
+    this._healtDataList = lista;
+  }
 
-  bool _trataDatos (){
-    var _healthDataList = getHealthRate(); // Revisar
+  bool _trataDatos (List<HealthDataPoint> _healthDataList){
+    //var _healthDataList = getHealthRate(); // Revisar
 
     // FCmax = 220 - edad
     // Ej: 50 años, serian 170 latidos por minuto
@@ -36,7 +40,7 @@ class MyPideDatos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_trataDatos()) {
+    if (_trataDatos(_healtDataList)) {
       return AlertDialog(
         title: Text("Cuidado!"),
         content: Text("Seguir?"),

@@ -175,7 +175,15 @@ int string common_google_play_services_wear_update_text 0x7f09000e
 int string common_open_on_phone 0x7f09000f
 int string common_signin_button_text 0x7f090010
 int string common_signin_button_text_long 0x7f090011
-int string status_bar_notification_info_overflow 0x7f090012
+int string default_web_client_id 0x7f090012
+int string firebase_database_url 0x7f090013
+int string gcm_defaultSenderId 0x7f090014
+int string google_api_key 0x7f090015
+int string google_app_id 0x7f090016
+int string google_crash_reporting_api_key 0x7f090017
+int string google_storage_bucket 0x7f090018
+int string project_id 0x7f090019
+int string status_bar_notification_info_overflow 0x7f09001a
 int style LaunchTheme 0x7f0a0000
 int style TextAppearance_Compat_Notification 0x7f0a0001
 int style TextAppearance_Compat_Notification_Info 0x7f0a0002
