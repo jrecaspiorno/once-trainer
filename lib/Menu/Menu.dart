@@ -4,6 +4,7 @@ import 'package:flutterapp/Perfil/Perfil.dart';
 import 'package:flutterapp/Perfil/historialClinico.dart';
 import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
 import 'package:flutterapp/pulsera/datosHistorial/tablaDatos.dart';
+import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
 import '../lista_ejer.dart';
 import '../recomendados.dart';
@@ -41,7 +42,8 @@ class _MenuState extends State<Menu> {
                 _buildButton('Recomendaciones', MyRecomList(), context),
                 _buildButton('Lista Ejercicios', MyList(), context),
                 _buildButton('Perfil', MyProfile(), context),
-                _buildButton('Prueba pulsera', MySaca("STEPS"), context),
+                _buildButton('Prueba pulsera', MySaca("ACTIVE_ENERGY_BURNED"), context),
+                //_buildButton('Prueba Ritmo', MyRitmoCardiaco(), context),
             ],
       )),
     );

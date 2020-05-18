@@ -37,7 +37,7 @@ class _MySacaImprime extends State<MySaca> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     DateTime endDate = DateTime.now();
-    DateTime startDate = endDate.subtract(Duration(days: 7));
+    DateTime startDate = endDate.subtract(Duration(days: 6));
 
     //print("hola");
     Future.delayed(Duration(seconds: 2), () async {
@@ -72,22 +72,23 @@ class _MySacaImprime extends State<MySaca> {
           print("Data: $healthData");
         }
         /// Update the UI to display the results
+        //TimeSeriesBar.withSampleData(tipoEntrada.toString(), _healthDataList);
         setState(() {});
         //var seriesList = TimeSeriesBar.withSampleData(tipoEntrada.toString(), _healthDataList);
       }
       else {
         print('Not authorized');
       }
-      print("hola desde dentro");
-      print(_healthDataList);
+      //print("hola desde dentro");
+      //print(_healthDataList);
 
       return _healthDataList;
-    }).timeout(const Duration (seconds: 5), onTimeout: (){
+    }).timeout(const Duration (seconds: 10), onTimeout: (){
       throw('Timeout');
     });
 
-    print("hola desde fuera");
-    print(_healthDataList);
+    //print("hola desde fuera");
+    //print(_healthDataList);
   }
 
   @override
@@ -98,16 +99,8 @@ class _MySacaImprime extends State<MySaca> {
           title: const Text('Plugin example app'),
         ),
         body: _healthDataList.isEmpty
-            ? Text('$_healthKitOutput\n')
-            : ListView.builder(
-            itemCount: _healthDataList.length,
-            itemBuilder: (_, index) => ListTile(
-              title: Text(
-                  "${_healthDataList[index].dataType.toString()}: ${_healthDataList[index].value.toString()}"),
-              trailing: Text('${_healthDataList[index].unit}'),
-              subtitle: Text(
-                  '${DateTime.fromMillisecondsSinceEpoch(_healthDataList[index].dateFrom)} - ${DateTime.fromMillisecondsSinceEpoch(_healthDataList[index].dateTo)}'),
-            )),
+            ? Text("Cargando...", style: TextStyle(fontSize: 25)) // Centrar y mas grande
+            : Semantics (child: TimeSeriesBar.withSampleData(tipoEntrada.toString(), _healthDataList), label: "Tabla",),
       ),
     );
   }
