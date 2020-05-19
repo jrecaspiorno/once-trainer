@@ -43,6 +43,17 @@ class TimeSeriesBar extends StatelessWidget {
 
   /// Create one series with sample hard coded data.
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(String tipo, List <HealthDataPoint> _healthDataList) {
+
+    bool dateAux (HealthDataPoint actual, HealthDataPoint anterior){
+      return(DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom).year ==  DateTime.fromMillisecondsSinceEpoch(actual.dateFrom).year &&
+          DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom).month ==  DateTime.fromMillisecondsSinceEpoch(actual.dateFrom).month &&
+          DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom).day ==  DateTime.fromMillisecondsSinceEpoch(actual.dateFrom).day);
+      /*
+          && DateTime.fromMillisecondsSinceEpoch(anterior.dateTo).year ==  DateTime.fromMillisecondsSinceEpoch(actual.dateTo).year &&
+          DateTime.fromMillisecondsSinceEpoch(anterior.dateTo).month ==  DateTime.fromMillisecondsSinceEpoch(actual.dateTo).month &&
+          DateTime.fromMillisecondsSinceEpoch(anterior.dateTo).day ==  DateTime.fromMillisecondsSinceEpoch(actual.dateTo).day
+       */
+    }
     /*
     List <HealthDataPoint> _healthDataList;
     Future.delayed(Duration(seconds: 1), () async {
@@ -52,57 +63,75 @@ class TimeSeriesBar extends StatelessWidget {
     });
     */
     //sleep(Duration (seconds: 2));
+    //print(_healthDataList);
+    //print("desde funcion tablas");
     DateTime endDate = DateTime.now();
-    DateTime startDate = endDate.subtract(Duration(days: 7));
+    DateTime startDate = endDate.subtract(Duration(days: 6));
 
+    // TODO: comprobar el numero de dias que paso (desde sacaImprime)
     HealthDataPoint actual, anterior;
     List<int> cont = [0, 0, 0 ,0 ,0 ,0, 0];
-    List<int> suma = [0, 0, 0 ,0 ,0 ,0, 0];
-    int dia = 1;
+    List<double> suma = [0, 0, 0 ,0 ,0 ,0, 0];
+    int dia = 0;
     //Iterator it = _healthDataList.iterator;
 
-    print(_healthDataList);
+    if(_healthDataList.isNotEmpty)
+        actual = anterior = _healthDataList[0];
+
+    //print(dateAux(actual, anterior));
+    // Hasta aqui bien
     for (int i = 0; i < _healthDataList.length; i++) {
       actual = _healthDataList[i];
-      if (anterior.dateFrom == actual.dateFrom &&
-          anterior.dateTo == actual.dateTo) {
+      //if (anterior.dateFrom == actual.dateFrom &&
+      //    anterior.dateTo == actual.dateTo) {
+      if(dateAux(actual, anterior)){
         suma[dia] = suma[dia] + actual.value;
         cont[dia]++;
       }
       else {
+        //print(dateAux(actual, anterior));
+        print("anterior");
+        print(DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom));
+        //print(DateTime.fromMillisecondsSinceEpoch(anterior.dateTo));
+        print("actual");
+        print(DateTime.fromMillisecondsSinceEpoch(actual.dateFrom));
+        //print(DateTime.fromMillisecondsSinceEpoch(actual.dateTo));
         dia++;
+        print(dia);
         suma[dia] = actual.value;
         cont[dia] = 1;
       }
       anterior = actual;
     }
+    print("suma: ");
+    print(suma);
 
-    List<int> media;
+    List<double> media = [0, 0, 0 ,0 ,0 ,0, 0];
     if (tipo == "WEIGHT" || tipo == "HEART_RATE") {
-      for (int i = 1; i < 8; i++) {
-        media[i] = (suma[i] ~/ cont[i]);
+      for (int i = 0; i < 7; i++) {
+        media[i] = (suma[i] / cont[i]); // ~/
       }
     }
     else { // tipo == "ACTIVE_ENERGY_BURNED"
-      for (int i = 1; i < 8; i++) {
+      for (int i = 0; i < 7; i++) {
         media[i] = (suma[i]);
       }
     }
 
     final data = [
-      new TimeSeriesSales(endDate.subtract(Duration(days: 7)), media[1]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 6)), media[2]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 5)), media[3]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 6)), media[6]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 5)), media[5]),
       new TimeSeriesSales(endDate.subtract(Duration(days: 4)), media[4]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 3)), media[5]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 2)), media[6]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 1)), media[7]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 3)), media[3]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 2)), media[2]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 1)), media[1]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 0)), media[0]),
     ];
 
     return [
       new charts.Series<TimeSeriesSales, DateTime>(
         id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.indigo.shadeDefault,
         domainFn: (TimeSeriesSales sales, _) => sales.date,
         measureFn: (TimeSeriesSales sales, _) => sales.value,
         data: data,
@@ -114,7 +143,7 @@ class TimeSeriesBar extends StatelessWidget {
 /// Sample time series data type.
 class TimeSeriesSales {
   final DateTime date;
-  final int value;
+  final double value;
 
   TimeSeriesSales(this.date, this.value);
 }

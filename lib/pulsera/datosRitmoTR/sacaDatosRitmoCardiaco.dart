@@ -10,11 +10,24 @@ import 'package:googleapis/fitness/v1.dart';
 import 'package:fit_kit/fit_kit.dart';
 import 'package:health/health.dart';
 
-List<HealthDataPoint> getHealthRate() {
+class MyRitmo extends StatefulWidget {
 
-  var _healthKitOutput;
-  var _healthDataList = List<HealthDataPoint>();
-  bool _isAuthorized = false;
+  @override
+  _MyRitmoCardiaco createState() => _MyRitmoCardiaco();
+}
+
+class _MyRitmoCardiaco extends  State<MyRitmo>{
+
+  bool exceso = false;
+  void initState() {
+    super.initState();
+    getHealthRate();
+  }
+
+  Future<void> getHealthRate() async{
+    var _healthKitOutput;
+    var _healthDataList = List<HealthDataPoint>();
+    bool _isAuthorized = false;
 
     // Lista de variables
     List<HealthDataType> types = [
@@ -31,8 +44,9 @@ List<HealthDataPoint> getHealthRate() {
     ];
 
     // Set up dates
-  DateTime endDate = DateTime.now();
-    DateTime startDate = endDate.subtract(Duration(seconds: 3));
+    DateTime endDate = DateTime.now();
+    //DateTime startDate = endDate.subtract(Duration(seconds: 3));
+    DateTime startDate = endDate.subtract(Duration(days: 5)); // TODO: Cambiar a segundos
     //Future.delayed(Duration(seconds: 1), () async{});
 
     Future.delayed(Duration(seconds: 2), () async {
@@ -48,6 +62,9 @@ List<HealthDataPoint> getHealthRate() {
                   .getHealthDataFromType(startDate, endDate, type);
               _healthDataList.addAll(healthData);
               //MyPideDatos(_healthDataList);
+              exceso = trataDatos(_healthDataList);
+              print(exceso);
+              //if(exceso) alert;
             }
             /*
             else{
@@ -59,10 +76,62 @@ List<HealthDataPoint> getHealthRate() {
             print(exception.toString());
           }
         }
+        setState(() {});
       }
       else {
         print('Not authorized');
       }
     });
+    print("fuera");
     return _healthDataList;
   }
+
+  /*
+  AlertDialog alert = AlertDialog(
+    title: Text("Cuidado!"),
+    content: Text("Seguir?"),
+    actions: [
+      FlatButton(
+        child: Text('No'),
+        onPressed: () {
+          //Navigator.pop(context);
+        },
+      ),
+      FlatButton(
+        child: Text('Si'),
+        //onPressed: Navigator.of(context).pop,
+      ),
+    ],
+  );
+   */
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Plugin example app'),
+        ),
+        body: !exceso
+            ? Text("Error")
+            : AlertDialog(
+          title: Text("Cuidado!"),
+          content: Text("Seguir?"),
+          actions: [
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text('Si'),
+              //onPressed: Navigator.of(context).pop,
+            ),
+          ],
+          backgroundColor: Colors.indigo,
+        ),
+      ),
+    );
+  }
+}
