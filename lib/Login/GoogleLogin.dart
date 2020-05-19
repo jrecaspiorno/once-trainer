@@ -11,150 +11,80 @@ class GoogleSingUp extends StatefulWidget {
 }
 
 class _GoogleSingUpState extends State<GoogleSingUp> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSingIn = GoogleSignIn();
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email', ,"https://www.googleapis.com/auth/user.birthday.read"]);
+  GoogleSignInAccount _currentUser;
 
-  // bool isLoading = false;
-  // bool isLogedIn = false;
-
-  // SharedPreferences prefs;
-  // FirebaseUser firebaseUser;
-
-  // void initSate(){
-  //   super.initState();
-  //   isSingIn();
-  // }
-  
-  // void isSingIn() async{
-  //   setState(() {
-  //     isLoading=true;
-      
-  //   });
-  //   prefs = await SharedPreferences.getInstance();
-
-  //   isLogedIn = await _googleSingIn.isSignedIn();
-  //   if (isLoading) { 
-  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()))
-  //   }
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  
-  // }
-
-  // Future<Null> handleSingIn() async{
-  //     final GoogleSignInAccount googleUser = await _googleSingIn.signIn();
-  //     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-
-  //     AuthCredential credential = GoogleAuthProvider.getCredential(
-  //       idToken: googleAuth.accessToken, 
-  //       accessToken: googleAuth.idToken
-  //     );
-  //     final FirebaseUser firebaseUser = (await _firebaseAuth.signInWithCredential(credential)).user;
-
-  //     if(firebaseUser != null){
-  //       final QuerySnapshot result =
-  //     }
-      
-  // }
-
-  Future<FirebaseUser> _singIn(BuildContext context) async{
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text('Sing in'),
-      ));
-    final GoogleSignInAccount googleUser= await _googleSingIn.signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final AuthCredential credential= GoogleAuthProvider.getCredential(
-      idToken: googleAuth.accessToken, 
-      accessToken: googleAuth.idToken
-    );
-    
-    FirebaseUser userDetails = (await _firebaseAuth.signInWithCredential(credential)).user;
-    ProviderDetails providerInfo = ProviderDetails(userDetails.providerId);
-    List<ProviderDetails> providerData = List <ProviderDetails>();
-    providerData.add(providerInfo);
-
-
-    UserData details = UserData(
-      providerDetails: userDetails.providerId, 
-      userName: userDetails.displayName,
-      userEmail: userDetails.email,
-      photoUrl: userDetails.photoUrl,
-      providerData: providerData);
-
-    return userDetails;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account){
+      setState(() {
+        _currentUser = account;
+      });
+    });
+    _googleSignIn.signInSilently();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
-        backgroundColor: Colors.indigo,
       ),
-      body: Builder(
-          builder: (context) => Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: 250,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            color: Color(0xffffffff),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(FontAwesomeIcons.google, color: Color(0xffCE107C),),
-                                SizedBox(width: 10,),
-                                Text('Sing in with Google',
-                                  style: TextStyle(color: Colors.black, fontSize: 18),
-                                ),
-                            
-                              ],
-                            ),
-                            onPressed: () => _singIn(context),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              )),
+      body: Center(child: _buildBody()),
     );
+  }
+
+  Widget _buildBody() {
+    if (_currentUser != null) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          ListTile(
+            leading: GoogleUserCircleAvatar(
+              identity: _currentUser,
+            ),
+            title: Text(_currentUser.displayName ?? ''),
+            subtitle: Text(_currentUser.email ?? ''),
+          ),
+          RaisedButton(
+            onPressed: _handleSignOut,
+            child: Text('SIGN OUT'),
+          )
+        ],
+      );
+    }
+    else{
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Text('You are not signed in..'),
+          RaisedButton(
+            onPressed: _handleSignIn,
+            child: Text('SIGN IN'),
+          )
+        ],
+      );
+    }
+  }
+
+  Future<void> _handleSignIn() async{
+    try{
+      await _googleSignIn.signIn();
+    }catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSignOut() async{
+    _googleSignIn.disconnect();
   }
 
   
 }
 
-class UserData {
-    UserData({
-      this.providerDetails,
-      this.userName,
-      this.photoUrl,
-      this.userEmail,
-      this.providerData,
-    });
 
-  final String photoUrl;
-  final List<ProviderDetails> providerData;
-  final String providerDetails;
-  final String userEmail;
-  final String userName;
-}
-  
-class ProviderDetails {
-  ProviderDetails(this.providerDetails);
-
-  final String providerDetails;
-}
