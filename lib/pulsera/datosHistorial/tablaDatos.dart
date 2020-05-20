@@ -14,9 +14,10 @@ class TimeSeriesBar extends StatelessWidget {
   TimeSeriesBar(this.seriesList, {this.animate});
 
   /// Creates a [TimeSeriesChart] with sample data and no transition.
-  factory TimeSeriesBar.withSampleData(String tipo, List <HealthDataPoint> _healthDataList) {
+  //factory TimeSeriesBar.withSampleData(String tipo, List <HealthDataPoint> _healthDataList) {
+  factory TimeSeriesBar.withSampleData(List <double> media) {
     return new TimeSeriesBar(
-      _createSampleData(tipo, _healthDataList),
+      _createSampleData(media),
       // Disable animations for image tests.
       animate: false,
     );
@@ -42,8 +43,8 @@ class TimeSeriesBar extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(String tipo, List <HealthDataPoint> _healthDataList) {
-
+  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(List<double> media) {
+  /*
     bool dateAux (HealthDataPoint actual, HealthDataPoint anterior){
       return(DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom).year ==  DateTime.fromMillisecondsSinceEpoch(actual.dateFrom).year &&
           DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom).month ==  DateTime.fromMillisecondsSinceEpoch(actual.dateFrom).month &&
@@ -62,9 +63,6 @@ class TimeSeriesBar extends StatelessWidget {
       throw('Timeout');
     });
     */
-    //sleep(Duration (seconds: 2));
-    //print(_healthDataList);
-    //print("desde funcion tablas");
     DateTime endDate = DateTime.now();
     DateTime startDate = endDate.subtract(Duration(days: 6));
 
@@ -89,13 +87,6 @@ class TimeSeriesBar extends StatelessWidget {
         cont[dia]++;
       }
       else {
-        //print(dateAux(actual, anterior));
-        print("anterior");
-        print(DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom));
-        //print(DateTime.fromMillisecondsSinceEpoch(anterior.dateTo));
-        print("actual");
-        print(DateTime.fromMillisecondsSinceEpoch(actual.dateFrom));
-        //print(DateTime.fromMillisecondsSinceEpoch(actual.dateTo));
         dia++;
         print(dia);
         suma[dia] = actual.value;
@@ -116,16 +107,18 @@ class TimeSeriesBar extends StatelessWidget {
       for (int i = 0; i < 7; i++) {
         media[i] = (suma[i]);
       }
-    }
+    }*/
+    DateTime endDate = DateTime.now();
+    DateTime startDate = endDate.subtract(Duration(days: 6));
 
     final data = [
-      new TimeSeriesSales(endDate.subtract(Duration(days: 6)), media[6]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 5)), media[5]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 4)), media[4]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 6)), media[0]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 5)), media[1]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 4)), media[2]),
       new TimeSeriesSales(endDate.subtract(Duration(days: 3)), media[3]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 2)), media[2]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 1)), media[1]),
-      new TimeSeriesSales(endDate.subtract(Duration(days: 0)), media[0]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 2)), media[4]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 1)), media[5]),
+      new TimeSeriesSales(endDate.subtract(Duration(days: 0)), media[6]),
     ];
 
     return [
