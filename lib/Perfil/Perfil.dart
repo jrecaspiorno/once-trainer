@@ -122,12 +122,12 @@ class MyData extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Image.asset(
-            'images/avatar.jpg',
+            usuarioData.photoUrl,
             width: 100,
             height: 100,
             fit: BoxFit.cover,
           ),
-          Text(usuarioData.nombre + " "+ usuarioData.apellido, style: TextStyle(fontSize: 30)),
+          Text(usuarioData.nombre , style: TextStyle(fontSize: 30)),
         ],
       ),
     );

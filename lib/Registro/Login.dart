@@ -102,7 +102,7 @@ class _LoginState extends State<Login> {
       child: Text('Login',
           style: TextStyle(fontSize: 30)),
       onPressed: (){
-        usuarioDAO.insertUser(UsuarioData(nombre: _MycontrollerN.text, apellido: _MycontrollerA.text, edad: int.parse(_MycontrollerE.text) ));
+        usuarioDAO.insertUser(UsuarioData(nombre: _MycontrollerN.text, edad: int.parse(_MycontrollerE.text) ));
 
         Navigator.push(
             context,

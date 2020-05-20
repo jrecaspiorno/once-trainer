@@ -4,9 +4,10 @@ part 'moor_database.g.dart';
 
 class Usuario extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get nombre => text().withLength(min: 1, max: 50)();
-  TextColumn get apellido => text().withLength(min: 1, max: 50)();
+  TextColumn get nombre => text().withLength(min: 1)();
   IntColumn get edad => integer()();
+  TextColumn get photoUrl => text().withLength(min: 1)();
+ TextColumn get email => text().withLength(min: 1)();
 }
 
 class Restricciones extends Table {
@@ -21,6 +22,9 @@ class Historials extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get dificultad => integer()();
   TextColumn get ejercicio => text().withLength(min: 1, max: 50)();
+  DateTimeColumn get fecha => dateTime()();
+  IntColumn get calorias => integer()();
+  IntColumn get duracion => integer()();
   IntColumn get idUser =>
       integer().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();

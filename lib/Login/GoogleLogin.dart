@@ -1,90 +1,120 @@
-
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleSingUp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _GoogleSingUpState();
+class GoogleLogin extends StatefulWidget{
+
+  State<StatefulWidget> createState() => _GoogleLogin();
 }
+class _GoogleLogin extends State<GoogleLogin>{
 
-class _GoogleSingUpState extends State<GoogleSingUp> {
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email', ,"https://www.googleapis.com/auth/user.birthday.read"]);
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
   GoogleSignInAccount _currentUser;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account){
-      setState(() {
-        _currentUser = account;
+
+
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+      _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+        setState(() {
+          _currentUser = account;
+        });
       });
-    });
-    _googleSignIn.signInSilently();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Center(child: _buildBody()),
-    );
-  }
+      _googleSignIn.signInSilently();
+    }
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Registro'),
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(child: _buildBody()),
+      );
+    }
 
-  Widget _buildBody() {
-    if (_currentUser != null) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          ListTile(
-            leading: GoogleUserCircleAvatar(
-              identity: _currentUser,
+    Widget _buildBody() {
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(16.0),
             ),
-            title: Text(_currentUser.displayName ?? ''),
-            subtitle: Text(_currentUser.email ?? ''),
-          ),
-          RaisedButton(
-            onPressed: _handleSignOut,
-            child: Text('SIGN OUT'),
-          )
-        ],
-      );
-    }
-    else{
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Text('You are not signed in..'),
-          RaisedButton(
-            onPressed: _handleSignIn,
-            child: Text('SIGN IN'),
-          )
-        ],
-      );
-    }
-  }
+            RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)
+              ),
+              color: Colors.indigo,
+              onPressed: _handleSignIn,
+              child: Container(
+                width: 110,
+                child: Row(
 
-  Future<void> _handleSignIn() async{
-    try{
-      await _googleSignIn.signIn();
-    }catch(error){
+                  children: <Widget>[
+                    FaIcon(FontAwesomeIcons.google),
+                    Padding(
+                      padding: EdgeInsets.all(5.0),
+                    ),
+                    Text('Login',
+                      style: TextStyle(
+                        color: Colors.white,
+
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        );
+
+    }
+  Future<void> _handleSignIn() async {
+    try {
+      if(true) {
+        await _googleSignIn.signIn();
+      }
+      else{
+        showAlertDialog(context);
+      }
+    } catch (error) {
       print(error);
     }
   }
 
-  Future<void> _handleSignOut() async{
-    _googleSignIn.disconnect();
+  showAlertDialog(BuildContext context) {
+
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Ok"),
+      onPressed:  () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("No ha introducido su edad"),
+      content: Text("Introduzca su edad para poder registrarse"),
+      actions: [
+        cancelButton,
+
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
-  
 }
-
-
+  
