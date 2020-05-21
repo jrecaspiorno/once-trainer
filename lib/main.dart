@@ -2,13 +2,15 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Login/GoogleLogin.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:flutterapp/Data/moor_database.dart';
 
 
-import 'Login/Login.dart';
 import 'Menu/Menu.dart';
+import 'Registro/GoogleSignUp.dart';
 
 Future<void> main() async {
   debugPrint = (String message, {int wrapWidth}) {};
@@ -37,24 +39,56 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class Home extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => _Home();
 
+}
 
-class Home extends StatelessWidget {
+class _Home extends State<Home> {
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
+  GoogleSignInAccount _currentUser;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+      setState(() {
+        _currentUser = account;
+      });
+    });
+    _googleSignIn.signInSilently();
+  }
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          
-          _buildButton('Login', GoogleSingUp() , context),
-          _buildButton('Menu', Menu() , context)
-        ],
-      ),
+      child: _buildHome(context)
     );
   }
+  Widget _buildHome(BuildContext context){
+    if(_currentUser != null){
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _buildButton('Menu', Menu() , context)
+          ],
+        ),
+      );
+    }
+    else{
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
 
+            _buildButton('Registro', GoogleSingUp() , context),
+            _buildButton('Login', GoogleLogin() , context)
+          ],
+        ),
+      );
+    }
+  }
   
   Column _buildButton(String label, Widget funcion, BuildContext context) {
     return Column(
