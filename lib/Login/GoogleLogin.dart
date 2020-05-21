@@ -10,11 +10,11 @@ class GoogleLogin extends StatefulWidget{
 class _GoogleLogin extends State<GoogleLogin>{
 
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
-/*
-  class _GoogleSingUpState extends State<GoogleSingUp> {
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email', "https://www.googleapis.com/auth/user.birthday.read"]);
+
+  //class _GoogleSingUpState extends State<GoogleSingUp> {
+  //GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email', "https://www.googleapis.com/auth/user.birthday.read"]);
   GoogleSignInAccount _currentUser;
-*/
+
 
 
     void initState() {
