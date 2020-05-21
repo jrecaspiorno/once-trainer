@@ -4,6 +4,9 @@ import 'dart:async';
 import 'package:health/health.dart';
 
 import 'package:intl/intl.dart';
+import 'package:moor_flutter/moor_flutter.dart';
+
+import 'package:translator/translator.dart';
 
 class MySaca extends StatefulWidget{
   String tipoEntrada;
@@ -21,6 +24,8 @@ class _MySacaImprime extends State<MySaca> {
   bool _isAuthorized = false;
   HealthDataType tipoEntrada;
   String mytipo;
+  String mytipoEsp;
+  String myunidad;
 
   List<double> media = [0, 0, 0 ,0 ,0 ,0, 0];
   List<String> quedia = ["", "", "", "", "", "", ""];
@@ -32,14 +37,26 @@ class _MySacaImprime extends State<MySaca> {
   }*/
   _MySacaImprime(String tipo) {
     mytipo = tipo;
-    if (tipo == "WEIGHT")
+    if (tipo == "WEIGHT") {
+      mytipoEsp = "Peso";
+      myunidad = "Kilogramos";
       tipoEntrada = HealthDataType.WEIGHT;
-    if (tipo == "HEART_RATE")
+    }
+    if (tipo == "HEART_RATE") {
+      mytipoEsp = "Ritmo cardiaco";
+      myunidad = "Pulsaciones por minuto";
       tipoEntrada = HealthDataType.HEART_RATE;
-    if (tipo == "ACTIVE_ENERGY_BURNED")
+    }
+    if (tipo == "ACTIVE_ENERGY_BURNED") {
+      mytipoEsp = "Calorias quemada";
+      myunidad = "Calorias";
       tipoEntrada = HealthDataType.ACTIVE_ENERGY_BURNED;
-    if (tipo == "STEPS")
+    }
+    if (tipo == "STEPS"){
+      mytipoEsp = "Pasos";
+      myunidad = "Pasos";
       tipoEntrada = HealthDataType.STEPS;
+    }
   }
 
   void initState() {
@@ -141,10 +158,11 @@ class _MySacaImprime extends State<MySaca> {
           print(exception.toString());
         }
         //}
-
+        /*
         for (var healthData in _healthDataList) {
           print("Data: $healthData");
         }
+        */
         /// Update the UI to display the results
         //TimeSeriesBar.withSampleData(tipoEntrada.toString(), _healthDataList);
         setState(() {});
@@ -170,7 +188,7 @@ class _MySacaImprime extends State<MySaca> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("${mytipo}"),
+          title: Text("${mytipoEsp}"),
           backgroundColor: Colors.indigo,
         ),
         body: _healthDataList.isEmpty
@@ -189,7 +207,10 @@ class _MySacaImprime extends State<MySaca> {
                       itemCount: aux,
                       itemBuilder: (_, index) => ListTile(
                         title: Text("${quedia[index]}"),
-                        trailing: Text('${media[index].toStringAsFixed(2)} ${_healthDataList[index].unit}'),
+                        trailing: (mytipoEsp == "Pasos" || mytipoEsp == "Ritmo cardiaco")
+                            ? Text('${media[index].toStringAsFixed(0)} ${myunidad}')
+                            : Text('${media[index].toStringAsFixed(2)} ${myunidad}'),
+                        //trailing: Text('${media[index].toStringAsFixed(2)} ${_healthDataList[index].unit}'),
                         //subtitle: Text('${tipoEntrada.toString()}: ${media[index].toStringAsFixed(2)}'),
                       )
                   ),

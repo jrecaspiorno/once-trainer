@@ -11,7 +11,7 @@ class GoogleSingUp extends StatefulWidget {
 }
 
 class _GoogleSingUpState extends State<GoogleSingUp> {
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email', ,"https://www.googleapis.com/auth/user.birthday.read"]);
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email', "https://www.googleapis.com/auth/user.birthday.read"]);
   GoogleSignInAccount _currentUser;
 
   @override

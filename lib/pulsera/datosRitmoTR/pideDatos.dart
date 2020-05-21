@@ -71,10 +71,18 @@ bool trataDatos (List<HealthDataPoint> _healthDataList){
   // Ej: 50 años, serian 170 latidos por minuto
 
   //var it = _healthDataList.iterator;
+  print(_healthDataList);
+
   HealthDataPoint aux;
-  int cont = 0, suma = 0, poda = 1;
-  double media;
+  int cont = 0, poda = 1;
+  double media,  suma = 0;
   Iterator it = _healthDataList.iterator;
+
+  for(int i = 0; i < _healthDataList.length; i++){
+    suma += _healthDataList[i].value;
+    cont++;
+  }
+  /*
   while(it.current != _healthDataList.last && poda != 3){
     aux = it.current;
     if(aux.dataType == "HEART_RATE"){
@@ -86,7 +94,8 @@ bool trataDatos (List<HealthDataPoint> _healthDataList){
       poda = 3;
     it.moveNext();
   }
-  media = suma / cont;
+  */
+  media = (suma / cont);
   print(media);
   // if (media > (220 - edad)) // Edad se saca de la base de datos
   if(media > 10)
