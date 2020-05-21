@@ -33,8 +33,14 @@ class MyProfile extends StatelessWidget {
                 UsuarioData mainUser = users[0];
                 return ListView(
                   children: <Widget>[
-                    const SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.all(25),
+                    ),
+
                       MyData(usuarioData: mainUser ),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                      ),
                       MyButtonType(
 
                      ),
@@ -118,16 +124,28 @@ class MyData extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Center(
+      widthFactor: 15,
       child: Row(
+
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Image.asset(
-            usuarioData.photoUrl,
-            width: 100,
-            height: 100,
-            fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.network(
+              usuarioData.photoUrl,
+              width: 50,
+
+            ),
           ),
-          Text(usuarioData.nombre , style: TextStyle(fontSize: 30)),
+          Padding(
+            padding: EdgeInsets.all(10),
+          ),
+          Flexible(
+            child: Text(usuarioData.nombre,
+            style: TextStyle(
+              fontSize: 25,
+            ),),
+          )
         ],
       ),
     );

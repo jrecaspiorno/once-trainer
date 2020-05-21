@@ -61,11 +61,17 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
+    get(database);
     return Center(
-      child: _buildHome(context)
+      child: _buildHome(context, database.usuarioDAO)
     );
   }
-  Widget _buildHome(BuildContext context){
+  Future<void> get(AppDatabase data) async{
+    List<UsuarioData> users = await data.usuarioDAO.getUsers();
+    users.length;
+    var u = users.length;
+  }
+  Widget _buildHome(BuildContext context, UsuarioDAO usuarioDAO){
     if(_currentUser != null){
       return Center(
         child: Column(
@@ -82,8 +88,8 @@ class _Home extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
 
-            _buildButton('Registro', GoogleSingUp() , context),
-            _buildButton('Login', GoogleLogin() , context)
+            _buildButton('Registro', GoogleSingUp(usuarioDAO) , context),
+            _buildButton('Login', GoogleLogin(usuarioDAO) , context)
           ],
         ),
       );

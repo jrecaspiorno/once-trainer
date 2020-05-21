@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Data/moor_database.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleLogin extends StatefulWidget{
-
+  GoogleLogin(this.usuarioDAO);
+  UsuarioDAO usuarioDAO;
   State<StatefulWidget> createState() => _GoogleLogin();
 }
 class _GoogleLogin extends State<GoogleLogin>{
@@ -117,4 +119,4 @@ class _GoogleLogin extends State<GoogleLogin>{
   }
 
 }
-  
+

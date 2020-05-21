@@ -3,18 +3,21 @@ import 'package:moor_flutter/moor_flutter.dart';
 part 'moor_database.g.dart';
 
 class Usuario extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  TextColumn get id => text().withLength(min: 1)();
   TextColumn get nombre => text().withLength(min: 1)();
-  IntColumn get edad => integer()();
+  DateTimeColumn get edad => dateTime()();
   TextColumn get photoUrl => text().withLength(min: 1)();
  TextColumn get email => text().withLength(min: 1)();
+  @override
+  Set<Column> get primaryKey => {id};
 }
+
 
 class Restricciones extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
-  IntColumn get idUser =>
-      integer().customConstraint('REFERENCES Usuario(id)')();
+  TextColumn get idUser =>
+      text().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();
 }
 
@@ -25,8 +28,8 @@ class Historials extends Table {
   DateTimeColumn get fecha => dateTime()();
   IntColumn get calorias => integer()();
   IntColumn get duracion => integer()();
-  IntColumn get idUser =>
-      integer().customConstraint('REFERENCES Usuario(id)')();
+  TextColumn get idUser =>
+      text().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();
 }
 
@@ -53,6 +56,9 @@ class UsuarioDAO extends DatabaseAccessor<AppDatabase> with _$UsuarioDAOMixin {
       update(usuario).replace(user);
   Future deleteUser(Insertable<UsuarioData> user) =>
       delete(usuario).delete(user);
+  Future<UsuarioData> getUser(String id) {
+    return (select(usuario)..where((t) => t.id.equals(id))).getSingle();
+  }
 }
 
 @UseDao(tables: [Restricciones, Usuario])

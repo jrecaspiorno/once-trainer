@@ -1,16 +1,14 @@
-import 'package:flutter/services.dart';
+
+import 'package:flutterapp/Data/moor_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/io_client.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as JSON;
-import 'package:googleapis/people/v1.dart'
-    show ListConnectionsResponse, PeopleApi;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class GoogleSingUp extends StatefulWidget {
+  GoogleSingUp(this.usuarioDAO);
+  UsuarioDAO usuarioDAO;
   @override
   State<StatefulWidget> createState() => _GoogleSingUpState();
 }
@@ -19,8 +17,11 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
   GoogleSignInAccount _currentUser;
   DateTime _dateTime;
-  final _MycontrollerE = TextEditingController();
-  final String labelEdad = 'Introduzca su edad';
+  String id;
+  String email;
+  String nombre;
+  String URL;
+  UsuarioData user;
   @override
   void initState() {
     // TODO: implement initState
@@ -46,6 +47,16 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
 
   Widget _buildBody() {
     if (_currentUser != null) {
+      id = _currentUser.id;
+      email = _currentUser.email;
+      nombre = _currentUser.displayName;
+      URL = _currentUser.photoUrl;
+
+      user = UsuarioData(id: id, nombre: nombre, edad: _dateTime, photoUrl: URL, email: email);
+
+      _insertUser(widget.usuarioDAO, user);
+
+
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,6 +81,7 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
+          Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime.toString()),
           DatePicker(),
           Padding(
             padding: EdgeInsets.all(16.0),
@@ -131,37 +143,14 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
     );
   }
 
-  Widget CampoEdad(String text) {
-    return Container(
-      width: 200,
-      child: TextFormField(
-        controller: _MycontrollerE,
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          WhitelistingTextInputFormatter.digitsOnly
-        ],
-        decoration:  InputDecoration(
-          fillColor: Colors.indigo,
-          labelText: text,
-          labelStyle: TextStyle(
-            color: Colors.white,
-          ),
-          border:  OutlineInputBorder(
 
-            borderRadius: const BorderRadius.all(
-              const Radius.circular(15.0),
-            ),
-          ),
-          filled: true,
-        ),
-        style: TextStyle(
-          fontSize: 20,
-          color: Colors.white,
-        ),
-      ),
-    );
+
+  Future<void> _insertUser(UsuarioDAO usuarioDAO, user) async{
+    UsuarioData user1 = await usuarioDAO.getUser(user.id);
+    if(user1 == null){
+      usuarioDAO.insertUser(user);
+    }
   }
-
   Future<void> _handleSignIn() async {
     try {
       if(_dateTime != null) {

@@ -29,7 +29,7 @@ class _StateDolencias extends State<Dolencias> {
         var elements = file.findAllElements('tag');
 
         rests = elements.map((elements) {
-          return Restriccione(tipo: elements.text, activo: false, idUser: 0);
+          return Restriccione(tipo: elements.text, activo: false, idUser: "0");
         }).toList();
         rests.length;
         for (int i = 0; i < rests.length; ++i) {
@@ -88,7 +88,7 @@ class _StateDolencias extends State<Dolencias> {
                                             database.restriccionesDAO.updateRes(
                                                 Restriccione(
                                                     id: key,
-                                                    idUser: 0,
+                                                    idUser: "0",
                                                     activo: dolencia,
                                                     tipo: s));
                                           });
