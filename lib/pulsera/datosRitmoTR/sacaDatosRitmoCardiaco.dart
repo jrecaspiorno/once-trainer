@@ -31,22 +31,13 @@ class _MyRitmoCardiaco extends  State<MyRitmo>{
 
     // Lista de variables
     List<HealthDataType> types = [
-      HealthDataType.WEIGHT,
-      HealthDataType.HEIGHT,
       HealthDataType.HEART_RATE,
-      HealthDataType.RESTING_HEART_RATE, // IOS
-      HealthDataType.WALKING_HEART_RATE, // IOS
-
-      // IOS, requires Apple Watch
-      HealthDataType.HIGH_HEART_RATE_EVENT,
-      HealthDataType.LOW_HEART_RATE_EVENT,
-      HealthDataType.IRREGULAR_HEART_RATE_EVENT,
     ];
 
     // Set up dates
     DateTime endDate = DateTime.now();
     //DateTime startDate = endDate.subtract(Duration(seconds: 3));
-    DateTime startDate = endDate.subtract(Duration(days: 5)); // TODO: Cambiar a segundos
+    DateTime startDate = endDate.subtract(Duration(days: 20)); // TODO: Cambiar a segundos
     //Future.delayed(Duration(seconds: 1), () async{});
 
     Future.delayed(Duration(seconds: 2), () async {
@@ -111,26 +102,38 @@ class _MyRitmoCardiaco extends  State<MyRitmo>{
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Plugin example app'),
-        ),
-        body: !exceso
-            ? Text("Error")
-            : AlertDialog(
-          title: Text("Cuidado!"),
-          content: Text("Seguir?"),
-          actions: [
-            FlatButton(
-              child: Text('No'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text('Si'),
-              //onPressed: Navigator.of(context).pop,
-            ),
-          ],
           backgroundColor: Colors.indigo,
         ),
+        body: !exceso
+            ? Text("Error", style: TextStyle(fontSize: 30))
+            : AlertDialog(
+              title: Text("Alerta!", style: TextStyle(color: Colors.white, fontSize: 30)),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('Cuidado tu ritmo cardiaco es muy alto.', style: TextStyle(color: Colors.white, fontSize: 20)),
+                    Text('Estas de acuerdo.', style: TextStyle(color: Colors.white, fontSize: 20)),
+                  ],
+                ),
+              ),
+              actions: [
+                FlatButton(
+                  textColor: Colors.white,
+                  child: Text('Si', style: TextStyle(fontSize: 20)),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                /*
+                FlatButton(
+                  child: Text('Si'),
+                  textColor: Colors.white,
+                  //onPressed: Navigator.of(context).pop,
+                ),
+                */
+              ],
+              backgroundColor: Colors.indigo,
+           ),
       ),
     );
   }
