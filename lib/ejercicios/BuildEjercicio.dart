@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
-
-import 'Ejercicio.dart';
+import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
 
 
 class BuildEjercicio extends StatefulWidget {
-  Ejercicio ejercicio;
+  EjercicioTiempo ejercicio;
 
-  BuildEjercicio({Ejercicio ejercicio}) {
+  BuildEjercicio({EjercicioTiempo ejercicio}) {
     this.ejercicio = ejercicio;
   }
 
@@ -24,7 +23,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
   Widget build(BuildContext context) {
 
     // TODO: implement build
-    Ejercicio ej = widget.ejercicio;
+    EjercicioTiempo ej = widget.ejercicio;
 
     return MaterialApp(
       title: 'App actividad física',
@@ -46,7 +45,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
               children: <Widget>[
                 const SizedBox(height: 20,),
 
-                AppTimer(time: ej.time,),
+                //AppTimer(time: ej.time,),
 
                 const SizedBox(height: 20,),
 

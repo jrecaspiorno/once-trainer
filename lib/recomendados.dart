@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
+import 'package:flutterapp/ejercicios/FactoriaEj.dart';
 import 'package:provider/provider.dart';
 import 'package:xml/xml.dart' as xml;
 class MyRecomList extends StatelessWidget {
@@ -21,19 +22,9 @@ class MyRecomList extends StatelessWidget {
         String xmlS = await DefaultAssetBundle.of(context)
             .loadString("todos_ejercicios/" + XMLS[i]);
         var file = xml.parse(xmlS);
-        var tags =  file.findAllElements("tag").map((element){
-          return element.text;
-        }).toList();
-
-        Ejercicio ej = Ejercicio(
-            file.findAllElements('name').first.text,
-            file.findAllElements("time").first.text,
-            file.findAllElements("description").first.text,
-            int.parse(file.findAllElements("calories").first.text),
-            tags);
+        Ejercicio ej =FactoriaEj.GenerateEj(file);
         bool ok = true;
         Tags.forEach((tag) {
-
           ej.tags.forEach((tagej) {
             if(tag.tipo == tagej) {ok = false; return;}
           });
