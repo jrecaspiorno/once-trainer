@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
+import 'package:flutterapp/Perfil/historialClinico.dart';
 import 'package:provider/provider.dart';
+
+import 'Historial.dart';
 
 class MyProfile extends StatelessWidget {
 
@@ -30,8 +33,14 @@ class MyProfile extends StatelessWidget {
                 UsuarioData mainUser = users[0];
                 return ListView(
                   children: <Widget>[
-                    const SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.all(25),
+                    ),
+
                       MyData(usuarioData: mainUser ),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                      ),
                       MyButtonType(
 
                      ),
@@ -69,8 +78,8 @@ class MyButtonType extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const SizedBox(height: 20),
-          _buildButton('Historial Actividades', MyProfile(), context),
-          _buildButton('Historial Clínico', MyProfile(), context),
+          _buildButton('Historial Actividades', HistorialView(), context),
+          _buildButton('Historial Clínico', MyHistorial(), context),
           _buildButton(
               'Dolencias',
               Dolencias(
@@ -115,16 +124,28 @@ class MyData extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Center(
+      widthFactor: 15,
       child: Row(
+
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Image.asset(
-            'images/avatar.jpg',
-            width: 100,
-            height: 100,
-            fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.network(
+              usuarioData.photoUrl,
+              width: 50,
+
+            ),
           ),
-          Text(usuarioData.nombre + " "+ usuarioData.apellido, style: TextStyle(fontSize: 30)),
+          Padding(
+            padding: EdgeInsets.all(10),
+          ),
+          Flexible(
+            child: Text(usuarioData.nombre,
+            style: TextStyle(
+              fontSize: 25,
+            ),),
+          )
         ],
       ),
     );

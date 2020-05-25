@@ -8,47 +8,54 @@ part of 'moor_database.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class UsuarioData extends DataClass implements Insertable<UsuarioData> {
-  final int id;
+  final String id;
   final String nombre;
-  final String apellido;
-  final int edad;
+  final DateTime edad;
+  final String photoUrl;
+  final String email;
   UsuarioData(
       {@required this.id,
       @required this.nombre,
-      @required this.apellido,
-      @required this.edad});
+      @required this.edad,
+      @required this.photoUrl,
+      @required this.email});
   factory UsuarioData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return UsuarioData(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       nombre:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}nombre']),
-      apellido: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}apellido']),
-      edad: intType.mapFromDatabaseResponse(data['${effectivePrefix}edad']),
+      edad:
+          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}edad']),
+      photoUrl: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}photo_url']),
+      email:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}email']),
     );
   }
   factory UsuarioData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UsuarioData(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       nombre: serializer.fromJson<String>(json['nombre']),
-      apellido: serializer.fromJson<String>(json['apellido']),
-      edad: serializer.fromJson<int>(json['edad']),
+      edad: serializer.fromJson<DateTime>(json['edad']),
+      photoUrl: serializer.fromJson<String>(json['photoUrl']),
+      email: serializer.fromJson<String>(json['email']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'nombre': serializer.toJson<String>(nombre),
-      'apellido': serializer.toJson<String>(apellido),
-      'edad': serializer.toJson<int>(edad),
+      'edad': serializer.toJson<DateTime>(edad),
+      'photoUrl': serializer.toJson<String>(photoUrl),
+      'email': serializer.toJson<String>(email),
     };
   }
 
@@ -58,73 +65,92 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       nombre:
           nombre == null && nullToAbsent ? const Value.absent() : Value(nombre),
-      apellido: apellido == null && nullToAbsent
-          ? const Value.absent()
-          : Value(apellido),
       edad: edad == null && nullToAbsent ? const Value.absent() : Value(edad),
+      photoUrl: photoUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoUrl),
+      email:
+          email == null && nullToAbsent ? const Value.absent() : Value(email),
     );
   }
 
-  UsuarioData copyWith({int id, String nombre, String apellido, int edad}) =>
+  UsuarioData copyWith(
+          {String id,
+          String nombre,
+          DateTime edad,
+          String photoUrl,
+          String email}) =>
       UsuarioData(
         id: id ?? this.id,
         nombre: nombre ?? this.nombre,
-        apellido: apellido ?? this.apellido,
         edad: edad ?? this.edad,
+        photoUrl: photoUrl ?? this.photoUrl,
+        email: email ?? this.email,
       );
   @override
   String toString() {
     return (StringBuffer('UsuarioData(')
           ..write('id: $id, ')
           ..write('nombre: $nombre, ')
-          ..write('apellido: $apellido, ')
-          ..write('edad: $edad')
+          ..write('edad: $edad, ')
+          ..write('photoUrl: $photoUrl, ')
+          ..write('email: $email')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(nombre.hashCode, $mrjc(apellido.hashCode, edad.hashCode))));
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(nombre.hashCode,
+          $mrjc(edad.hashCode, $mrjc(photoUrl.hashCode, email.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is UsuarioData &&
           other.id == this.id &&
           other.nombre == this.nombre &&
-          other.apellido == this.apellido &&
-          other.edad == this.edad);
+          other.edad == this.edad &&
+          other.photoUrl == this.photoUrl &&
+          other.email == this.email);
 }
 
 class UsuarioCompanion extends UpdateCompanion<UsuarioData> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> nombre;
-  final Value<String> apellido;
-  final Value<int> edad;
+  final Value<DateTime> edad;
+  final Value<String> photoUrl;
+  final Value<String> email;
   const UsuarioCompanion({
     this.id = const Value.absent(),
     this.nombre = const Value.absent(),
-    this.apellido = const Value.absent(),
     this.edad = const Value.absent(),
+    this.photoUrl = const Value.absent(),
+    this.email = const Value.absent(),
   });
   UsuarioCompanion.insert({
-    this.id = const Value.absent(),
+    @required String id,
     @required String nombre,
-    @required String apellido,
-    @required int edad,
-  })  : nombre = Value(nombre),
-        apellido = Value(apellido),
-        edad = Value(edad);
+    @required DateTime edad,
+    @required String photoUrl,
+    @required String email,
+  })  : id = Value(id),
+        nombre = Value(nombre),
+        edad = Value(edad),
+        photoUrl = Value(photoUrl),
+        email = Value(email);
   UsuarioCompanion copyWith(
-      {Value<int> id,
+      {Value<String> id,
       Value<String> nombre,
-      Value<String> apellido,
-      Value<int> edad}) {
+      Value<DateTime> edad,
+      Value<String> photoUrl,
+      Value<String> email}) {
     return UsuarioCompanion(
       id: id ?? this.id,
       nombre: nombre ?? this.nombre,
-      apellido: apellido ?? this.apellido,
       edad: edad ?? this.edad,
+      photoUrl: photoUrl ?? this.photoUrl,
+      email: email ?? this.email,
     );
   }
 }
@@ -134,12 +160,11 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
   final String _alias;
   $UsuarioTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedTextColumn _id;
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  GeneratedTextColumn get id => _id ??= _constructId();
+  GeneratedTextColumn _constructId() {
+    return GeneratedTextColumn('id', $tableName, false, minTextLength: 1);
   }
 
   final VerificationMeta _nombreMeta = const VerificationMeta('nombre');
@@ -147,33 +172,40 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
   @override
   GeneratedTextColumn get nombre => _nombre ??= _constructNombre();
   GeneratedTextColumn _constructNombre() {
-    return GeneratedTextColumn('nombre', $tableName, false,
-        minTextLength: 1, maxTextLength: 50);
-  }
-
-  final VerificationMeta _apellidoMeta = const VerificationMeta('apellido');
-  GeneratedTextColumn _apellido;
-  @override
-  GeneratedTextColumn get apellido => _apellido ??= _constructApellido();
-  GeneratedTextColumn _constructApellido() {
-    return GeneratedTextColumn('apellido', $tableName, false,
-        minTextLength: 1, maxTextLength: 50);
+    return GeneratedTextColumn('nombre', $tableName, false, minTextLength: 1);
   }
 
   final VerificationMeta _edadMeta = const VerificationMeta('edad');
-  GeneratedIntColumn _edad;
+  GeneratedDateTimeColumn _edad;
   @override
-  GeneratedIntColumn get edad => _edad ??= _constructEdad();
-  GeneratedIntColumn _constructEdad() {
-    return GeneratedIntColumn(
+  GeneratedDateTimeColumn get edad => _edad ??= _constructEdad();
+  GeneratedDateTimeColumn _constructEdad() {
+    return GeneratedDateTimeColumn(
       'edad',
       $tableName,
       false,
     );
   }
 
+  final VerificationMeta _photoUrlMeta = const VerificationMeta('photoUrl');
+  GeneratedTextColumn _photoUrl;
   @override
-  List<GeneratedColumn> get $columns => [id, nombre, apellido, edad];
+  GeneratedTextColumn get photoUrl => _photoUrl ??= _constructPhotoUrl();
+  GeneratedTextColumn _constructPhotoUrl() {
+    return GeneratedTextColumn('photo_url', $tableName, false,
+        minTextLength: 1);
+  }
+
+  final VerificationMeta _emailMeta = const VerificationMeta('email');
+  GeneratedTextColumn _email;
+  @override
+  GeneratedTextColumn get email => _email ??= _constructEmail();
+  GeneratedTextColumn _constructEmail() {
+    return GeneratedTextColumn('email', $tableName, false, minTextLength: 1);
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, nombre, edad, photoUrl, email];
   @override
   $UsuarioTable get asDslTable => this;
   @override
@@ -186,6 +218,8 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (d.nombre.present) {
       context.handle(
@@ -193,17 +227,23 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
     } else if (isInserting) {
       context.missing(_nombreMeta);
     }
-    if (d.apellido.present) {
-      context.handle(_apellidoMeta,
-          apellido.isAcceptableValue(d.apellido.value, _apellidoMeta));
-    } else if (isInserting) {
-      context.missing(_apellidoMeta);
-    }
     if (d.edad.present) {
       context.handle(
           _edadMeta, edad.isAcceptableValue(d.edad.value, _edadMeta));
     } else if (isInserting) {
       context.missing(_edadMeta);
+    }
+    if (d.photoUrl.present) {
+      context.handle(_photoUrlMeta,
+          photoUrl.isAcceptableValue(d.photoUrl.value, _photoUrlMeta));
+    } else if (isInserting) {
+      context.missing(_photoUrlMeta);
+    }
+    if (d.email.present) {
+      context.handle(
+          _emailMeta, email.isAcceptableValue(d.email.value, _emailMeta));
+    } else if (isInserting) {
+      context.missing(_emailMeta);
     }
     return context;
   }
@@ -220,16 +260,19 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
   Map<String, Variable> entityToSql(UsuarioCompanion d) {
     final map = <String, Variable>{};
     if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
+      map['id'] = Variable<String, StringType>(d.id.value);
     }
     if (d.nombre.present) {
       map['nombre'] = Variable<String, StringType>(d.nombre.value);
     }
-    if (d.apellido.present) {
-      map['apellido'] = Variable<String, StringType>(d.apellido.value);
-    }
     if (d.edad.present) {
-      map['edad'] = Variable<int, IntType>(d.edad.value);
+      map['edad'] = Variable<DateTime, DateTimeType>(d.edad.value);
+    }
+    if (d.photoUrl.present) {
+      map['photo_url'] = Variable<String, StringType>(d.photoUrl.value);
+    }
+    if (d.email.present) {
+      map['email'] = Variable<String, StringType>(d.email.value);
     }
     return map;
   }
@@ -243,7 +286,7 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
 class Restriccione extends DataClass implements Insertable<Restriccione> {
   final int id;
   final String tipo;
-  final int idUser;
+  final String idUser;
   final bool activo;
   Restriccione(
       {@required this.id,
@@ -260,7 +303,7 @@ class Restriccione extends DataClass implements Insertable<Restriccione> {
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       tipo: stringType.mapFromDatabaseResponse(data['${effectivePrefix}tipo']),
       idUser:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}id_user']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}id_user']),
       activo:
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}activo']),
     );
@@ -271,7 +314,7 @@ class Restriccione extends DataClass implements Insertable<Restriccione> {
     return Restriccione(
       id: serializer.fromJson<int>(json['id']),
       tipo: serializer.fromJson<String>(json['tipo']),
-      idUser: serializer.fromJson<int>(json['idUser']),
+      idUser: serializer.fromJson<String>(json['idUser']),
       activo: serializer.fromJson<bool>(json['activo']),
     );
   }
@@ -281,7 +324,7 @@ class Restriccione extends DataClass implements Insertable<Restriccione> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'tipo': serializer.toJson<String>(tipo),
-      'idUser': serializer.toJson<int>(idUser),
+      'idUser': serializer.toJson<String>(idUser),
       'activo': serializer.toJson<bool>(activo),
     };
   }
@@ -298,7 +341,7 @@ class Restriccione extends DataClass implements Insertable<Restriccione> {
     );
   }
 
-  Restriccione copyWith({int id, String tipo, int idUser, bool activo}) =>
+  Restriccione copyWith({int id, String tipo, String idUser, bool activo}) =>
       Restriccione(
         id: id ?? this.id,
         tipo: tipo ?? this.tipo,
@@ -332,7 +375,7 @@ class Restriccione extends DataClass implements Insertable<Restriccione> {
 class RestriccionesCompanion extends UpdateCompanion<Restriccione> {
   final Value<int> id;
   final Value<String> tipo;
-  final Value<int> idUser;
+  final Value<String> idUser;
   final Value<bool> activo;
   const RestriccionesCompanion({
     this.id = const Value.absent(),
@@ -343,14 +386,14 @@ class RestriccionesCompanion extends UpdateCompanion<Restriccione> {
   RestriccionesCompanion.insert({
     this.id = const Value.absent(),
     @required String tipo,
-    @required int idUser,
+    @required String idUser,
     this.activo = const Value.absent(),
   })  : tipo = Value(tipo),
         idUser = Value(idUser);
   RestriccionesCompanion copyWith(
       {Value<int> id,
       Value<String> tipo,
-      Value<int> idUser,
+      Value<String> idUser,
       Value<bool> activo}) {
     return RestriccionesCompanion(
       id: id ?? this.id,
@@ -385,11 +428,11 @@ class $RestriccionesTable extends Restricciones
   }
 
   final VerificationMeta _idUserMeta = const VerificationMeta('idUser');
-  GeneratedIntColumn _idUser;
+  GeneratedTextColumn _idUser;
   @override
-  GeneratedIntColumn get idUser => _idUser ??= _constructIdUser();
-  GeneratedIntColumn _constructIdUser() {
-    return GeneratedIntColumn('id_user', $tableName, false,
+  GeneratedTextColumn get idUser => _idUser ??= _constructIdUser();
+  GeneratedTextColumn _constructIdUser() {
+    return GeneratedTextColumn('id_user', $tableName, false,
         $customConstraints: 'REFERENCES Usuario(id)');
   }
 
@@ -454,7 +497,7 @@ class $RestriccionesTable extends Restricciones
       map['tipo'] = Variable<String, StringType>(d.tipo.value);
     }
     if (d.idUser.present) {
-      map['id_user'] = Variable<int, IntType>(d.idUser.value);
+      map['id_user'] = Variable<String, StringType>(d.idUser.value);
     }
     if (d.activo.present) {
       map['activo'] = Variable<bool, BoolType>(d.activo.value);
@@ -472,12 +515,18 @@ class Historial extends DataClass implements Insertable<Historial> {
   final int id;
   final int dificultad;
   final String ejercicio;
-  final int idUser;
+  final DateTime fecha;
+  final int calorias;
+  final int duracion;
+  final String idUser;
   final bool activo;
   Historial(
       {@required this.id,
       @required this.dificultad,
       @required this.ejercicio,
+      @required this.fecha,
+      @required this.calorias,
+      @required this.duracion,
       @required this.idUser,
       @required this.activo});
   factory Historial.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -485,6 +534,7 @@ class Historial extends DataClass implements Insertable<Historial> {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final boolType = db.typeSystem.forDartType<bool>();
     return Historial(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
@@ -492,8 +542,14 @@ class Historial extends DataClass implements Insertable<Historial> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}dificultad']),
       ejercicio: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}ejercicio']),
+      fecha:
+          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}fecha']),
+      calorias:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}calorias']),
+      duracion:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}duracion']),
       idUser:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}id_user']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}id_user']),
       activo:
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}activo']),
     );
@@ -505,7 +561,10 @@ class Historial extends DataClass implements Insertable<Historial> {
       id: serializer.fromJson<int>(json['id']),
       dificultad: serializer.fromJson<int>(json['dificultad']),
       ejercicio: serializer.fromJson<String>(json['ejercicio']),
-      idUser: serializer.fromJson<int>(json['idUser']),
+      fecha: serializer.fromJson<DateTime>(json['fecha']),
+      calorias: serializer.fromJson<int>(json['calorias']),
+      duracion: serializer.fromJson<int>(json['duracion']),
+      idUser: serializer.fromJson<String>(json['idUser']),
       activo: serializer.fromJson<bool>(json['activo']),
     );
   }
@@ -516,7 +575,10 @@ class Historial extends DataClass implements Insertable<Historial> {
       'id': serializer.toJson<int>(id),
       'dificultad': serializer.toJson<int>(dificultad),
       'ejercicio': serializer.toJson<String>(ejercicio),
-      'idUser': serializer.toJson<int>(idUser),
+      'fecha': serializer.toJson<DateTime>(fecha),
+      'calorias': serializer.toJson<int>(calorias),
+      'duracion': serializer.toJson<int>(duracion),
+      'idUser': serializer.toJson<String>(idUser),
       'activo': serializer.toJson<bool>(activo),
     };
   }
@@ -531,6 +593,14 @@ class Historial extends DataClass implements Insertable<Historial> {
       ejercicio: ejercicio == null && nullToAbsent
           ? const Value.absent()
           : Value(ejercicio),
+      fecha:
+          fecha == null && nullToAbsent ? const Value.absent() : Value(fecha),
+      calorias: calorias == null && nullToAbsent
+          ? const Value.absent()
+          : Value(calorias),
+      duracion: duracion == null && nullToAbsent
+          ? const Value.absent()
+          : Value(duracion),
       idUser:
           idUser == null && nullToAbsent ? const Value.absent() : Value(idUser),
       activo:
@@ -542,12 +612,18 @@ class Historial extends DataClass implements Insertable<Historial> {
           {int id,
           int dificultad,
           String ejercicio,
-          int idUser,
+          DateTime fecha,
+          int calorias,
+          int duracion,
+          String idUser,
           bool activo}) =>
       Historial(
         id: id ?? this.id,
         dificultad: dificultad ?? this.dificultad,
         ejercicio: ejercicio ?? this.ejercicio,
+        fecha: fecha ?? this.fecha,
+        calorias: calorias ?? this.calorias,
+        duracion: duracion ?? this.duracion,
         idUser: idUser ?? this.idUser,
         activo: activo ?? this.activo,
       );
@@ -557,6 +633,9 @@ class Historial extends DataClass implements Insertable<Historial> {
           ..write('id: $id, ')
           ..write('dificultad: $dificultad, ')
           ..write('ejercicio: $ejercicio, ')
+          ..write('fecha: $fecha, ')
+          ..write('calorias: $calorias, ')
+          ..write('duracion: $duracion, ')
           ..write('idUser: $idUser, ')
           ..write('activo: $activo')
           ..write(')'))
@@ -566,8 +645,16 @@ class Historial extends DataClass implements Insertable<Historial> {
   @override
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
-      $mrjc(dificultad.hashCode,
-          $mrjc(ejercicio.hashCode, $mrjc(idUser.hashCode, activo.hashCode)))));
+      $mrjc(
+          dificultad.hashCode,
+          $mrjc(
+              ejercicio.hashCode,
+              $mrjc(
+                  fecha.hashCode,
+                  $mrjc(
+                      calorias.hashCode,
+                      $mrjc(duracion.hashCode,
+                          $mrjc(idUser.hashCode, activo.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -575,6 +662,9 @@ class Historial extends DataClass implements Insertable<Historial> {
           other.id == this.id &&
           other.dificultad == this.dificultad &&
           other.ejercicio == this.ejercicio &&
+          other.fecha == this.fecha &&
+          other.calorias == this.calorias &&
+          other.duracion == this.duracion &&
           other.idUser == this.idUser &&
           other.activo == this.activo);
 }
@@ -583,12 +673,18 @@ class HistorialsCompanion extends UpdateCompanion<Historial> {
   final Value<int> id;
   final Value<int> dificultad;
   final Value<String> ejercicio;
-  final Value<int> idUser;
+  final Value<DateTime> fecha;
+  final Value<int> calorias;
+  final Value<int> duracion;
+  final Value<String> idUser;
   final Value<bool> activo;
   const HistorialsCompanion({
     this.id = const Value.absent(),
     this.dificultad = const Value.absent(),
     this.ejercicio = const Value.absent(),
+    this.fecha = const Value.absent(),
+    this.calorias = const Value.absent(),
+    this.duracion = const Value.absent(),
     this.idUser = const Value.absent(),
     this.activo = const Value.absent(),
   });
@@ -596,21 +692,33 @@ class HistorialsCompanion extends UpdateCompanion<Historial> {
     this.id = const Value.absent(),
     @required int dificultad,
     @required String ejercicio,
-    @required int idUser,
+    @required DateTime fecha,
+    @required int calorias,
+    @required int duracion,
+    @required String idUser,
     this.activo = const Value.absent(),
   })  : dificultad = Value(dificultad),
         ejercicio = Value(ejercicio),
+        fecha = Value(fecha),
+        calorias = Value(calorias),
+        duracion = Value(duracion),
         idUser = Value(idUser);
   HistorialsCompanion copyWith(
       {Value<int> id,
       Value<int> dificultad,
       Value<String> ejercicio,
-      Value<int> idUser,
+      Value<DateTime> fecha,
+      Value<int> calorias,
+      Value<int> duracion,
+      Value<String> idUser,
       Value<bool> activo}) {
     return HistorialsCompanion(
       id: id ?? this.id,
       dificultad: dificultad ?? this.dificultad,
       ejercicio: ejercicio ?? this.ejercicio,
+      fecha: fecha ?? this.fecha,
+      calorias: calorias ?? this.calorias,
+      duracion: duracion ?? this.duracion,
       idUser: idUser ?? this.idUser,
       activo: activo ?? this.activo,
     );
@@ -652,12 +760,48 @@ class $HistorialsTable extends Historials
         minTextLength: 1, maxTextLength: 50);
   }
 
-  final VerificationMeta _idUserMeta = const VerificationMeta('idUser');
-  GeneratedIntColumn _idUser;
+  final VerificationMeta _fechaMeta = const VerificationMeta('fecha');
+  GeneratedDateTimeColumn _fecha;
   @override
-  GeneratedIntColumn get idUser => _idUser ??= _constructIdUser();
-  GeneratedIntColumn _constructIdUser() {
-    return GeneratedIntColumn('id_user', $tableName, false,
+  GeneratedDateTimeColumn get fecha => _fecha ??= _constructFecha();
+  GeneratedDateTimeColumn _constructFecha() {
+    return GeneratedDateTimeColumn(
+      'fecha',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _caloriasMeta = const VerificationMeta('calorias');
+  GeneratedIntColumn _calorias;
+  @override
+  GeneratedIntColumn get calorias => _calorias ??= _constructCalorias();
+  GeneratedIntColumn _constructCalorias() {
+    return GeneratedIntColumn(
+      'calorias',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _duracionMeta = const VerificationMeta('duracion');
+  GeneratedIntColumn _duracion;
+  @override
+  GeneratedIntColumn get duracion => _duracion ??= _constructDuracion();
+  GeneratedIntColumn _constructDuracion() {
+    return GeneratedIntColumn(
+      'duracion',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _idUserMeta = const VerificationMeta('idUser');
+  GeneratedTextColumn _idUser;
+  @override
+  GeneratedTextColumn get idUser => _idUser ??= _constructIdUser();
+  GeneratedTextColumn _constructIdUser() {
+    return GeneratedTextColumn('id_user', $tableName, false,
         $customConstraints: 'REFERENCES Usuario(id)');
   }
 
@@ -672,7 +816,7 @@ class $HistorialsTable extends Historials
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, dificultad, ejercicio, idUser, activo];
+      [id, dificultad, ejercicio, fecha, calorias, duracion, idUser, activo];
   @override
   $HistorialsTable get asDslTable => this;
   @override
@@ -697,6 +841,24 @@ class $HistorialsTable extends Historials
           ejercicio.isAcceptableValue(d.ejercicio.value, _ejercicioMeta));
     } else if (isInserting) {
       context.missing(_ejercicioMeta);
+    }
+    if (d.fecha.present) {
+      context.handle(
+          _fechaMeta, fecha.isAcceptableValue(d.fecha.value, _fechaMeta));
+    } else if (isInserting) {
+      context.missing(_fechaMeta);
+    }
+    if (d.calorias.present) {
+      context.handle(_caloriasMeta,
+          calorias.isAcceptableValue(d.calorias.value, _caloriasMeta));
+    } else if (isInserting) {
+      context.missing(_caloriasMeta);
+    }
+    if (d.duracion.present) {
+      context.handle(_duracionMeta,
+          duracion.isAcceptableValue(d.duracion.value, _duracionMeta));
+    } else if (isInserting) {
+      context.missing(_duracionMeta);
     }
     if (d.idUser.present) {
       context.handle(
@@ -731,8 +893,17 @@ class $HistorialsTable extends Historials
     if (d.ejercicio.present) {
       map['ejercicio'] = Variable<String, StringType>(d.ejercicio.value);
     }
+    if (d.fecha.present) {
+      map['fecha'] = Variable<DateTime, DateTimeType>(d.fecha.value);
+    }
+    if (d.calorias.present) {
+      map['calorias'] = Variable<int, IntType>(d.calorias.value);
+    }
+    if (d.duracion.present) {
+      map['duracion'] = Variable<int, IntType>(d.duracion.value);
+    }
     if (d.idUser.present) {
-      map['id_user'] = Variable<int, IntType>(d.idUser.value);
+      map['id_user'] = Variable<String, StringType>(d.idUser.value);
     }
     if (d.activo.present) {
       map['activo'] = Variable<bool, BoolType>(d.activo.value);

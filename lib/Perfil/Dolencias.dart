@@ -12,32 +12,8 @@ class Dolencias extends StatefulWidget {
 }
 
 class _StateDolencias extends State<Dolencias> {
-  Map<String, bool> Dolencias = {
-    "Rodilla": false,
-    "Cadera": false,
-    "Tobillo": false,
-    "Brazo": false,
-    "Muñeca": false
-  };
 
-//  Widget build(BuildContext context) {
-//    return Expanded(
-//      child: StreamBuilder<List<Restricciones>>(
-//        stream: restriccionesDao.findAllRestFromUser(),
-//        builder: (_, snapshot) {
-//          if (snapshot.hasData) return Container();
-//          final restricciones = snapshot.data;
-//          return ListView.builder(
-//              itemCount: restricciones.length,
-//              itemBuilder: (_, index) {
-//                return Card(
-//                  child: Container(),
-//                );
-//              });
-//        },
-//      ),
-//    );
-//  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +29,7 @@ class _StateDolencias extends State<Dolencias> {
         var elements = file.findAllElements('tag');
 
         rests = elements.map((elements) {
-          return Restriccione(tipo: elements.text, activo: false, idUser: 0);
+          return Restriccione(tipo: elements.text, activo: false, idUser: "0");
         }).toList();
         rests.length;
         for (int i = 0; i < rests.length; ++i) {
@@ -112,7 +88,7 @@ class _StateDolencias extends State<Dolencias> {
                                             database.restriccionesDAO.updateRes(
                                                 Restriccione(
                                                     id: key,
-                                                    idUser: 0,
+                                                    idUser: "0",
                                                     activo: dolencia,
                                                     tipo: s));
                                           });

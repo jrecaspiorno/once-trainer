@@ -488,7 +488,15 @@ public final class R {
     public static final int common_open_on_phone=0x7f09000f;
     public static final int common_signin_button_text=0x7f090010;
     public static final int common_signin_button_text_long=0x7f090011;
-    public static final int status_bar_notification_info_overflow=0x7f090012;
+    public static final int default_web_client_id=0x7f090012;
+    public static final int firebase_database_url=0x7f090013;
+    public static final int gcm_defaultSenderId=0x7f090014;
+    public static final int google_api_key=0x7f090015;
+    public static final int google_app_id=0x7f090016;
+    public static final int google_crash_reporting_api_key=0x7f090017;
+    public static final int google_storage_bucket=0x7f090018;
+    public static final int project_id=0x7f090019;
+    public static final int status_bar_notification_info_overflow=0x7f09001a;
   }
   public static final class style {
     public static final int LaunchTheme=0x7f0a0000;

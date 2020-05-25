@@ -3,17 +3,21 @@ import 'package:moor_flutter/moor_flutter.dart';
 part 'moor_database.g.dart';
 
 class Usuario extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get nombre => text().withLength(min: 1, max: 50)();
-  TextColumn get apellido => text().withLength(min: 1, max: 50)();
-  IntColumn get edad => integer()();
+  TextColumn get id => text().withLength(min: 1)();
+  TextColumn get nombre => text().withLength(min: 1)();
+  DateTimeColumn get edad => dateTime()();
+  TextColumn get photoUrl => text().withLength(min: 1)();
+ TextColumn get email => text().withLength(min: 1)();
+  @override
+  Set<Column> get primaryKey => {id};
 }
+
 
 class Restricciones extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
-  IntColumn get idUser =>
-      integer().customConstraint('REFERENCES Usuario(id)')();
+  TextColumn get idUser =>
+      text().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();
 }
 
@@ -21,8 +25,11 @@ class Historials extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get dificultad => integer()();
   TextColumn get ejercicio => text().withLength(min: 1, max: 50)();
-  IntColumn get idUser =>
-      integer().customConstraint('REFERENCES Usuario(id)')();
+  DateTimeColumn get fecha => dateTime()();
+  IntColumn get calorias => integer()();
+  IntColumn get duracion => integer()();
+  TextColumn get idUser =>
+      text().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();
 }
 
@@ -49,6 +56,9 @@ class UsuarioDAO extends DatabaseAccessor<AppDatabase> with _$UsuarioDAOMixin {
       update(usuario).replace(user);
   Future deleteUser(Insertable<UsuarioData> user) =>
       delete(usuario).delete(user);
+  Future<UsuarioData> getUser(String id) {
+    return (select(usuario)..where((t) => t.id.equals(id))).getSingle();
+  }
 }
 
 @UseDao(tables: [Restricciones, Usuario])
@@ -90,6 +100,10 @@ class HistorialDAO extends DatabaseAccessor<AppDatabase>
     with _$HistorialDAOMixin {
   final AppDatabase db;
   HistorialDAO(this.db) : super(db);
+  Future<List<Historial>> getallHist() => select(historials).get();
+  Future insertHistorial(Insertable<Historial> hist) => into(historials).insert(hist);
+  Stream<List<Historial>> watchallHist()=> select(historials).watch();
+  Future deleteHist() => delete(historials).go();
 }
 
 class RestWithUser {

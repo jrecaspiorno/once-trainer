@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
-import 'package:flutterapp/pulsera/pulsera.dart';
+import 'package:flutterapp/Perfil/historialClinico.dart';
+import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
+import 'package:flutterapp/pulsera/datosHistorial/tablaDatos.dart';
+import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
 import '../lista_ejer.dart';
 import '../recomendados.dart';
@@ -17,6 +20,11 @@ class _MenuState extends State<Menu> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Navigator.pop(context);
+          },
+        ),
           title: Text("Menu"),
           backgroundColor: Colors.indigo,
         ),
@@ -34,7 +42,8 @@ class _MenuState extends State<Menu> {
                 _buildButton('Recomendaciones', MyRecomList(), context),
                 _buildButton('Lista Ejercicios', MyList(), context),
                 _buildButton('Perfil', MyProfile(), context),
-                _buildButton('Prueba pulsera', MyPulsera(), context),
+                _buildButton('Prueba pulsera', MySaca("WEIGHT"), context),
+                //_buildButton('Prueba Ritmo', MyRitmo(), context),
             ],
       )),
     );
