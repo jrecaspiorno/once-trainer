@@ -3,20 +3,25 @@ import 'package:flutterapp/Data/moor_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 
 
 class GoogleSingUp extends StatefulWidget {
-  GoogleSingUp(this.usuarioDAO);
+  GoogleSingUp({Key key ,this.usuarioDAO, this.onLoginSuccess});
   UsuarioDAO usuarioDAO;
+  final Function onLoginSuccess;
   @override
   State<StatefulWidget> createState() => _GoogleSingUpState();
 }
 
 class _GoogleSingUpState extends State<GoogleSingUp> {
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
+
+
+  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
   GoogleSignInAccount _currentUser;
   DateTime _dateTime;
+
   String id;
   String email;
   String nombre;
@@ -24,28 +29,31 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
   UsuarioData user;
   @override
   void initState() {
-    // TODO: implement initState
+    //final _googleSingIn = Provider.of<GoogleSignIn>(context);
     super.initState();
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+    googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
       setState(() {
         _currentUser = account;
       });
     });
-    _googleSignIn.signInSilently();
+    googleSignIn.signInSilently();
   }
 
   @override
   Widget build(BuildContext context) {
+    //final _googleSingIn = Provider.of<GoogleSignIn>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Registro'),
         backgroundColor: Colors.indigo,
       ),
-      body: Center(child: _buildBody()),
+      body: Center(child: _buildBody(googleSignIn)),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(GoogleSignIn googleSignIn) {
+
+
     if (_currentUser != null) {
       id = _currentUser.id;
       email = _currentUser.email;
@@ -55,7 +63,6 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
       user = UsuarioData(id: id, nombre: nombre, edad: _dateTime, photoUrl: URL, email: email);
 
       _insertUser(widget.usuarioDAO, user);
-
 
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +77,7 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
             subtitle: Text(_currentUser.email ?? ''),
           ),
           RaisedButton(
-            onPressed: _handleSignOut,
+            onPressed: (){_handleSignOut(googleSignIn);},
             child: Text('SIGN OUT'),
           )
         ],
@@ -91,7 +98,10 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
               borderRadius: BorderRadius.circular(12)
             ),
             color: Colors.indigo,
-            onPressed: _handleSignIn,
+            onPressed: (){
+              _handleSignIn(googleSignIn);
+              widget.onLoginSuccess();
+            },
             child: Container(
               width: 110,
               child: Row(
@@ -130,6 +140,7 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
           ),),
         onPressed: () {
           showDatePicker(
+              initialEntryMode: DatePickerEntryMode.input,
               context: context,
               initialDate: _dateTime == null ? DateTime.now() : _dateTime,
               firstDate: DateTime(1900),
@@ -151,10 +162,10 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
       usuarioDAO.insertUser(user);
     }
   }
-  Future<void> _handleSignIn() async {
+  Future<void> _handleSignIn(GoogleSignIn googleSingIn) async {
     try {
       if(_dateTime != null) {
-        await _googleSignIn.signIn();
+        await googleSingIn.signIn();
       }
       else{
         showAlertDialog(context);
@@ -164,8 +175,8 @@ class _GoogleSingUpState extends State<GoogleSingUp> {
     }
   }
 
-  Future<void> _handleSignOut() async {
-    _googleSignIn.disconnect();
+  Future<void> _handleSignOut(GoogleSignIn googleSingIn) async {
+    googleSingIn.disconnect();
   }
 
   showAlertDialog(BuildContext context) {
