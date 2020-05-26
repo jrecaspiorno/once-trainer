@@ -166,6 +166,12 @@ class MyData extends StatelessWidget {
             style: TextStyle(
               fontSize: 25,
             ),),
+          ),
+          Flexible(
+            child: Text(usuarioData.edad.toString(),
+            style: TextStyle(
+              fontSize: 25,
+            ),),
           )
         ],
       ),
