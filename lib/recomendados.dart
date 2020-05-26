@@ -58,6 +58,8 @@ class MyRecomList extends StatelessWidget {
                   if (data.hasData) {
                     List<Ejercicio> ejercicios = data.data;
                     return ListView.builder(
+                      padding: EdgeInsets.fromLTRB(15, 1, 15, 1),
+                      
                       itemCount: ejercicios.length,
                       itemBuilder: (context, index) {
                         Padding(
@@ -67,6 +69,8 @@ class MyRecomList extends StatelessWidget {
                           children: [
                             const SizedBox(height: 40),
                             RaisedButton(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+
                               onPressed: () {
                                 final Ejercicio ejercicio = ejercicios[index];
                                 Navigator.push(
