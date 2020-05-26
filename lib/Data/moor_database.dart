@@ -49,7 +49,7 @@ class UsuarioDAO extends DatabaseAccessor<AppDatabase> with _$UsuarioDAOMixin {
   final AppDatabase db;
 
   UsuarioDAO(this.db) : super(db);
-
+  Future<void> deleteAllUsers() => delete(usuario).go();
   Future<List<UsuarioData>> getUsers() => select(usuario).get();
   Future insertUser(Insertable<UsuarioData> user) => into(usuario).insert(user);
   Future updateUser(Insertable<UsuarioData> user) =>

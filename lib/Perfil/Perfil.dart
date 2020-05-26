@@ -2,11 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
 import 'package:flutterapp/Perfil/historialClinico.dart';
+import 'package:flutterapp/Registro/GoogleSignUp.dart';
+import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
+import '../main.dart';
 import 'Historial.dart';
 
 class MyProfile extends StatelessWidget {
+
+  GoogleSignIn _googleSignIn;
+  Future<void> _handleSingOut() async {
+    _googleSignIn.disconnect();
+  }
+
+  Widget LogoutButton(BuildContext context){
+    return Column(
+      children: <Widget>[
+        RaisedButton(
+          onPressed: (){
+            _handleSingOut();
+            Provider.of<LoginState>(context).logout();
+          },
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +44,7 @@ class MyProfile extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+
             title: Text('Perfil'),
             backgroundColor: Colors.indigo,
           ),
@@ -41,9 +64,8 @@ class MyProfile extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(20),
                       ),
-                      MyButtonType(
-
-                     ),
+                      MyButtonType(),
+                      LogoutButton(context),
                   ],
                 );
               }else{
@@ -80,12 +102,9 @@ class MyButtonType extends StatelessWidget {
           const SizedBox(height: 20),
           _buildButton('Historial Actividades', HistorialView(), context),
           _buildButton('Historial Clínico', MyHistorial(), context),
-          _buildButton(
-              'Dolencias',
-              Dolencias(
+          _buildButton('Dolencias', Dolencias(),context),
 
-              ),
-              context),
+
         ],
       ),
     );
@@ -117,7 +136,11 @@ class MyData extends StatelessWidget {
   final UsuarioData usuarioData;
 
 
-  const MyData({Key key, @required this.usuarioData}) : super(key: key);
+  MyData({Key key, @required this.usuarioData}) : super(key: key);
+
+
+
+
 
 
   @override
