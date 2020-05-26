@@ -52,6 +52,7 @@ class _MenuState extends State<Menu> {
       // mainAxisSize: MainAxisSize.min,
       children: [
         RaisedButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           onPressed: () {
             Navigator.push(
               context,
