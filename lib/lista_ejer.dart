@@ -66,12 +66,15 @@ class MyList extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: 30),
                         );
-                        return Column(
+                        return Flex(
+                          direction: Axis.vertical,
+                          textDirection: TextDirection.ltr,
+                          verticalDirection: VerticalDirection.down,                          
                           children: [
-                            const SizedBox(height: 40),
+                            SizedBox(height: 40),
                             RaisedButton(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-
+                              autofocus: true,
                               onPressed: () {
                               final Ejercicio ejercicio = ejercicios[index];
                               Navigator.push(context,MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
@@ -80,8 +83,11 @@ class MyList extends StatelessWidget {
                               color: Colors.indigo,
                               textColor: Colors.white,
                               padding: EdgeInsets.all(24.0),
-                              child: Text(ejercicios[index].name, style: TextStyle(fontSize: 30)),
+                              child: Text(ejercicios[index].name, style: TextStyle( fontSize: 30), 
+                                textAlign: TextAlign.center, ),
                             ),
+                            
+                            
                             //const SizedBox(height: 20),
                           ],
                         );
