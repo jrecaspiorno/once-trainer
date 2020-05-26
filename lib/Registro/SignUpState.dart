@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutterapp/Data/moor_database.dart';
 import 'package:googleapis/people/v1.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -22,15 +23,15 @@ class LoginState with ChangeNotifier{
   LoginState() {
     loginState();
   }
-  Future<Date> _getBDay() async{
+  // Future<Date> _getBDay() async{
 
-    var client = http.Client();
-    var header = await _googleSingIn.currentUser.authHeaders;
-    var authClient = AuthClient(client, header);
-    var api = PeopleApi(authClient);
-    return (await api.people.get(PeopleApi.UserBirthdayReadScope)).birthdays.first.date;
+  //   var client = http.Client();
+  //   var header = await _googleSingIn.currentUser.authHeaders;
+  //   var authClient = AuthClient(client, header);
+  //   var api = PeopleApi(authClient);
+  //   return (await api.people.get(PeopleApi.UserBirthdayReadScope)).birthdays.first.date;
 
-  }
+  // }
 
   void insertarFecha(DateTime dateTime) async{
     _fecha_introducida = true;
@@ -38,17 +39,27 @@ class LoginState with ChangeNotifier{
     notifyListeners();
   }
 
+  void insert(UsuarioData usuario, UsuarioDAO usuarioDAO ) async{
+    UsuarioData user1 = await usuarioDAO.getUser(usuario.id);
+    if(user1 == null){
+      usuarioDAO.insertUser(usuario);
+    }
+  }
 
-  void login() async{
-
+  void login(UsuarioDAO usuarioDAO) async{
+    
     _loading = true;
     notifyListeners();
+
     _user = await _handleSignIn();
     //_date = await _getBDay();
+   
     print("Birthday from " + _user.displayName + " " + _date.toString()) ;
     _loading = false;
     if(_user != null) {
       _prefs.setBool('isLoggedIn', true);
+       UsuarioData data = UsuarioData(id: _user.providerId, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
+      insert(data,usuarioDAO);
       _logedIn = true;
       notifyListeners();
     }else{
