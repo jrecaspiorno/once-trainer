@@ -1,13 +1,15 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
+import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
 
 
 class BuildEjercicio extends StatefulWidget {
-  EjercicioTiempo ejercicio;
+  Ejercicio ejercicio;
 
-  BuildEjercicio({EjercicioTiempo ejercicio}) {
+  BuildEjercicio({Ejercicio ejercicio}) {
     this.ejercicio = ejercicio;
   }
 
@@ -22,9 +24,9 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
   @override
   Widget build(BuildContext context) {
 
-    // TODO: implement build
-    EjercicioTiempo ej = widget.ejercicio;
-
+    Ejercicio ej = widget.ejercicio;
+    EjercicioTiempo dummy;
+    bool timeType = ej.runtimeType == dummy.runtimeType;
     return MaterialApp(
       title: 'App actividad física',
       home: Scaffold(
@@ -44,8 +46,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 20,),
-
-                //AppTimer(time: ej.time,),
+                tipoEj(timeType),
 
                 const SizedBox(height: 20,),
 
@@ -67,7 +68,18 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       ),
     );
   }
-
+  Widget tipoEj(bool timeType){
+    if(timeType) {
+      EjercicioTiempo ejt = widget.ejercicio;
+      return Container(
+        child: AppTimer(time: ejt.time),
+      );
+    }else{
+      return Container(
+      child: Text("Ej Repeticiones")
+      );
+    };
+    }
 }
 
 
