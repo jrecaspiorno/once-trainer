@@ -1,4 +1,4 @@
-import 'dart:io';
+//import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +11,7 @@ class LoginState with ChangeNotifier{
   GoogleSignIn _googleSingIn = GoogleSignIn( );
   SharedPreferences _prefs;
   final _auth = FirebaseAuth.instance;
+  bool _ok = true;
   bool _fecha_introducida = false;
   bool _logedIn = false;
   bool _loading = true;
@@ -45,27 +46,40 @@ class LoginState with ChangeNotifier{
   }
 
   void insert(UsuarioData usuario, UsuarioDAO usuarioDAO ) async{
+    bool ok = false;
     UsuarioData user1 = await usuarioDAO.getUser(usuario.id);
-    if(user1 == null){
-      usuarioDAO.insertUser(usuario);
+    if(user1 == null && _date == null){
+      _fecha_introducida = false;
+      _ok = false;
+      logout();
+      
     }
+    else if (user1 == null ){
+      usuarioDAO.insertUser(usuario);
+      _ok = true;
+    }
+    
   }
 
   void login(UsuarioDAO usuarioDAO) async{
     
     _loading = true;
     notifyListeners();
-
+    
     _user = await _handleSignIn();
     //_date = await _getBDay();
-   
+    
     print("Birthday from " + _user.displayName + " " + _date.toString()) ;
     _loading = false;
     if(_user != null) {
       _prefs.setBool('isLoggedIn', true);
        UsuarioData data = UsuarioData(id: _googleSingIn.currentUser.id, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
       insert(data,usuarioDAO);
-      _logedIn = true;
+      
+      await usuarioDAO.getUsers();
+      if(_ok )
+        _logedIn = true;
+      
       notifyListeners();
     }else{
       _logedIn = false;
