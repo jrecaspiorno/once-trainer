@@ -14,7 +14,7 @@ class MyList extends StatelessWidget {
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       List<String> XMLS = List();
       List<Ejercicio> ejercicios = List();
-      XMLS = ["AfirmacionNegacion.xml","Caminar.xml","CirculosCadera.xml","Ej1.xml","ElevacionBrazos.xml","EstrujarToalla.xml","LevantamientosLateralesMancuernas.xml","LevantarBotella.xml","LevantarseSilla.xml","MovimientoRodillas.xml","PlantaPechoMacnuernas.xml","plantilla.xml","PrensaHombroMancuernas.xml","RotacionTobillos.xml","SubirEscaleras.xml","VueloPechoMancuernas.xml"];
+      XMLS = ["AfirmacionNegacion.xml","Caminar.xml","CirculosCadera.xml","Ej1.xml","ElevacionBrazos.xml","EstrujarToalla.xml","LevantamientosLateralesMancuernas.xml","LevantarBotella.xml","LevantarseSilla.xml","MovimientoRodillas.xml","PlantaPechoMacnuernas.xml","PrensaHombroMancuernas.xml","RotacionTobillos.xml","SubirEscaleras.xml","VueloPechoMancuernas.xml"];
       for (int i = 0; i < XMLS.length; ++i) {
         String xmlS = await DefaultAssetBundle.of(context)
             .loadString("todos_ejercicios/" + XMLS[i]);
@@ -71,9 +71,7 @@ class MyList extends StatelessWidget {
                             RaisedButton(
                               onPressed: () {
                               final Ejercicio ejercicio = ejercicios[index];
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
+                              Navigator.push(context,MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
                                 ));
                               },
                               color: Colors.indigo,
