@@ -58,6 +58,9 @@ class LoginState with ChangeNotifier{
       usuarioDAO.insertUser(usuario);
       _ok = true;
     }
+    else{
+      _ok = true;
+    }
     
   }
 
