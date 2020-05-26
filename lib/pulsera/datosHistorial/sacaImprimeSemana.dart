@@ -188,6 +188,11 @@ class _MySacaImprime extends State<MySaca> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           title: Text("${mytipoEsp}"),
           backgroundColor: Colors.indigo,
         ),

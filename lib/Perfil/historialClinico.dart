@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
+import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
 import 'package:health/health.dart';
 
 import '../lista_ejer.dart';
@@ -45,6 +46,7 @@ class MyHistorial extends StatelessWidget {
               _buildButton('Peso', "WEIGHT", context),
               _buildButton('Ritmo Cardiaco', "HEART_RATE", context),
               _buildButton('Energia Quemada', "ACTIVE_ENERGY_BURNED", context),
+              //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
             ],
           )),
     );
@@ -58,7 +60,7 @@ class MyHistorial extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyHistorial()),
+              MaterialPageRoute(builder: (context) => MySaca(tipo)),
             );
           },
           color: Colors.indigo,

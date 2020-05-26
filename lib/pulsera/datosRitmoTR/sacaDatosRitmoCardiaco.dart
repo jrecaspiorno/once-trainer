@@ -112,14 +112,14 @@ class _MyRitmoCardiaco extends  State<MyRitmo>{
                 child: ListBody(
                   children: <Widget>[
                     Text('Cuidado tu ritmo cardiaco es muy alto.', style: TextStyle(color: Colors.white, fontSize: 20)),
-                    Text('Estas de acuerdo.', style: TextStyle(color: Colors.white, fontSize: 20)),
+                    //Text('Estas de acuerdo.', style: TextStyle(color: Colors.white, fontSize: 20)),
                   ],
                 ),
               ),
               actions: [
                 FlatButton(
                   textColor: Colors.white,
-                  child: Text('Si', style: TextStyle(fontSize: 20)),
+                  child: Text('Aceptar', style: TextStyle(fontSize: 20)),
                   onPressed: () {
                     Navigator.pop(context);
                   },
