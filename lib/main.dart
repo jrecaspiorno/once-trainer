@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           routes: {
             '/':(BuildContext context){
               var state = context.watch<LoginState>();
-              if(/*state.isLogedIn()*/true){
+              if(state.isLogedIn()){
                 return Menu();
               }else{
                 if(state.getFecha()) {
