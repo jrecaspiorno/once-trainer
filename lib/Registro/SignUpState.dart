@@ -20,6 +20,7 @@ class LoginState with ChangeNotifier{
   bool isLogedIn() => _logedIn;
   FirebaseUser currentUser() => _user;
   bool getFecha() => _fecha_introducida;
+  
   LoginState() {
     loginState();
   }
@@ -32,6 +33,10 @@ class LoginState with ChangeNotifier{
   //   return (await api.people.get(PeopleApi.UserBirthdayReadScope)).birthdays.first.date;
 
   // }
+  void setFecahIntroducida() {
+    _fecha_introducida = true;
+    notifyListeners();
+  } 
 
   void insertarFecha(DateTime dateTime) async{
     _fecha_introducida = true;

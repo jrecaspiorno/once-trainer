@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/chat/v1.dart';
 import 'package:provider/provider.dart';
 import '../SignUpState.dart';
 
@@ -9,19 +10,7 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-
   DateTime _dateTime;
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Fecha"),
-          backgroundColor: Colors.indigo,
-        ),
-        body: _DateBuilder(context));
-  }
 
   Widget _DateBuilder(BuildContext context) {
     return Center(
@@ -40,7 +29,11 @@ class _DatePickerState extends State<DatePicker> {
           Padding(
             padding: EdgeInsets.all(15),
           ),
-          ButtoAccept()
+          ButtoAccept(),
+          Padding(
+            padding: EdgeInsets.all(15),
+          ),
+          GotoLogin()
         ],
 
       ),
@@ -81,6 +74,7 @@ class _DatePickerState extends State<DatePicker> {
         ),
       );
   }
+
   Widget ActualSelDate(){
     return Center(
       child: Text(_dateTime == null ? 'Todavía no has eligido fecha' : DateTimeToString(_dateTime),
@@ -89,6 +83,7 @@ class _DatePickerState extends State<DatePicker> {
       ),),
     );
   }
+
   String DateTimeToString(DateTime _dateTime){
     String day = _dateTime.day.toString();
     String month = _dateTime.month.toString();
@@ -117,5 +112,32 @@ class _DatePickerState extends State<DatePicker> {
         },
       ),
     );
+  }
+
+  Widget GotoLogin(){
+    return Center(
+      child: FlatButton(
+        onPressed: (){
+           context.read<LoginState>().setFecahIntroducida();
+        }, 
+        child: Text( "¿Ya estas registrado?",
+          style: TextStyle(
+            color: Colors.indigo,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+        ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Fecha"),
+          backgroundColor: Colors.indigo,
+        ),
+        body: _DateBuilder(context));
   }
 }
