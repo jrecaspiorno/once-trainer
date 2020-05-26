@@ -12,18 +12,16 @@ import 'Historial.dart';
 
 class MyProfile extends StatelessWidget {
 
-  GoogleSignIn _googleSignIn;
-  Future<void> _handleSingOut() async {
-    _googleSignIn.disconnect();
-  }
+  
 
   Widget LogoutButton(BuildContext context){
     return Column(
       children: <Widget>[
         RaisedButton(
           onPressed: (){
-            _handleSingOut();
-            Provider.of<LoginState>(context).logout();
+            
+            context.read<LoginState>().logout();
+            Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp()));
           },
         )
       ],

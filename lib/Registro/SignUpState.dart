@@ -58,7 +58,7 @@ class LoginState with ChangeNotifier{
     _loading = false;
     if(_user != null) {
       _prefs.setBool('isLoggedIn', true);
-       UsuarioData data = UsuarioData(id: _user.providerId, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
+       UsuarioData data = UsuarioData(id: _googleSingIn.currentUser.id, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
       insert(data,usuarioDAO);
       _logedIn = true;
       notifyListeners();
