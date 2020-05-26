@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+//import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'Menu/Menu.dart';
 import 'Registro/DatePicker/DatePicker.dart';
@@ -38,11 +38,11 @@ class _MyAppState extends State<MyApp> {
       child: ChangeNotifierProvider<LoginState>(
         create: (BuildContext context) => LoginState() ,
         child: MaterialApp(
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+//            localizationsDelegates: [
+//              GlobalMaterialLocalizations.delegate,
+//              GlobalWidgetsLocalizations.delegate,
+//              GlobalCupertinoLocalizations.delegate,
+//            ],
           supportedLocales: [
             const Locale('es','ES'),
           ],
