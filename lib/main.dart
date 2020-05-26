@@ -50,7 +50,8 @@ class _MyAppState extends State<MyApp> {
           title: 'App actividad física',
           routes: {
             '/':(BuildContext context){
-              var state = context.watch<LoginState>();
+              //var state = context.watch<LoginState>();
+              var state = Provider.of<LoginState>(context);
               if(state.isLogedIn()){
                 return Menu();
               }else{
