@@ -1,7 +1,6 @@
 import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Login/GoogleLogin.dart';
 
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:google_sign_in/google_sign_in.dart';
