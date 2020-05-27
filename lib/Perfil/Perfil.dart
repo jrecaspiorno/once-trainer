@@ -130,6 +130,8 @@ class MyButtonType extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<LoginState>();
+    String id = state.getId();
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -137,7 +139,7 @@ class MyButtonType extends StatelessWidget {
           const SizedBox(height: 20),
           _buildButton('Historial Actividades', HistorialView(), context),
           _buildButton('Historial Clínico', MyHistorial(), context),
-          _buildButton('Dolencias', Dolencias(),context),
+          _buildButton('Dolencias', Dolencias(id: id,),context),
 
 
         ],

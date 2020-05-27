@@ -69,7 +69,7 @@ class RestriccionesDAO extends DatabaseAccessor<AppDatabase>
   Future<List<Restriccione>> resActivas(){
     return (select(restricciones)..where((t) => t.activo.equals(true))).get();
   }
-  Stream<List<RestWithUser>> watchRest() {
+  Stream<List<RestWithUser>> watchRestfromUser() {
     return (select(restricciones)
           ..orderBy([
             (t) => OrderingTerm(expression: t.tipo, mode: OrderingMode.desc),
@@ -84,6 +84,12 @@ class RestriccionesDAO extends DatabaseAccessor<AppDatabase>
                 user: row.readTable(usuario),
               );
             }).toList());
+  }
+  Future<List<Restriccione>> getRestfromUser(String id){
+    return (select(restricciones)..where((t) => t.idUser.equals(id))).get();
+  }
+  Stream<List<Restriccione>> wachAllRestFromUser(String id) {
+    return (select(restricciones)..where((t) => t.idUser.equals(id))).watch();
   }
   Stream<List<Restriccione>> wachAllRest() => select(restricciones).watch();
   Future deleteAllRes()=>delete(restricciones).go();
