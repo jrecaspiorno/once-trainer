@@ -11,23 +11,35 @@ import '../main.dart';
 import 'Historial.dart';
 
 class MyProfile extends StatelessWidget {
-
-  GoogleSignIn _googleSignIn;
-  Future<void> _handleSingOut() async {
-    _googleSignIn.disconnect();
-  }
-
   Widget LogoutButton(BuildContext context){
     return Column(
       children: <Widget>[
         RaisedButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          color: Colors.red,
+          child: Text(
+          'LogOut',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30
+          ),
+          
+          ),
+
+          padding: EdgeInsets.all(17.0),
           onPressed: (){
-            _handleSingOut();
-            Provider.of<LoginState>(context).logout();
+            
+            context.read<LoginState>().logout();
+            Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp()));
           },
+
         )
       ],
     );
+  }
+
+  Future<List<UsuarioData>> getData(UsuarioDAO usuarioDAO) async {
+    return usuarioDAO.getUsers();
   }
 
   @override
@@ -66,6 +78,9 @@ class MyProfile extends StatelessWidget {
                       ),
                       MyButtonType(),
                       LogoutButton(context),
+                      Padding(
+                        padding: EdgeInsets.all(30),
+                      ),
                   ],
                 );
               }else{
@@ -85,14 +100,31 @@ class MyProfile extends StatelessWidget {
           ),
     );
   }
-  Future<List<UsuarioData>> getData(UsuarioDAO usuarioDAO) async {
-    return usuarioDAO.getUsers();
-  }
-
 }
 
 class MyButtonType extends StatelessWidget {
-
+  Column _buildButton(String label, Widget funcion, BuildContext context) {
+    return Column(
+      // mainAxisSize: MainAxisSize.min,
+      children: [
+        RaisedButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => funcion),
+            );
+          },
+          color: Colors.indigo,
+          textColor: Colors.white,
+          padding: EdgeInsets.all(24.0),
+          child: Text(label, style: TextStyle(fontSize: 30)),
+        ),
+        const SizedBox(height: 40),
+      ],
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -109,40 +141,18 @@ class MyButtonType extends StatelessWidget {
       ),
     );
   }
-
-  Column _buildButton(String label, Widget funcion, BuildContext context) {
-    return Column(
-      // mainAxisSize: MainAxisSize.min,
-      children: [
-        RaisedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => funcion),
-            );
-          },
-          color: Colors.indigo,
-          textColor: Colors.white,
-          padding: EdgeInsets.all(24.0),
-          child: Text(label, style: TextStyle(fontSize: 30)),
-        ),
-        const SizedBox(height: 40),
-      ],
-    );
-  }
 }
 
 class MyData extends StatelessWidget {
-  final UsuarioData usuarioData;
-
-
   MyData({Key key, @required this.usuarioData}) : super(key: key);
 
-
-
-
-
-
+  final UsuarioData usuarioData;
+  String DateTimeToString(DateTime _dateTime){
+    String day = _dateTime.day.toString();
+    String month = _dateTime.month.toString();
+    String year = _dateTime.year.toString();
+    return day + "/" + month + "/" + year;
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -165,6 +175,12 @@ class MyData extends StatelessWidget {
           ),
           Flexible(
             child: Text(usuarioData.nombre,
+            style: TextStyle(
+              fontSize: 25,
+            ),),
+          ),
+          Flexible(
+            child: Text(DateTimeToString(usuarioData.edad) ,
             style: TextStyle(
               fontSize: 25,
             ),),

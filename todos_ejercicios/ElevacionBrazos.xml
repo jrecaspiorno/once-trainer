@@ -2,6 +2,7 @@
     <name>Elevacion de Brazos</name>
     <type>rep</type>
     <series>5</series>
+    <reps>10</reps>
     <description>
 	Se trata de levantar el brazo todo lo que se pueda mientras se baja el otro.
     </description>

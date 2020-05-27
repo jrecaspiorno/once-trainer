@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+  final database = Provider.of<AppDatabase>(context);    
    return Scaffold(
      body: Center(
        child: Consumer<LoginState>(
@@ -19,7 +21,7 @@ class LoginPage extends StatelessWidget{
          child: RaisedButton(
            child: Text("Registro"),
            onPressed: (){
-             context.read<LoginState>().login();
+             context.read<LoginState>().login(database.usuarioDAO);
            },
          ),
        ),

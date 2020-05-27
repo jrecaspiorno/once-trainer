@@ -11,6 +11,7 @@ class FactoriaEj {
         .findAllElements('name')
         .first
         .text;
+    print(name);
     int cal = int.parse(file
         .findAllElements("calories")
         .first

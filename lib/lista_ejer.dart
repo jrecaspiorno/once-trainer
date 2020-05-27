@@ -14,7 +14,7 @@ class MyList extends StatelessWidget {
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       List<String> XMLS = List();
       List<Ejercicio> ejercicios = List();
-      XMLS = ["AfirmacionNegacion.xml","Caminar.xml","CirculosCadera.xml","Ej1.xml","ElevacionBrazos.xml","EstrujarToalla.xml","LevantamientosLateralesMancuernas.xml","LevantarBotella.xml","LevantarseSilla.xml","MovimientoRodillas.xml","PlantaPechoMacnuernas.xml","plantilla.xml","PrensaHombroMancuernas.xml","RotacionTobillos.xml","SubirEscaleras.xml","VueloPechoMancuernas.xml"];
+      XMLS = ["AfirmacionNegacion.xml","Caminar.xml","CirculosCadera.xml","Ej1.xml","ElevacionBrazos.xml","EstrujarToalla.xml","LevantamientosLateralesMancuernas.xml","LevantarBotella.xml","LevantarseSilla.xml","MovimientoRodillas.xml","PlantaPechoMacnuernas.xml","PrensaHombroMancuernas.xml","RotacionTobillos.xml","SubirEscaleras.xml","VueloPechoMancuernas.xml"];
       for (int i = 0; i < XMLS.length; ++i) {
         String xmlS = await DefaultAssetBundle.of(context)
             .loadString("todos_ejercicios/" + XMLS[i]);
@@ -60,27 +60,34 @@ class MyList extends StatelessWidget {
                 if(data.hasData){
                   List<Ejercicio> ejercicios = data.data;
                   return ListView.builder(
+                      padding: EdgeInsets.fromLTRB(15, 1, 15, 1),
                       itemCount: ejercicios.length,
                       itemBuilder: (context,index){
                         Padding(
                           padding: EdgeInsets.only(bottom: 30),
                         );
-                        return Column(
+                        return Flex(
+                          direction: Axis.vertical,
+                          textDirection: TextDirection.ltr,
+                          verticalDirection: VerticalDirection.down,                          
                           children: [
-                            const SizedBox(height: 40),
+                            SizedBox(height: 40),
                             RaisedButton(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              autofocus: true,
                               onPressed: () {
                               final Ejercicio ejercicio = ejercicios[index];
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
+                              Navigator.push(context,MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
                                 ));
                               },
                               color: Colors.indigo,
                               textColor: Colors.white,
                               padding: EdgeInsets.all(24.0),
-                              child: Text(ejercicios[index].name, style: TextStyle(fontSize: 30)),
+                              child: Text(ejercicios[index].name, style: TextStyle( fontSize: 30), 
+                                textAlign: TextAlign.center, ),
                             ),
+                            
+                            
                             //const SizedBox(height: 20),
                           ],
                         );
