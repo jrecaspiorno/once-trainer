@@ -106,6 +106,7 @@ class _DatePickerState extends State<DatePicker> {
         onPressed: (){
           if(_dateTime != null)
             context.read<LoginState>().insertarFecha(_dateTime);
+            //Provider.of<LoginState>(context, listen: false);
           else{
 
           }

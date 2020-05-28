@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class LoginPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-  final database = Provider.of<AppDatabase>(context);    
+  final database = Provider.of<AppDatabase>(context);
    return Scaffold(
      body: Center(
        child: Consumer<LoginState>(
