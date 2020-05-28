@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
                 if(state.getFecha()) {
                   return LoginPage();
                 }
-                else{
+                else {
                   return DatePicker();
                 }
 

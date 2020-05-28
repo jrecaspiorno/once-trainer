@@ -13,30 +13,59 @@ class _DatePickerState extends State<DatePicker> {
   DateTime _dateTime;
 
   Widget _DateBuilder(BuildContext context) {
-    return Center(
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(20.0),
-        
-        children: <Widget>[
-
-
-          DateSel(),
-          Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          ActualSelDate(),
-          Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          ButtoAccept(),
-          Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          GotoLogin()
-        ],
-
-      ),
+    return Scaffold(
+        body: Center(
+  
+              child: Consumer<LoginState>(
+                  builder: (BuildContext context, LoginState value, Widget child){
+                    if(value.isLoading()){
+                        return CircularProgressIndicator();
+                    }else{
+                      return child;
+                    }
+                  },
+                  child: ListView(
+  
+                    shrinkWrap: true,
+    
+                    padding: const EdgeInsets.all(20.0),
+    
+                      
+                    children: <Widget>[    
+                      DateSel(),
+    
+                      Padding(
+    
+                        padding: EdgeInsets.all(15),
+    
+                      ),
+    
+                      ActualSelDate(),
+    
+                      Padding(
+    
+                        padding: EdgeInsets.all(15),
+    
+                      ),
+    
+                      ButtoAccept(),
+    
+                      Padding(
+    
+                        padding: EdgeInsets.all(15),
+    
+                      ),
+    
+                      GotoLogin()
+    
+                    ],
+  
+  
+  
+                ),
+              ),
+  
+            ),
     );
   }
 
