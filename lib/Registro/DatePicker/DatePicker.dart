@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:googleapis/chat/v1.dart';
 import 'package:provider/provider.dart';
 import '../SignUpState.dart';
@@ -48,7 +49,7 @@ class _DatePickerState extends State<DatePicker> {
     
                       ),
     
-                      ButtoAccept(),
+                      ButtoAccept(context),
     
                       Padding(
     
@@ -120,7 +121,8 @@ class _DatePickerState extends State<DatePicker> {
     return day + "/" + month + "/" + year;
   }
 
-  Widget ButtoAccept(){
+  Widget ButtoAccept(BuildContext context){
+    Alerts alert;
     return Center(
       child: RaisedButton(
 
@@ -136,7 +138,10 @@ class _DatePickerState extends State<DatePicker> {
           if(_dateTime != null)
             context.read<LoginState>().insertarFecha(_dateTime);
           else{
-
+           
+            alert = Alerts(context: context, firstButtonText: "Ok", fun1:() => Navigator.of(context).pop() , title: "Alerta", message: "Seleccione su fecha de nacimiento");
+            alert.showAlertDialog();
+            //alert.OneOptionAlert("Ok", context, fun1, "Alerta", "Seleccione su fecha de nacimiento");
           }
         },
       ),
