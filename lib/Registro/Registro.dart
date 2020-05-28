@@ -23,7 +23,6 @@ class LoginPage extends StatelessWidget{
               await state.login(database.usuarioDAO);
               if(state.getNoDateAlert()){
                 alert = Alerts(context: context, firstButtonText: "Ok", fun1: () { state.logout();Navigator.pop(context);}, title: "Alerta", message: "No has introducido tu fecha de nacimiento y no tienes cuenta previa");
-                // a.OneOptionAlert("OK", context, funtion(context) , "Alerta", "No has introducido tu fecha de nacimiento y no tienes cuenta previa");
                 alert.showAlertDialog();
              }
            },
@@ -32,6 +31,4 @@ class LoginPage extends StatelessWidget{
      ),
    );
   }
-
-  
 }

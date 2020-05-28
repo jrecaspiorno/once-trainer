@@ -59,10 +59,12 @@ class LoginState with ChangeNotifier{
       
     }
     else if (user1 == null ){
+      _alertaActivada = false;
       usuarioDAO.insertUser(usuario);
       _ok = true;
     }
     else{
+      _alertaActivada = false;
       _ok = true;
     }
     
