@@ -11,7 +11,7 @@ class LoginState with ChangeNotifier{
   GoogleSignIn _googleSingIn = GoogleSignIn( );
   SharedPreferences _prefs;
   final _auth = FirebaseAuth.instance;
-  bool _ok = true;
+  
   bool _fecha_introducida = false;
   bool _logedIn = false;
   bool _loading = true;
@@ -48,25 +48,18 @@ class LoginState with ChangeNotifier{
     notifyListeners();
   }
 
-  void insert(UsuarioData usuario, UsuarioDAO usuarioDAO ) async{
+  void insert(UsuarioDAO usuarioDAO ) async{
     
-    UsuarioData user1 = await usuarioDAO.getUser(usuario.id);
-    if(user1 == null && _date == null){
-      //_fecha_introducida = false;
-      _ok = false;
-      _alertaActivada = true;
-      notifyListeners();
-      
-    }
-    else if (user1 == null ){
+    UsuarioData user1 = await usuarioDAO.getUser(_id);
+    
+     
+       UsuarioData usuario = UsuarioData(id: _id, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
       _alertaActivada = false;
       usuarioDAO.insertUser(usuario);
-      _ok = true;
-    }
-    else{
-      _alertaActivada = false;
-      _ok = true;
-    }
+      _logedIn = true;
+      notifyListeners();
+     
+    
     
   }
 
@@ -83,12 +76,20 @@ class LoginState with ChangeNotifier{
     _loading = false;
     if(_user != null) {
       _prefs.setBool('isLoggedIn', true);
-       UsuarioData data = UsuarioData(id: _id, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
-      insert(data,usuarioDAO);
       
-      await usuarioDAO.getUsers();
-      if(_ok )
+      var ex = await usuarioDAO.getUser(_id);
+     
+     
+      
+      await usuarioDAO.getUser(_id);
+      if(ex == null) 
+        _fecha_introducida = true;
+      else{
         _logedIn = true;
+      }
+      notifyListeners();
+
+      
       
       notifyListeners();
     }else{
@@ -121,8 +122,9 @@ class LoginState with ChangeNotifier{
     _prefs = await SharedPreferences.getInstance();
     if(_prefs.containsKey('isLoggedIn')){
       _user = await _auth.currentUser();
-
+      
       _logedIn = _user != null;
+      _id = _user.uid;
       _loading = false;
       notifyListeners();
     }else{

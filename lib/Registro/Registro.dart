@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget{
@@ -17,14 +18,28 @@ class LoginPage extends StatelessWidget{
            return value.isLoading() ? CircularProgressIndicator() : child;
          },
          child: RaisedButton(
-           child: Text("Registro"),
+            padding: EdgeInsets.all(24.0),
+            color: Colors.indigo,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              
+              children: [
+                FaIcon(FontAwesomeIcons.google, color: Colors.white, size:35 ,),
+                Padding(padding: EdgeInsets.all(5.0),),
+                Text(
+                  'Registro',     
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30
+                ),      
+              ),
+              ],
+           ),
            onPressed: () async {
               var state = context.read<LoginState>();
-              await state.login(database.usuarioDAO);
-              if(state.getNoDateAlert()){
-                alert = Alerts(context: context, firstButtonText: "Ok", fun1: () { state.logout();Navigator.pop(context);}, title: "Alerta", message: "No has introducido tu fecha de nacimiento y no tienes cuenta previa");
-                alert.showAlertDialog();
-             }
+               state.login(database.usuarioDAO);
            },
          ),
        ),
