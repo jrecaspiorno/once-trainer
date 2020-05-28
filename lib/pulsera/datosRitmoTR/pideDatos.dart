@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 import 'package:health/health.dart';
+import 'package:provider/provider.dart';
 
 /*
 class MyPideDatos extends StatelessWidget {
@@ -65,6 +67,12 @@ class MyPideDatos extends StatelessWidget {
  */
 
 bool trataDatos (List<HealthDataPoint> _healthDataList){
+  //final database = Provider.of<AppDatabase>(context);
+  
+  //var state = context.watch<LoginState>();
+  //String id = state.getId();
+  //var user = await database.usuarioDAO.getUser(id)
+  //var fecha_n = user.edad;
   //var _healthDataList = getHealthRate(); // Revisar
 
   // FCmax = 220 - edad

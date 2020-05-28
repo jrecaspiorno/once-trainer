@@ -7,29 +7,32 @@ import 'package:provider/provider.dart';
 import 'package:xml/xml.dart' as xml;
 
 class Dolencias extends StatefulWidget {
+  String id;
+  Dolencias({@required this.id});
   @override
   State<StatefulWidget> createState() => _StateDolencias();
 }
 
 class _StateDolencias extends State<Dolencias> {
-
+  
 
 
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
+
     Future<void> getRestricciones(BuildContext context) async {
       //database.restriccionesDAO.deleteAllRes();
-      List<Restriccione> rests = await database.restriccionesDAO.getAllRest();
+      List<Restriccione> rests = await database.restriccionesDAO.getRestfromUser(widget.id);
       List<String> tags;
       if (rests.isEmpty) {
         String xmlS =
             await DefaultAssetBundle.of(context).loadString("Tags/tags.xml");
         var file = xml.parse(xmlS);
         var elements = file.findAllElements('tag');
-
+        
         rests = elements.map((elements) {
-          return Restriccione(tipo: elements.text, activo: false, idUser: "0");
+          return Restriccione(tipo: elements.text, activo: false, idUser: widget.id);
         }).toList();
         rests.length;
         for (int i = 0; i < rests.length; ++i) {
@@ -51,7 +54,7 @@ class _StateDolencias extends State<Dolencias> {
               future: getRestricciones(context),
               builder: (context, data) {
                 return StreamBuilder(
-                    stream: database.restriccionesDAO.wachAllRest(),
+                    stream: database.restriccionesDAO.wachAllRestFromUser(widget.id),
                     builder:
                         (context, AsyncSnapshot<List<Restriccione>> snapshot) {
                       final rests = snapshot.data ?? List();
@@ -88,7 +91,7 @@ class _StateDolencias extends State<Dolencias> {
                                             database.restriccionesDAO.updateRes(
                                                 Restriccione(
                                                     id: key,
-                                                    idUser: "0",
+                                                    idUser: widget.id,
                                                     activo: dolencia,
                                                     tipo: s));
                                           });

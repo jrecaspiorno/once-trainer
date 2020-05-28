@@ -13,6 +13,7 @@ class LoginState with ChangeNotifier{
   final _auth = FirebaseAuth.instance;
   bool _ok = true;
   bool _fecha_introducida = false;
+  String _id = "";
   bool _logedIn = false;
   bool _loading = true;
   FirebaseUser _user;
@@ -21,7 +22,7 @@ class LoginState with ChangeNotifier{
   bool isLogedIn() => _logedIn;
   FirebaseUser currentUser() => _user;
   bool getFecha() => _fecha_introducida;
-  
+  String getId() => _id;
   LoginState() {
     loginState();
   }
@@ -76,9 +77,10 @@ class LoginState with ChangeNotifier{
     _loading = false;
     if(_user != null) {
       _prefs.setBool('isLoggedIn', true);
-       UsuarioData data = UsuarioData(id: _googleSingIn.currentUser.id, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
-      insert(data,usuarioDAO);
       
+       UsuarioData data = UsuarioData(id: _user.uid, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
+      insert(data,usuarioDAO);
+      _id =_user.uid;
       await usuarioDAO.getUsers();
       if(_ok )
         _logedIn = true;
@@ -111,10 +113,12 @@ class LoginState with ChangeNotifier{
   void loginState() async {
     _prefs = await SharedPreferences.getInstance();
     if(_prefs.containsKey('isLoggedIn')){
+      _googleSingIn.signInSilently();
       _user = await _auth.currentUser();
-
+      
       _logedIn = _user != null;
       _loading = false;
+      _id = _user.uid;
       notifyListeners();
     }else{
       _loading = false;

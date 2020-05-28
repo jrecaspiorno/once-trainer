@@ -41,11 +41,14 @@ class MyProfile extends StatelessWidget {
   Future<List<UsuarioData>> getData(UsuarioDAO usuarioDAO) async {
     return usuarioDAO.getUsers();
   }
-
+  Future<UsuarioData> getCurrentsUser(UsuarioDAO usuarioDAO, String id) async{
+    return usuarioDAO.getUser(id);
+  }
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
-
+    var state = context.watch<LoginState>();
+    String id = state.getId();
     return MaterialApp(
       title: 'App actividad física',
       home: Scaffold(
@@ -61,11 +64,11 @@ class MyProfile extends StatelessWidget {
             backgroundColor: Colors.indigo,
           ),
           body: FutureBuilder(
-            future: getData(database.usuarioDAO),
+            future: getCurrentsUser(database.usuarioDAO, id),
             builder: (context,data){
               if(data.hasData){
-                List<UsuarioData> users = data.data;
-                UsuarioData mainUser = users[0];
+                
+                UsuarioData mainUser = data.data;
                 return ListView(
                   children: <Widget>[
                     Padding(
@@ -127,6 +130,8 @@ class MyButtonType extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<LoginState>();
+    String id = state.getId();
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -134,7 +139,7 @@ class MyButtonType extends StatelessWidget {
           const SizedBox(height: 20),
           _buildButton('Historial Actividades', HistorialView(), context),
           _buildButton('Historial Clínico', MyHistorial(), context),
-          _buildButton('Dolencias', Dolencias(),context),
+          _buildButton('Dolencias', Dolencias(id: id,),context),
 
 
         ],
