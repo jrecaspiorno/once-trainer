@@ -11,17 +11,19 @@ class LoginState with ChangeNotifier{
   GoogleSignIn _googleSingIn = GoogleSignIn( );
   SharedPreferences _prefs;
   final _auth = FirebaseAuth.instance;
-  bool _ok = true;
+  
   bool _fecha_introducida = false;
-  String _id = "";
   bool _logedIn = false;
   bool _loading = true;
+  bool _alertaActivada = false;
+  String _id = "";
   FirebaseUser _user;
   bool isLoading() => _loading;
   DateTime _date;
   bool isLogedIn() => _logedIn;
   FirebaseUser currentUser() => _user;
   bool getFecha() => _fecha_introducida;
+  bool getNoDateAlert() => _alertaActivada;
   String getId() => _id;
   LoginState() {
     loginState();
@@ -46,22 +48,18 @@ class LoginState with ChangeNotifier{
     notifyListeners();
   }
 
-  void insert(UsuarioData usuario, UsuarioDAO usuarioDAO ) async{
-    bool ok = false;
-    UsuarioData user1 = await usuarioDAO.getUser(usuario.id);
-    if(user1 == null && _date == null){
-      _fecha_introducida = false;
-      _ok = false;
-      logout();
-      
-    }
-    else if (user1 == null ){
+  void insert(UsuarioDAO usuarioDAO ) async{
+    
+    UsuarioData user1 = await usuarioDAO.getUser(_id);
+    
+     
+       UsuarioData usuario = UsuarioData(id: _id, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
+      _alertaActivada = false;
       usuarioDAO.insertUser(usuario);
-      _ok = true;
-    }
-    else{
-      _ok = true;
-    }
+      _logedIn = true;
+      notifyListeners();
+     
+    
     
   }
 
@@ -71,6 +69,7 @@ class LoginState with ChangeNotifier{
     notifyListeners();
     
     _user = await _handleSignIn();
+    _id = _user.uid;
     //_date = await _getBDay();
     
     print("Birthday from " + _user.displayName + " " + _date.toString()) ;
@@ -78,12 +77,19 @@ class LoginState with ChangeNotifier{
     if(_user != null) {
       _prefs.setBool('isLoggedIn', true);
       
-       UsuarioData data = UsuarioData(id: _user.uid, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
-      insert(data,usuarioDAO);
-      _id =_user.uid;
-      await usuarioDAO.getUsers();
-      if(_ok )
+      var ex = await usuarioDAO.getUser(_id);
+     
+     
+      
+      await usuarioDAO.getUser(_id);
+      if(ex == null) 
+        _fecha_introducida = true;
+      else{
         _logedIn = true;
+      }
+      notifyListeners();
+
+      
       
       notifyListeners();
     }else{
@@ -92,6 +98,7 @@ class LoginState with ChangeNotifier{
     }
   }
   void logout(){
+    _fecha_introducida = false;
     _prefs.clear();
     _googleSingIn.signOut();
     _logedIn = false;
@@ -107,18 +114,18 @@ class LoginState with ChangeNotifier{
     );
     final FirebaseUser user =(await _auth.signInWithCredential(credential)).user;
     print("signed in " + user.displayName);
+
     return user;
   }
 
   void loginState() async {
     _prefs = await SharedPreferences.getInstance();
     if(_prefs.containsKey('isLoggedIn')){
-      _googleSingIn.signInSilently();
       _user = await _auth.currentUser();
       
       _logedIn = _user != null;
-      _loading = false;
       _id = _user.uid;
+      _loading = false;
       notifyListeners();
     }else{
       _loading = false;

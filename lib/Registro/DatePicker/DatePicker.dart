@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Alertas/Alertas.dart';
+import 'package:flutterapp/Data/moor_database.dart';
 import 'package:googleapis/chat/v1.dart';
 import 'package:provider/provider.dart';
 import '../SignUpState.dart';
@@ -11,44 +13,80 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   DateTime _dateTime;
-
+  
   Widget _DateBuilder(BuildContext context) {
-    return Center(
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(20.0),
-        
-        children: <Widget>[
-
-
-          DateSel(),
-          Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          ActualSelDate(),
-          Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          ButtoAccept(),
-          Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          GotoLogin()
-        ],
-
-      ),
+    return Scaffold(
+        body: Center(
+  
+              child: Consumer<LoginState>(
+                  builder: (BuildContext context, LoginState value, Widget child){
+                    if(value.isLoading()){
+                        return CircularProgressIndicator();
+                    }else{
+                      return child;
+                    }
+                  },
+                  child: ListView(
+  
+                    shrinkWrap: true,
+    
+                    padding: const EdgeInsets.all(20.0),
+    
+                      
+                    children: <Widget>[    
+                      DateSel(),
+    
+                      Padding(
+    
+                        padding: EdgeInsets.all(40),
+    
+                      ),
+    
+                      ActualSelDate(),
+    
+                      Padding(
+    
+                        padding: EdgeInsets.all(40),
+    
+                      ),
+    
+                      ButtoAccept(context),
+    
+                      Padding(
+    
+                        padding: EdgeInsets.all(15),
+    
+                      ),
+    
+                      //GotoLogin()
+    
+                    ],
+  
+  
+  
+                ),
+              ),
+  
+            ),
     );
   }
 
   Widget DateSel(){
       return Center(
         child: RaisedButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+
           color: Colors.indigo,
+          padding: EdgeInsets.all(13.0),
+          
+          autofocus: true,
           child: Text(
             'Introduzca su fecha de nacimiento',
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
+              fontSize: 30,
+              
             ),
           ),
           onPressed: () {
@@ -79,8 +117,11 @@ class _DatePickerState extends State<DatePicker> {
     return Center(
       child: Text(_dateTime == null ? 'Todavía no has eligido fecha' : DateTimeToString(_dateTime),
         style: TextStyle(
-          fontSize: 20
-      ),),
+          fontSize: 30,
+          color: Colors.indigo
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
@@ -91,24 +132,30 @@ class _DatePickerState extends State<DatePicker> {
     return day + "/" + month + "/" + year;
   }
 
-  Widget ButtoAccept(){
+  Widget ButtoAccept(BuildContext context){
+    final database = Provider.of<AppDatabase>(context); 
+    Alerts alert;
     return Center(
       child: RaisedButton(
-
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: EdgeInsets.all(17.0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         color: Colors.indigo,
         child: Text(
           'Aceptar',
           style: TextStyle(
             color: Colors.white,
+            fontSize: 30
           ),
         ),
         onPressed: (){
-          if(_dateTime != null)
+          if(_dateTime != null){
             context.read<LoginState>().insertarFecha(_dateTime);
-            //Provider.of<LoginState>(context, listen: false);
+            context.read<LoginState>().insert(database.usuarioDAO);
+          }
           else{
-
+            alert = Alerts(context: context, firstButtonText: "Ok", fun1:() => Navigator.of(context).pop() , title: "Alerta", message: "Seleccione su fecha de nacimiento",);
+            alert.showAlertDialog();
+            //alert.OneOptionAlert("Ok", context, fun1, "Alerta", "Seleccione su fecha de nacimiento");
           }
         },
       ),

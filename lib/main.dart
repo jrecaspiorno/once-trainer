@@ -55,10 +55,10 @@ class _MyAppState extends State<MyApp> {
                 return Menu();
               }else{
                 if(state.getFecha()) {
-                  return LoginPage();
-                }
-                else{
                   return DatePicker();
+                }
+                else {
+                  return LoginPage();
                 }
 
 
