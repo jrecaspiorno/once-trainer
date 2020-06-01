@@ -10,6 +10,10 @@ import 'package:googleapis/fitness/v1.dart';
 import 'package:fit_kit/fit_kit.dart';
 import 'package:health/health.dart';
 
+import 'package:flutterapp/Data/moor_database.dart';
+import 'package:provider/provider.dart';
+import 'package:flutterapp/Registro/SignUpState.dart';
+
 class MyRitmo extends StatefulWidget {
 
   @override
@@ -53,8 +57,19 @@ class _MyRitmoCardiaco extends  State<MyRitmo>{
                   .getHealthDataFromType(startDate, endDate, type);
               _healthDataList.addAll(healthData);
               //MyPideDatos(_healthDataList);
-              exceso = trataDatos(_healthDataList);
-              print(exceso);
+
+              final database = Provider.of<AppDatabase>(context, listen: false);
+
+              var state = context.read<LoginState>();
+              String id = state.getId();
+              var user = await database.usuarioDAO.getUser(id);
+              var fecha_n = user.edad.year; // En teoria pasamos solo el año
+              //print(fecha_n);
+              var edad = endDate.year - fecha_n;
+              //print(edad);
+
+              exceso = trataDatos(_healthDataList, edad);
+              //print(exceso);
               //if(exceso) alert;
             }
             /*

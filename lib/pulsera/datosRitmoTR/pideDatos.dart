@@ -66,7 +66,7 @@ class MyPideDatos extends StatelessWidget {
 
  */
 
-bool trataDatos (List<HealthDataPoint> _healthDataList){
+bool trataDatos (List<HealthDataPoint> _healthDataList, var edad){
   //final database = Provider.of<AppDatabase>(context);
   
   //var state = context.watch<LoginState>();
@@ -79,7 +79,7 @@ bool trataDatos (List<HealthDataPoint> _healthDataList){
   // Ej: 50 años, serian 170 latidos por minuto
 
   //var it = _healthDataList.iterator;
-  print(_healthDataList);
+  //print(_healthDataList);
 
   HealthDataPoint aux;
   int cont = 0, poda = 1;
@@ -104,9 +104,10 @@ bool trataDatos (List<HealthDataPoint> _healthDataList){
   }
   */
   media = (suma / cont);
-  print(media);
-  // if (media > (220 - edad)) // Edad se saca de la base de datos
-  if(media > 10)
+  //print(media);
+
+  if (media > (220 - edad)) // Edad se saca de la base de datos
+  //if(media > 10)
     return true;
   return false;
 }

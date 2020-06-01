@@ -41,7 +41,7 @@ class _MenuState extends State<Menu> {
                 _buildButton('Lista Ejercicios', MyList(), context),
                 _buildButton('Perfil', MyProfile(), context),
                 //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
-                //_buildButton('Prueba Ritmo', MyRitmo(), context),
+                _buildButton('Prueba Ritmo', MyRitmo(), context),
             ],
       )),
     );
