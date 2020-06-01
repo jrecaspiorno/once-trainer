@@ -57,7 +57,10 @@ class UsuarioDAO extends DatabaseAccessor<AppDatabase> with _$UsuarioDAOMixin {
   Future deleteUser(Insertable<UsuarioData> user) =>
       delete(usuario).delete(user);
   Future<UsuarioData> getUser(String id) {
-    return (select(usuario)..where((t) => t.id.equals(id))).getSingle();
+        return (select(usuario)..where((t) => t.id.equals(id))).getSingle();
+  }
+  Future updateEdad(String id, DateTime edad){
+    return (update(usuario)..where((t) => t.id.like(id))).write(UsuarioData(edad: edad));
   }
 }
 

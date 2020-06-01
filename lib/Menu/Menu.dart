@@ -34,8 +34,8 @@ class _MenuState extends State<Menu> {
   Widget MenuView(BuildContext context) {
     return Center(
       child: Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          child: ListView(
+            padding: EdgeInsets.all(30),
             children: <Widget>[
                 _buildButton('Recomendaciones', MyRecomList(), context),
                 _buildButton('Lista Ejercicios', MyList(), context),

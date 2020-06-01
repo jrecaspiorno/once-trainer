@@ -39,7 +39,7 @@ class Alerts {
         backgroundColor: Colors.indigo,
         actions: [
           firstButton,
-
+    
         ],
       );
 
