@@ -104,10 +104,10 @@ bool trataDatos (List<HealthDataPoint> _healthDataList, var edad){
   }
   */
   media = (suma / cont);
-  //print(media);
+  print(media);
 
-  if (media > (220 - edad)) // Edad se saca de la base de datos
-  //if(media > 10)
+  //if (media > (220 - edad)) // Edad se saca de la base de datos
+  if(media > 10)
     return true;
   return false;
 }
