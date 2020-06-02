@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
+import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
@@ -61,8 +62,7 @@ bool cambiaValor(){
   Widget build(BuildContext context) {
 
     Ejercicio ej = widget.ejercicio;
-    EjercicioTiempo dummy;
-    bool timeType = ej.runtimeType == dummy.runtimeType;
+
     return MaterialApp(
       title: 'App actividad física',
       home: Scaffold(
@@ -87,7 +87,7 @@ bool cambiaValor(){
                 //*/
                 //if(exceso) MyRitmo(),
                 const SizedBox(height: 20,),
-                tipoEj(timeType),
+                widgetEj(ej),
 
                 const SizedBox(height: 20,),
 
@@ -110,18 +110,18 @@ bool cambiaValor(){
       ),
     );
   }
-  Widget tipoEj(bool timeType){
-    if(timeType) {
+  Widget widgetEj(Ejercicio ejercicio){
+    if(ejercicio is EjercicioTiempo) {
       EjercicioTiempo ejt = widget.ejercicio;
       return Container(
         child: AppTimer(time: ejt.time),
       );
     }else{
       return Container(
-      child: Text("Ej Repeticiones")
+          child: RepCounter(),
       );
     };
-    }
+  }
 }
 
 
