@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
+import 'package:flutterapp/Perfil/EditarPerfil.dart';
 import 'package:flutterapp/Perfil/historialClinico.dart';
 import 'package:flutterapp/Registro/GoogleSignUp.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
@@ -8,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../main.dart';
+
 import 'Historial.dart';
 
 class MyProfile extends StatelessWidget {
@@ -56,7 +58,7 @@ class MyProfile extends StatelessWidget {
           appBar: AppBar(
             leading: BackButton(
               onPressed: () {
-                Navigator.pop(context);
+                 Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp()));
               },
             ),
 
@@ -140,7 +142,7 @@ class MyButtonType extends StatelessWidget {
           _buildButton('Historial Actividades', HistorialView(), context),
           _buildButton('Historial Clínico', MyHistorial(), context),
           _buildButton('Dolencias', Dolencias(id: id,),context),
-
+          _buildButton('Editar F.Nacimiento', EditProfile(id: id,), context)
 
         ],
       ),

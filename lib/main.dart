@@ -54,13 +54,7 @@ class _MyAppState extends State<MyApp> {
               if(state.isLogedIn()){
                 return Menu();
               }else{
-                if(state.getFecha()) {
-                  return DatePicker();
-                }
-                else {
-                  return LoginPage();
-                }
-
+                return state.getFecha() ? DatePicker() : LoginPage();
 
               }
             }
