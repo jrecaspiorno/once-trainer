@@ -52,10 +52,11 @@ class LoginState with ChangeNotifier{
     
     UsuarioData user1 = await usuarioDAO.getUser(_id);
     
-     
+
        UsuarioData usuario = UsuarioData(id: _id, nombre: _user.displayName, edad: _date, photoUrl: _user.photoUrl, email: _user.email);
       _alertaActivada = false;
       usuarioDAO.insertUser(usuario);
+    _prefs.setBool('completeLogin', true);
       _logedIn = true;
       notifyListeners();
      
@@ -64,7 +65,7 @@ class LoginState with ChangeNotifier{
   }
 
   void login(UsuarioDAO usuarioDAO) async{
-    
+    _prefs.setBool('completeLogin', false);
     _loading = true;
     notifyListeners();
     
@@ -76,6 +77,7 @@ class LoginState with ChangeNotifier{
     _loading = false;
     if(_user != null) {
       _prefs.setBool('isLoggedIn', true);
+
       
       var ex = await usuarioDAO.getUser(_id);
      
@@ -120,14 +122,15 @@ class LoginState with ChangeNotifier{
 
   void loginState() async {
     _prefs = await SharedPreferences.getInstance();
-    if(_prefs.containsKey('isLoggedIn')){
+    if(_prefs.containsKey('isLoggedIn') && _prefs.getBool('completeLogin')){
       _user = await _auth.currentUser();
       
       _logedIn = _user != null;
       _id = _user.uid;
       _loading = false;
       notifyListeners();
-    }else{
+    }
+    else{
       _loading = false;
       notifyListeners();
     }
