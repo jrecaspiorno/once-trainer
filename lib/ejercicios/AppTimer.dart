@@ -53,22 +53,23 @@ class _AppTimerState extends State<AppTimer>{
     debugPrint(time4Timer.toString());
     Timer.periodic(Duration(
         seconds: 1), (Timer t){
-      setState(() {
-        if(time4Timer < 1 || checktimer == false){
-          if(time4Timer < 1 ) {
+      if(mounted) {
+        setState(() {
+          if (time4Timer < 1 || checktimer == false) {
+            if (time4Timer < 1) {
+              stopispressed = true;
+              resetispressd = false;
+            }
 
-            stopispressed = true;
-            resetispressd = false;
+            t.cancel();
+            checktimer = true;
           }
-
-          t.cancel();
-          checktimer = true;
-        }
-        else{
-          time4Timer = time4Timer -1;
-        }
-        stoptimedisplay = TimetoString(time4Timer);
-      });
+          else {
+            time4Timer = time4Timer - 1;
+          }
+          stoptimedisplay = TimetoString(time4Timer);
+        });
+      }
     });
 
   }

@@ -66,37 +66,31 @@ class _StateDolencias extends State<Dolencias> {
                           int key = map.keys.elementAt(index);
                           String s = map.values.elementAt(index).s;
                           return Semantics(
-                            value: TextoLabel(map[key].b),
-                            onTapHint: TextoLabel(map[key].b),
+                            //value: TextoLabel(map[key].b),
+                            //onTapHint: TextoLabel(map[key].b),
                             child: Card(
                               child: Container(
                                 padding: EdgeInsets.all(1),
                                 child: Column(
                                   children: <Widget>[
-                                    Tooltip(
-                                      waitDuration: Duration(
-                                        seconds: 20,
-                                      ),
-                                      message: TextoLabel(map[key].b),
-                                      child: CheckboxListTile(
-                                        value: map[key].b,
-                                        title: Text(
-                                          "$s",
-                                          style: TextStyle(
-                                            fontSize: 25,
-                                          ),
+                                    CheckboxListTile(
+                                      value: map[key].b,
+                                      title: Text(
+                                        "$s",
+                                        style: TextStyle(
+                                          fontSize: 25,
                                         ),
-                                        onChanged: (bool dolencia) {
-                                          setState(() {
-                                            database.restriccionesDAO.updateRes(
-                                                Restriccione(
-                                                    id: key,
-                                                    idUser: widget.id,
-                                                    activo: dolencia,
-                                                    tipo: s));
-                                          });
-                                        },
                                       ),
+                                      onChanged: (bool dolencia) {
+                                        setState(() {
+                                          database.restriccionesDAO.updateRes(
+                                              Restriccione(
+                                                  id: key,
+                                                  idUser: widget.id,
+                                                  activo: dolencia,
+                                                  tipo: s));
+                                        });
+                                      },
                                     ),
                                   ],
                                 ),
