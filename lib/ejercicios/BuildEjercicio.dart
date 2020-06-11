@@ -1,4 +1,4 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
@@ -53,6 +53,23 @@ bool cambiaValor(){
   });});
 }
 
+void addEjercicio() async{
+  final database = Provider.of<AppDatabase>(context, listen: false);
+  final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  final uid = user.uid;
+  Historial hist = new Historial(id: null,
+      dificultad: 0,
+      ejercicio: widget.ejercicio.name,
+      fecha: DateTime.now() ,
+      duracion: 30,
+      calorias: widget.ejercicio.calories,
+      idUser: uid,
+      activo: true
+  );
+  database.historialDAO.insertHistorial(hist);
+  return;
+}
+
   void initState() {
     super.initState();
     cambiaValor();
@@ -60,7 +77,6 @@ bool cambiaValor(){
 
   @override
   Widget build(BuildContext context) {
-
     Ejercicio ej = widget.ejercicio;
 
     return MaterialApp(
@@ -103,7 +119,16 @@ bool cambiaValor(){
                   ),
 
                 ),
+              new RaisedButton(
+                color:Colors.indigo,
+                onPressed: addEjercicio,
+                child: new Text("Hecho",style: TextStyle(
+                color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),),
 
+              ),
               ],
             )
         ),

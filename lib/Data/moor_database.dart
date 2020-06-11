@@ -113,6 +113,7 @@ class HistorialDAO extends DatabaseAccessor<AppDatabase>
   Future insertHistorial(Insertable<Historial> hist) => into(historials).insert(hist);
   Stream<List<Historial>> watchallHist()=> select(historials).watch();
   Future deleteHist() => delete(historials).go();
+  Future deleteHistorial(Historial Hist) => delete(historials).delete(Hist);
 }
 
 class RestWithUser {
