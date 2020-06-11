@@ -7,7 +7,8 @@ class Usuario extends Table {
   TextColumn get nombre => text().withLength(min: 1)();
   DateTimeColumn get edad => dateTime()();
   TextColumn get photoUrl => text().withLength(min: 1)();
- TextColumn get email => text().withLength(min: 1)();
+  TextColumn get email => text().withLength(min: 1)();
+  TextColumn get backupid => text().withLength(min: 1).nullable()();
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -62,6 +63,9 @@ class UsuarioDAO extends DatabaseAccessor<AppDatabase> with _$UsuarioDAOMixin {
   Future updateEdad(String id, DateTime edad){
     return (update(usuario)..where((t) => t.id.like(id))).write(UsuarioData(edad: edad));
   }
+  Future insertBackIdIntoUser(String bid, String uid){
+    return (update(usuario)..where((t) => t.id.like(uid))).write(UsuarioData(backupid: bid));
+  }
 }
 
 @UseDao(tables: [Restricciones, Usuario])
@@ -101,7 +105,11 @@ class RestriccionesDAO extends DatabaseAccessor<AppDatabase>
   Future updateRes(Insertable<Restriccione> res) =>
       update(restricciones).replace(res);
   Future<List<Restriccione>> getAllRest() =>select(restricciones).get();
-
+  Future insertAllRes(List<Insertable<Restriccione>> res) async{
+    await batch((batch) {
+      batch.insertAll(restricciones, res);
+    });
+  }
 }
 
 @UseDao(tables: [Historials, Usuario])
