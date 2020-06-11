@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget{
            ),
            onPressed: () async {
               var state = context.read<LoginState>();
-               state.login(database.usuarioDAO);
+               state.login(database, context);
            },
          ),
        ),

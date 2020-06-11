@@ -13,12 +13,14 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
   final DateTime edad;
   final String photoUrl;
   final String email;
+  final String backupid;
   UsuarioData(
       {@required this.id,
       @required this.nombre,
       @required this.edad,
       @required this.photoUrl,
-      @required this.email});
+      @required this.email,
+      this.backupid});
   factory UsuarioData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -34,6 +36,8 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}photo_url']),
       email:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}email']),
+      backupid: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}backupid']),
     );
   }
   factory UsuarioData.fromJson(Map<String, dynamic> json,
@@ -45,6 +49,7 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
       edad: serializer.fromJson<DateTime>(json['edad']),
       photoUrl: serializer.fromJson<String>(json['photoUrl']),
       email: serializer.fromJson<String>(json['email']),
+      backupid: serializer.fromJson<String>(json['backupid']),
     );
   }
   @override
@@ -56,6 +61,7 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
       'edad': serializer.toJson<DateTime>(edad),
       'photoUrl': serializer.toJson<String>(photoUrl),
       'email': serializer.toJson<String>(email),
+      'backupid': serializer.toJson<String>(backupid),
     };
   }
 
@@ -71,6 +77,9 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
           : Value(photoUrl),
       email:
           email == null && nullToAbsent ? const Value.absent() : Value(email),
+      backupid: backupid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(backupid),
     );
   }
 
@@ -79,13 +88,15 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
           String nombre,
           DateTime edad,
           String photoUrl,
-          String email}) =>
+          String email,
+          String backupid}) =>
       UsuarioData(
         id: id ?? this.id,
         nombre: nombre ?? this.nombre,
         edad: edad ?? this.edad,
         photoUrl: photoUrl ?? this.photoUrl,
         email: email ?? this.email,
+        backupid: backupid ?? this.backupid,
       );
   @override
   String toString() {
@@ -94,7 +105,8 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
           ..write('nombre: $nombre, ')
           ..write('edad: $edad, ')
           ..write('photoUrl: $photoUrl, ')
-          ..write('email: $email')
+          ..write('email: $email, ')
+          ..write('backupid: $backupid')
           ..write(')'))
         .toString();
   }
@@ -102,8 +114,12 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
   @override
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
-      $mrjc(nombre.hashCode,
-          $mrjc(edad.hashCode, $mrjc(photoUrl.hashCode, email.hashCode)))));
+      $mrjc(
+          nombre.hashCode,
+          $mrjc(
+              edad.hashCode,
+              $mrjc(photoUrl.hashCode,
+                  $mrjc(email.hashCode, backupid.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -112,7 +128,8 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
           other.nombre == this.nombre &&
           other.edad == this.edad &&
           other.photoUrl == this.photoUrl &&
-          other.email == this.email);
+          other.email == this.email &&
+          other.backupid == this.backupid);
 }
 
 class UsuarioCompanion extends UpdateCompanion<UsuarioData> {
@@ -121,12 +138,14 @@ class UsuarioCompanion extends UpdateCompanion<UsuarioData> {
   final Value<DateTime> edad;
   final Value<String> photoUrl;
   final Value<String> email;
+  final Value<String> backupid;
   const UsuarioCompanion({
     this.id = const Value.absent(),
     this.nombre = const Value.absent(),
     this.edad = const Value.absent(),
     this.photoUrl = const Value.absent(),
     this.email = const Value.absent(),
+    this.backupid = const Value.absent(),
   });
   UsuarioCompanion.insert({
     @required String id,
@@ -134,6 +153,7 @@ class UsuarioCompanion extends UpdateCompanion<UsuarioData> {
     @required DateTime edad,
     @required String photoUrl,
     @required String email,
+    this.backupid = const Value.absent(),
   })  : id = Value(id),
         nombre = Value(nombre),
         edad = Value(edad),
@@ -144,13 +164,15 @@ class UsuarioCompanion extends UpdateCompanion<UsuarioData> {
       Value<String> nombre,
       Value<DateTime> edad,
       Value<String> photoUrl,
-      Value<String> email}) {
+      Value<String> email,
+      Value<String> backupid}) {
     return UsuarioCompanion(
       id: id ?? this.id,
       nombre: nombre ?? this.nombre,
       edad: edad ?? this.edad,
       photoUrl: photoUrl ?? this.photoUrl,
       email: email ?? this.email,
+      backupid: backupid ?? this.backupid,
     );
   }
 }
@@ -204,8 +226,17 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
     return GeneratedTextColumn('email', $tableName, false, minTextLength: 1);
   }
 
+  final VerificationMeta _backupidMeta = const VerificationMeta('backupid');
+  GeneratedTextColumn _backupid;
   @override
-  List<GeneratedColumn> get $columns => [id, nombre, edad, photoUrl, email];
+  GeneratedTextColumn get backupid => _backupid ??= _constructBackupid();
+  GeneratedTextColumn _constructBackupid() {
+    return GeneratedTextColumn('backupid', $tableName, true, minTextLength: 1);
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, nombre, edad, photoUrl, email, backupid];
   @override
   $UsuarioTable get asDslTable => this;
   @override
@@ -245,6 +276,10 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
     } else if (isInserting) {
       context.missing(_emailMeta);
     }
+    if (d.backupid.present) {
+      context.handle(_backupidMeta,
+          backupid.isAcceptableValue(d.backupid.value, _backupidMeta));
+    }
     return context;
   }
 
@@ -273,6 +308,9 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
     }
     if (d.email.present) {
       map['email'] = Variable<String, StringType>(d.email.value);
+    }
+    if (d.backupid.present) {
+      map['backupid'] = Variable<String, StringType>(d.backupid.value);
     }
     return map;
   }
