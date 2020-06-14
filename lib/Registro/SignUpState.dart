@@ -47,6 +47,7 @@ class LoginState with ChangeNotifier {
   //   return (await api.people.get(PeopleApi.UserBirthdayReadScope)).birthdays.first.date;
 
   // }
+  void setDate(DateTime date) => _date = date;
   void setLogedIn(){
     _logedIn = true;
     _loading = false;
@@ -54,6 +55,7 @@ class LoginState with ChangeNotifier {
     _prefs.setBool('completeLogin', true);
     notifyListeners();
   }
+  DateTime getFNacimiento() => _date;
   void setFecahIntroducida() {
     _fecha_introducida = true;
     notifyListeners();

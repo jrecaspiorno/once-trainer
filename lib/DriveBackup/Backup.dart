@@ -60,10 +60,13 @@ class Backup {
             rs.add(r);
           });
         
-        Historial hist = data["3"];
+        List<Historial> hist = [];
+        aux = data["3"];
+        if(aux != null)
+          aux.forEach((element) {Historial h = Historial.fromJson(element); hist.add(h);});
         await database.usuarioDAO.insertUser(u);
         if (rs.isNotEmpty) await database.restriccionesDAO.insertAllRes(rs);
-        if (hist != null) await database.historialDAO.insertHistorial(hist);
+        if (hist.isNotEmpty) await database.historialDAO.insertAllHist(hist);
         state.setLogedIn();
         state.setExit();
         return true;
@@ -89,7 +92,7 @@ class Backup {
     UsuarioData user = await database.usuarioDAO.getUser(id);
     List<Restriccione> rests =
         await database.restriccionesDAO.getRestfromUser(id);
-    Historial hist;
+    List<Historial> hist = await database.historialDAO.getHistfromUser(id);
 
     DatabasetoJson data = DatabasetoJson(user: user, rests: rests, hist: hist);
     final loc = p.join(location.path, fileName);
@@ -126,7 +129,7 @@ class Backup {
 class DatabasetoJson {
   UsuarioData user;
   List<Restriccione> rests;
-  Historial hist;
+  List<Historial> hist;
   DatabasetoJson({
     @required this.user,
     @required this.rests,
@@ -137,19 +140,20 @@ class DatabasetoJson {
     Map<String, dynamic> userm = {"1": user.toJson()};
 
     List<dynamic> restm = List();
+    List<dynamic> histl = List();
     Map<String, dynamic> mast = Map();
     mast.addAll(userm);
-    if (hist != null) {
-      Map<String, dynamic> histsm = {"3": hist};
-      mast.addAll(histsm);
-    }
+    
     if (rests.length != 0) {
-      rests.forEach((element) {
-        restm.add(element.toJson());
-      });
+      rests.forEach((element) => restm.add(element.toJson()));
       Map<String, dynamic> restmd = {"2": restm};
 
       mast.addAll(restmd);
+    }
+    if (hist.length != 0) {
+      hist.forEach((element) => histl.add(element.toJson()));
+      Map<String, dynamic> histsm = {"3": histl};
+      mast.addAll(histsm);
     }
 
     return mast;

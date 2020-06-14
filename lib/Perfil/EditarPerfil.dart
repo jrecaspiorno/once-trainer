@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
+import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutterapp/Data/moor_database.dart';
@@ -73,6 +74,10 @@ class _EditProfileState extends State<EditProfile> {
         ),
         onPressed: () {
           dao.updateEdad(widget.id, _dateTime);
+          var state = context.read<LoginState>();
+          state.setDate(_dateTime);
+          print(state.getFNacimiento());
+          debugPrint(state.getFecha().toString());
            Navigator.push(context,MaterialPageRoute(builder: (context) => MyProfile()));
         });
   }

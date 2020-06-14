@@ -24,6 +24,11 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
+    final uDao = context.watch<AppDatabase>().usuarioDAO;
+    var state = Provider.of<LoginState>(context, listen: false);
+    String  id = state.getId();
+    var user =  uDao.getUser(id);
+    user.then((value) => state.setDate(value.edad));
     return MaterialApp(
 
       home: Scaffold(
@@ -57,6 +62,7 @@ class _MenuState extends State<Menu> {
 
   Widget botonBackup(BuildContext context) {
     var state = Provider.of<LoginState>(context, listen: false);
+   
     final database = Provider.of<AppDatabase>(context);
     Backup backup = Backup(header:state.getHeader(),id:state.getId(), database: database);
     Alerts alertOK = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> Navigator.pop(context), title: "Backup", message: "El bakcup ha sido realizado correctamente");

@@ -182,10 +182,7 @@ class _DatePickerState extends State<DatePicker> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Fecha"),
-          backgroundColor: Colors.indigo,
-        ),
+        
         body: _DateBuilder(context));
   }
 }
