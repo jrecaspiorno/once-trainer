@@ -111,20 +111,25 @@ class LoginState with ChangeNotifier {
       
       _prefs.setBool('isLoggedIn', true);
       Backup b = Backup(header: header, id: _id, database:database , context: context);
-      await b.getDataFronDrive();
+      
       var z = await database.usuarioDAO.getUser(_id);
+      
+      
       
       if ( z == null){
          
+        await b.getDataFronDrive();
         _fecha_introducida = true;
       }
       else {
+         _prefs.setBool('completeLogin', true);
         _fecha_introducida = false;
         _logedIn = true;
       }
 
       notifyListeners();
     } else {
+     
       _logedIn = false;
       notifyListeners();
     }
@@ -133,6 +138,7 @@ class LoginState with ChangeNotifier {
   void logout() {
     _fecha_introducida = false;
     _prefs.clear();
+
     _googleSingIn.signOut();
     _logedIn = false;
     notifyListeners();

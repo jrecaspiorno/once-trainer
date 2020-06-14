@@ -33,7 +33,7 @@ class MyProfile extends StatelessWidget {
           onPressed: (){
             
             context.read<LoginState>().logout();
-            Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
+            Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp()));
           },
 
         )

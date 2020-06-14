@@ -62,20 +62,14 @@ class _MenuState extends State<Menu> {
 
   Widget botonBackup(BuildContext context) {
     var state = Provider.of<LoginState>(context, listen: false);
-   
     final database = Provider.of<AppDatabase>(context);
     Backup backup = Backup(header:state.getHeader(),id:state.getId(), database: database);
-    Alerts alertOK = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> Navigator.pop(context), title: "Backup", message: "El bakcup ha sido realizado correctamente");
+    Alerts alertOK = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> MaterialPageRoute(builder: (context) => Menu()), title: "Backup", message: "El bakcup ha sido realizado correctamente");
     Alerts alertKO = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> Navigator.pop(context), title: "Backup Error", message: "Ha habido un error realizando el backup");
     Alerts alerta = Alerts(context: context, firstButtonText: "Cancelar",
       secondButtonText: "Ok" ,
-      fun1: ()=> Navigator.pop(context),
-      fun2: ()=> backup.uploadDataToDrive().then((value) {
-        Navigator.pop(context);
-        if(value) alertOK.showAlertDialog() ;
-        else alertKO.showAlertDialog();
-
-      }),
+      fun1: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => Menu())),
+      fun2: (){backup.uploadDataToDrive(); Navigator.pop(context);},
       title: "Backup", message: "¿Desea realizar un backup?"
     );
 
