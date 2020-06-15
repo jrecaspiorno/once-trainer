@@ -81,9 +81,7 @@ bool cambiaValor(){
             child: Column(
               children: <Widget>[
                 //*
-                  !exceso
-                  ? Text("", style: TextStyle(fontSize: 0))
-                  : MyRitmo(),
+                //  !exceso ? Text("", style: TextStyle(fontSize: 0)) : MyRitmo(),
                 //*/
                 //if(exceso) MyRitmo(),
                 const SizedBox(height: 20,),
