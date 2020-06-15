@@ -79,7 +79,7 @@ bool trataDatos (List<HealthDataPoint> _healthDataList, var edad){
   // Ej: 50 años, serian 170 latidos por minuto
 
   //var it = _healthDataList.iterator;
-  //print(_healthDataList);
+  print(_healthDataList);
 
   HealthDataPoint aux;
   int cont = 0, poda = 1;

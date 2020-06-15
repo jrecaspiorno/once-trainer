@@ -28,7 +28,7 @@ class Alerts {
       Widget firstButton = FlatButton(
         child: Text(firstButtonText, style: TextStyle(color:Colors.white, fontSize: 20),),
         onPressed:  () {
-          fun1.call();
+          fun1();
         },
       );
 
@@ -45,6 +45,7 @@ class Alerts {
 
       // show the dialog
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return alert;
@@ -60,14 +61,16 @@ class Alerts {
       Widget firstButton = FlatButton(
         child: Text(firstButtonText, style: TextStyle(color:Colors.white, fontSize: 20),),
       
-        onPressed:fun1,
+        onPressed:(){
+          fun1();
+        },
       );
 
       Widget secondButton = FlatButton(
         child: Text(secondButtonText, style: TextStyle(color:Colors.white, fontSize: 20),),
 
         onPressed:  () {
-          fun2;
+          fun2();
         },
       );
 
@@ -86,6 +89,7 @@ class Alerts {
 
       // show the dialog
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return alert;

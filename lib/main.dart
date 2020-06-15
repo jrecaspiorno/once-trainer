@@ -14,6 +14,7 @@ import 'Menu/Menu.dart';
 import 'Registro/DatePicker/DatePicker.dart';
 
 import 'Registro/Registro.dart';
+import 'Provider/MyProvider.dart';
 
 Future<void> main() async {
   debugPrint = (String message, {int wrapWidth}) {};
