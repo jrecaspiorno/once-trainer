@@ -13,7 +13,7 @@ import 'package:flutterapp/pulsera/datosHistorial/tablaDatos.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 import 'package:provider/provider.dart';
 
-import '../lista_ejer.dart';
+import '../ejercicios/lista_ejer.dart';
 import '../recomendados.dart';
 
 class Menu extends StatefulWidget {
