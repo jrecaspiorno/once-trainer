@@ -150,7 +150,7 @@ class _DatePickerState extends State<DatePicker> {
         onPressed: (){
           if(_dateTime != null){
             context.read<LoginState>().insertarFecha(_dateTime);
-            context.read<LoginState>().insert(database.usuarioDAO);
+            context.read<LoginState>().insert(database);
           }
           else{
             alert = Alerts(context: context, firstButtonText: "Ok", fun1:() => Navigator.of(context).pop() , title: "Alerta", message: "Seleccione su fecha de nacimiento",);
@@ -182,10 +182,7 @@ class _DatePickerState extends State<DatePicker> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Fecha"),
-          backgroundColor: Colors.indigo,
-        ),
+        
         body: _DateBuilder(context));
   }
 }

@@ -62,47 +62,53 @@ class _repCountState extends State<repcount> {
             new Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new FloatingActionButton(
-                  heroTag: "resetser",
+                new RaisedButton(
                   onPressed: _resetser,
-                  child: new Icon(
-                    Icons.refresh,
+                  color: Colors.indigo,
+                  child: new Text("Resetear \n Series", style: TextStyle(
                     color: Colors.white,
-                  ),
-                  backgroundColor: Colors.indigo,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),),
                 ),
                 new Text('$sercount', style: new TextStyle(fontSize: 60.0)),
-                new FloatingActionButton(
-                  heroTag: "addser",
+                new RaisedButton(
                   onPressed: _addser,
-                  child: new Icon(
-                      Icons.add_circle,
-                      color: Colors.white),
-                  backgroundColor: Colors.indigo,
-                ),
-              ],
+                  color: Colors.indigo,
+
+                  child: new Text("Serie \n Completada", style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),),
+                )
+
+                  ],
             ),
             new Text("Repeticiones",style: new TextStyle(fontSize: 30.0)),
             new Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new FloatingActionButton(
-                  heroTag: "resetrep",
+                new RaisedButton(
                   onPressed: _resetrep,
-                  child: new Icon(
-                    Icons.refresh,
+                  color: Colors.indigo,
+
+                  child: new Text("Resetear \n Repeticiones", style: TextStyle(
                     color: Colors.white,
-                  ),
-                  backgroundColor: Colors.indigo,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),),
                 ),
                 new Text('$repcount', style: new TextStyle(fontSize: 60.0)),
-                new FloatingActionButton(
-                  heroTag: "addrep",
+                new RaisedButton(
                   onPressed: _addrep,
-                  child: new Icon(
-                      Icons.add_circle,
-                      color: Colors.white),
-                  backgroundColor: Colors.indigo,
+                  color: Colors.indigo,
+
+                  child: new Text("Repeticion \n Completada", style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),),
                 ),
               ],
             ),

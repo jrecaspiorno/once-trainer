@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
 import 'package:flutterapp/Perfil/EditarPerfil.dart';
 import 'package:flutterapp/Perfil/historialClinico.dart';
@@ -58,7 +59,7 @@ class MyProfile extends StatelessWidget {
           appBar: AppBar(
             leading: BackButton(
               onPressed: () {
-                 Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp()));
+                 Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
               },
             ),
 
