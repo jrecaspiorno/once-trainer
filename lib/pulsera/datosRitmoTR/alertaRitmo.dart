@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-
-class MyRitmo extends StatefulWidget {
-
-  @override
-  _MyRitmoCardiaco createState() => _MyRitmoCardiaco();
-}
-
-class _MyRitmoCardiaco extends  State<MyRitmo> {
+class MyAlerta extends  StatelessWidget {
   /*void initState() {
     super.initState();
     //getHealthRate();
   }*/
-
   Widget build(BuildContext context) {
+
+
     return AlertDialog(
       title: Text(
           "Alerta!", style: TextStyle(color: Colors.white, fontSize: 30)),
