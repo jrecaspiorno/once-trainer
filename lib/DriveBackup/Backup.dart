@@ -68,14 +68,12 @@ class Backup {
         if (rs.isNotEmpty) await database.restriccionesDAO.insertAllRes(rs);
         if (hist.isNotEmpty) await database.historialDAO.insertAllHist(hist);
         state.setLogedIn();
-        state.setExit();
         return true;
       });
       print(response.toString());
       
     }
     
-    state.setExit();
     return false;
   }
 

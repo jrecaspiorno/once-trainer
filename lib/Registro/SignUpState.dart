@@ -19,7 +19,6 @@ class LoginState with ChangeNotifier {
   Map<String, String> header;
   final _auth = FirebaseAuth.instance;
   var  _idToken;
-  bool _exit = false;
   bool _fecha_introducida = false;
   bool _logedIn = false;
   bool _loading = true;
@@ -38,15 +37,7 @@ class LoginState with ChangeNotifier {
   LoginState() {
     loginState();
   }
-  // Future<Date> _getBDay() async{
 
-  //   var client = http.Client();
-  //   var header = await _googleSingIn.currentUser.authHeaders;
-  //   var authClient = AuthClient(client, header);
-  //   var api = PeopleApi(authClient);
-  //   return (await api.people.get(PeopleApi.UserBirthdayReadScope)).birthdays.first.date;
-
-  // }
   void setDate(DateTime date) => _date = date;
   void setLogedIn(){
     _logedIn = true;
@@ -60,9 +51,7 @@ class LoginState with ChangeNotifier {
     _fecha_introducida = true;
     notifyListeners();
   }
-  void setExit(){
-    _exit = true;
-  }
+  
   void setLoading() { 
     _loading = true;
     notifyListeners();
@@ -74,8 +63,7 @@ class LoginState with ChangeNotifier {
   }
 
   void insert(AppDatabase database) async {
-    UsuarioData user1 = await database.usuarioDAO.getUser(_id);
-    //Backup b = Backup(header: header, id: _id, database: database);
+    
     UsuarioData usuario = UsuarioData(
         id: _id,
         nombre: _user.displayName,
@@ -85,15 +73,12 @@ class LoginState with ChangeNotifier {
     _alertaActivada = false;
     database.usuarioDAO.insertUser(usuario);
     _prefs.setBool('completeLogin', true);
-    //await b.uploadDataToDrive();
+    
     _logedIn = true;
 
     notifyListeners();
   }
 
-  void waitUntilFile(){
-    while(!_exit);
-  }
 
   void login(AppDatabase database, BuildContext context) async {
     _prefs.setBool('completeLogin', false);
@@ -198,14 +183,4 @@ class LoginState with ChangeNotifier {
   
 }
 
-// class AuthClient extends http.BaseClient {
-//   final http.Client _baseClient;
-//   final Map<String, String> _headers;
 
-//   AuthClient(this._baseClient, this._headers);
-
-//   @override
-//   Future<http.StreamedResponse> send(http.BaseRequest request) {
-//     request.headers.addAll(_headers);
-//   }
-// }
