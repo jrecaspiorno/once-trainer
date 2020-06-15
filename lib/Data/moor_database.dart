@@ -27,7 +27,7 @@ class Historials extends Table {
   IntColumn get dificultad => integer()();
   TextColumn get ejercicio => text().withLength(min: 1, max: 50)();
   DateTimeColumn get fecha => dateTime()();
-  IntColumn get calorias => integer()();
+  IntColumn get calorias => integer().nullable()();
   IntColumn get duracion => integer()();
   TextColumn get idUser =>
       text().customConstraint('REFERENCES Usuario(id)')();
