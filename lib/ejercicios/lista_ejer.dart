@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
@@ -9,8 +10,7 @@ import 'dart:io';
 class MyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
+    
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       List<String> XMLS = List();
       List<Ejercicio> ejercicios = List();
@@ -46,7 +46,7 @@ class MyList extends StatelessWidget {
           appBar: AppBar(
             leading: BackButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
               },
             ),
             title: Text('Lista Ejercicios'),

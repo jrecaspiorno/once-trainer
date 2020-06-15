@@ -9,12 +9,27 @@ import 'package:xml/xml.dart' as xml;
 class MyRecomList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     final database = Provider.of<AppDatabase>(context);
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       List<String> XMLS = List();
       List<Ejercicio> ejercicios = List();
-      XMLS = ["AfirmacionNegacion.xml","Caminar.xml","CirculosCadera.xml","Ej1.xml","ElevacionBrazos.xml","EstrujarToalla.xml","LevantamientosLateralesMancuernas.xml","LevantarBotella.xml","LevantarseSilla.xml","MovimientoRodillas.xml","PlantaPechoMacnuernas.xml","PrensaHombroMancuernas.xml","RotacionTobillos.xml","SubirEscaleras.xml","VueloPechoMancuernas.xml"];
+      XMLS = [
+        "AfirmacionNegacion.xml",
+        "Caminar.xml",
+        "CirculosCadera.xml",
+        "Ej1.xml",
+        "ElevacionBrazos.xml",
+        "EstrujarToalla.xml",
+        "LevantamientosLateralesMancuernas.xml",
+        "LevantarBotella.xml",
+        "LevantarseSilla.xml",
+        "MovimientoRodillas.xml",
+        "PlantaPechoMacnuernas.xml",
+        "PrensaHombroMancuernas.xml",
+        "RotacionTobillos.xml",
+        "SubirEscaleras.xml",
+        "VueloPechoMancuernas.xml"
+      ];
       List<Restriccione> Tags = await database.restriccionesDAO.resActivas();
       for (int i = 0; i < XMLS.length; ++i) {
         String xmlS = await DefaultAssetBundle.of(context)
@@ -73,20 +88,27 @@ class MyRecomList extends StatelessWidget {
                             SizedBox(
                               width: 270,
                               child: RaisedButton(
-                                
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
                                 autofocus: true,
                                 onPressed: () {
-                                final Ejercicio ejercicio = ejercicios[index];
-                                Navigator.push(context,MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
-                                  ));
+                                  final Ejercicio ejercicio = ejercicios[index];
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => (BuildEjercicio(
+                                          ejercicio: ejercicio,
+                                        )),
+                                      ));
                                 },
-                                
                                 color: Colors.indigo,
                                 textColor: Colors.white,
                                 padding: EdgeInsets.all(24.0),
-                                child: Text(ejercicios[index].name, style: TextStyle( fontSize: 30), 
-                                  textAlign: TextAlign.center, ),
+                                child: Text(
+                                  ejercicios[index].name,
+                                  style: TextStyle(fontSize: 30),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                             //const SizedBox(height: 20),
