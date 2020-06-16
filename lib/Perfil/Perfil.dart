@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/Historial/HistorialBuild.dart';
 import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
 import 'package:flutterapp/Perfil/EditarPerfil.dart';
@@ -140,7 +141,7 @@ class MyButtonType extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const SizedBox(height: 20),
-          _buildButton('Historial Actividades', HistorialView(), context),
+          _buildButton('Historial Actividades', MyHistory(), context),
           _buildButton('Historial Clínico', MyHistorial(), context),
           _buildButton('Dolencias', Dolencias(id: id,),context),
           _buildButton('Editar F.Nacimiento', EditProfile(id: id,), context)
