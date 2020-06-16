@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/DriveBackup/Backup.dart';
 import 'package:flutterapp/Historial/HistorialBuild.dart';
 import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
@@ -15,6 +17,32 @@ import '../main.dart';
 import 'Historial.dart';
 
 class MyProfile extends StatelessWidget {
+  Widget botonBackup(BuildContext context) {
+    var state = Provider.of<LoginState>(context, listen: false);
+    final database = Provider.of<AppDatabase>(context);
+    Backup backup = Backup(header:state.getHeader(),id:state.getId(), database: database);
+    // Alerts alertOK = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> MaterialPageRoute(builder: (context) => Menu()), title: "Backup", message: "El bakcup ha sido realizado correctamente");
+    // Alerts alertKO = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> Navigator.pop(context), title: "Backup Error", message: "Ha habido un error realizando el backup");
+    Alerts alerta = Alerts(context: context, firstButtonText: "Cancelar",
+      secondButtonText: "Ok" ,
+      fun1: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => Menu())),
+      fun2: (){backup.uploadDataToDrive(); Navigator.pop(context);},
+      title: "Backup", message: "¿Desea realizar un backup?"
+    );
+
+    return Center(
+      child: RaisedButton(
+        child: Text('Backup', style: TextStyle(fontSize: 30)),
+        shape:  RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+        onPressed: () => alerta.showAlertDialog2(),
+        color: Colors.indigo,
+        textColor: Colors.white,
+        padding: EdgeInsets.all(24.0),
+        ),
+    );
+  }
+
   Widget LogoutButton(BuildContext context){
     return Column(
       children: <Widget>[
@@ -84,9 +112,13 @@ class MyProfile extends StatelessWidget {
                         padding: EdgeInsets.all(20),
                       ),
                       MyButtonType(),
+                      botonBackup(context),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                      ),
                       LogoutButton(context),
                       Padding(
-                        padding: EdgeInsets.all(30),
+                        padding: EdgeInsets.all(20),
                       ),
                   ],
                 );
