@@ -1,15 +1,10 @@
 //import 'dart:io';
 
-import 'dart:ffi';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/DriveBackup/Backup.dart';
-import 'package:googleapis/people/v1.dart';
-import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginState with ChangeNotifier {

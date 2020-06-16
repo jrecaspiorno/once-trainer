@@ -62,23 +62,28 @@ class _MenuState extends State<Menu> {
 
   
 
-  Column _buildButton(String label, Widget funcion, BuildContext context) {
-    return Column(
+  Flex _buildButton(String label, Widget funcion, BuildContext context) {
+    return Flex(
+      direction: Axis.vertical,
+      
       // mainAxisSize: MainAxisSize.min,
       children: [
-        RaisedButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => funcion),
-            );
-          },
-          color: Colors.indigo,
-          textColor: Colors.white,
-          padding: EdgeInsets.all(24.0),
-          child: Text(label, style: TextStyle(fontSize: 30)),
+        SizedBox(
+          width: 300,
+          child: RaisedButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => funcion),
+              );
+            },
+            color: Colors.indigo,
+            textColor: Colors.white,
+            padding: EdgeInsets.all(24.0),
+            child: Text(label, style: TextStyle(fontSize: 30)),
+          ),
         ),
         const SizedBox(height: 40),
       ],
