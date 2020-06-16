@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
-//import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
 import 'package:flutterapp/Data/moor_database.dart';

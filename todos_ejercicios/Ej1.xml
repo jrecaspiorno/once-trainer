@@ -1,12 +1,12 @@
 <data>
-    <name>Ej</name>
-    <type>rep</type>
-    <series>5</series>
-    <reps>10</reps>
+    <name>Prueba crono</name>
+    <type>time</type>
+    <time>00:05</time>
     <description>
-     sadafasdfasdfasdfas
+        Bebe Agua
     </description>
     <tag>Rodilla</tag>
     <tag>Tobillo</tag>
+    <tag>Cadera</tag>
     <calories>650</calories>
 </data>
