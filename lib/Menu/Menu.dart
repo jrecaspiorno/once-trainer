@@ -44,17 +44,18 @@ class _MenuState extends State<Menu> {
 
   Widget MenuView(BuildContext context) {
     return Center(
+
       child: ListView(
-      shrinkWrap: true,
-      padding: EdgeInsets.all(30),
-      children: <Widget>[
-        _buildButton('Recomendaciones', MyRecomList(), context),
-        _buildButton('Lista Ejercicios', MyList(), context),
-        _buildButton('Perfil', MyProfile(), context),
-        //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
-        //_buildButton('Prueba Ritmo', MyRitmo(), context),
-       
-      ],
+        shrinkWrap: true,
+        padding: EdgeInsets.all(30),
+        children: <Widget>[
+          _buildButton('Recomendaciones', MyRecomList(), context),
+          _buildButton('Lista Ejercicios', MyList(), context),
+          _buildButton('Perfil', MyProfile(), context),
+      //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
+      //_buildButton('Prueba Ritmo', MyRitmo(), context),
+         
+        ],
       ),
     );
   }

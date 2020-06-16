@@ -16,7 +16,12 @@ import '../main.dart';
 
 import 'Historial.dart';
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends StatefulWidget {
+  @override
+  _MyProfileState createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
   Widget botonBackup(BuildContext context) {
     var state = Provider.of<LoginState>(context, listen: false);
     final database = Provider.of<AppDatabase>(context);
@@ -25,8 +30,8 @@ class MyProfile extends StatelessWidget {
     // Alerts alertKO = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> Navigator.pop(context), title: "Backup Error", message: "Ha habido un error realizando el backup");
     Alerts alerta = Alerts(context: context, firstButtonText: "Cancelar",
       secondButtonText: "Ok" ,
-      fun1: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => Menu())),
-      fun2: (){backup.uploadDataToDrive(); Navigator.pop(context);},
+      fun1: ()=> Navigator.of(context, rootNavigator: true, ).pop(),
+      fun2: (){backup.uploadDataToDrive();Navigator.of(context, rootNavigator: true ).pop();},
       title: "Backup", message: "¿Desea realizar un backup?"
     );
 
@@ -73,9 +78,11 @@ class MyProfile extends StatelessWidget {
   Future<List<UsuarioData>> getData(UsuarioDAO usuarioDAO) async {
     return usuarioDAO.getUsers();
   }
+
   Future<UsuarioData> getCurrentsUser(UsuarioDAO usuarioDAO, String id) async{
     return usuarioDAO.getUser(id);
   }
+
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
