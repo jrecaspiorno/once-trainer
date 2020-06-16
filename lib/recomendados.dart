@@ -5,33 +5,48 @@ import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
 import 'package:provider/provider.dart';
 import 'package:xml/xml.dart' as xml;
+
 class MyRecomList extends StatelessWidget {
-
-
-
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     final database = Provider.of<AppDatabase>(context);
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       List<String> XMLS = List();
       List<Ejercicio> ejercicios = List();
-      XMLS = ["Caminar.xml", "Ej1.xml"];
+      XMLS = [
+        "AfirmacionNegacion.xml",
+        "Caminar.xml",
+        "CirculosCadera.xml",
+        "Ej1.xml",
+        "ElevacionBrazos.xml",
+        "EstrujarToalla.xml",
+        "LevantamientosLateralesMancuernas.xml",
+        "LevantarBotella.xml",
+        "LevantarseSilla.xml",
+        "MovimientoRodillas.xml",
+        "PlantaPechoMacnuernas.xml",
+        "PrensaHombroMancuernas.xml",
+        "RotacionTobillos.xml",
+        "SubirEscaleras.xml",
+        "VueloPechoMancuernas.xml"
+      ];
       List<Restriccione> Tags = await database.restriccionesDAO.resActivas();
       for (int i = 0; i < XMLS.length; ++i) {
         String xmlS = await DefaultAssetBundle.of(context)
             .loadString("todos_ejercicios/" + XMLS[i]);
         var file = xml.parse(xmlS);
-        Ejercicio ej =FactoriaEj.GenerateEj(file);
+        Ejercicio ej = FactoriaEj.GenerateEj(file);
         bool ok = true;
         Tags.forEach((tag) {
           ej.tags.forEach((tagej) {
-            if(tag.tipo == tagej) {ok = false; return;}
+            if (tag.tipo == tagej) {
+              ok = false;
+              return;
+            }
           });
-          if(ok == false) return;
+          if (ok == false) return;
         });
-        if(ok)
-          ejercicios.add(ej);
+        if (ok) ejercicios.add(ej);
       }
 
       return ejercicios;
@@ -40,7 +55,7 @@ class MyRecomList extends StatelessWidget {
     return MaterialApp(
       title: 'App actividad física',
       home: Scaffold(
-        // Widget con app prediseñada, esquema
+          // Widget con app prediseñada, esquema
           appBar: AppBar(
             leading: BackButton(
               onPressed: () {
@@ -60,38 +75,47 @@ class MyRecomList extends StatelessWidget {
                     return ListView.builder(
                       padding: EdgeInsets.fromLTRB(15, 1, 15, 1),
                       itemCount: ejercicios.length,
-                      itemBuilder: (context,index){
+                      itemBuilder: (context, index) {
                         Padding(
                           padding: EdgeInsets.only(bottom: 30),
                         );
                         return Flex(
                           direction: Axis.vertical,
                           textDirection: TextDirection.ltr,
-                          verticalDirection: VerticalDirection.down,                          
+                          verticalDirection: VerticalDirection.down,
                           children: [
                             SizedBox(height: 40),
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                              autofocus: true,
-                              onPressed: () {
-                              final Ejercicio ejercicio = ejercicios[index];
-                              Navigator.push(context,MaterialPageRoute(builder: (context) => (BuildEjercicio(ejercicio : ejercicio,)),
-                                ));
-                              },
-                              color: Colors.indigo,
-                              textColor: Colors.white,
-                              padding: EdgeInsets.all(24.0),
-                              child: Text(ejercicios[index].name, style: TextStyle( fontSize: 30), 
-                                textAlign: TextAlign.center, ),
+                            SizedBox(
+                              width: 270,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                autofocus: true,
+                                onPressed: () {
+                                  final Ejercicio ejercicio = ejercicios[index];
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => (BuildEjercicio(
+                                          ejercicio: ejercicio,
+                                        )),
+                                      ));
+                                },
+                                color: Colors.indigo,
+                                textColor: Colors.white,
+                                padding: EdgeInsets.all(24.0),
+                                child: Text(
+                                  ejercicios[index].name,
+                                  style: TextStyle(fontSize: 30),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                             ),
-                            
-                            
                             //const SizedBox(height: 20),
                           ],
                         );
                       },
-
-                  );
+                    );
                   } else {
                     return Center(
                       child: CircularProgressIndicator(),

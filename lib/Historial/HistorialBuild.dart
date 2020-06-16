@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Menu/Menu.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 
@@ -9,9 +10,11 @@ import 'EntradaBuild.dart';
 class MyHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final daoHist = Provider.of<AppDatabase>(context, listen: false).historialDAO;
+
     Future<List<Historial>> getHist(BuildContext context) async {
-      final database = Provider.of<AppDatabase>(context, listen: false);
-      List<Historial> hist = await database.historialDAO.getallHist();
+      
+      List<Historial> hist = await daoHist.getallHist();
       return hist;
     }
 
@@ -23,7 +26,7 @@ class MyHistory extends StatelessWidget {
           appBar: AppBar(
             leading: BackButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
               },
             ),
             title: Text('Tu historial'),
@@ -49,19 +52,22 @@ class MyHistory extends StatelessWidget {
                           verticalDirection: VerticalDirection.down,
                           children: [
                             SizedBox(height: 40),
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                              autofocus: true,
-                              onPressed: () {
-                                final Historial entry = hist[index];
-                                Navigator.push(context,MaterialPageRoute(builder: (context) => (BuildHistEntry(entry)),
-                                ));
-                              },
-                              color: Colors.indigo,
-                              textColor: Colors.white,
-                              padding: EdgeInsets.all(24.0),
-                              child: Text(hist[index].ejercicio, style: TextStyle( fontSize: 30),
-                                textAlign: TextAlign.center, ),
+                            SizedBox(
+                              width: 270,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                autofocus: true,
+                                onPressed: () {
+                                  final Historial entry = hist[index];
+                                  Navigator.push(context,MaterialPageRoute(builder: (context) => (BuildHistEntry(dao: daoHist,entry: entry,)),
+                                  ));
+                                },
+                                color: Colors.indigo,
+                                textColor: Colors.white,
+                                padding: EdgeInsets.all(24.0),
+                                child: Text(hist[index].ejercicio, style: TextStyle( fontSize: 30),
+                                  textAlign: TextAlign.center, ),
+                              ),
                             ),
 
 

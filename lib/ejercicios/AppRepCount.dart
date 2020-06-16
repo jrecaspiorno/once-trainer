@@ -53,62 +53,71 @@ class _repCountState extends State<repcount> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new Center(
-        child: new Column(
+    return  Container(
+      child:  Center(
+        child:  Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            new Text("Series",style: new TextStyle(fontSize: 30.0)),
-            new Row(
+             Text("Series",style:  TextStyle(fontSize: 30.0)),
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new RaisedButton(
-                  onPressed: _resetser,
-                  color: Colors.indigo,
-                  child: new Text("Resetear \n Series", style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),),
+                Semantics(
+                  label: "Resetear series",
+                  child:FloatingActionButton(
+                    heroTag: "reset series",
+                    backgroundColor: Colors.indigo,
+                    onPressed: _resetser,
+                    child:  Icon(
+                        Icons.refresh,
+                        color:Colors.white,
+                    )
+                  ),
                 ),
-                new Text('$sercount', style: new TextStyle(fontSize: 60.0)),
-                new RaisedButton(
-                  onPressed: _addser,
-                  color: Colors.indigo,
-
-                  child: new Text("Serie \n Completada", style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),),
-                )
+                 Text('$sercount', style:  TextStyle(fontSize: 60.0)),
+                Semantics(
+                  label: "añadir serie",
+                  child:FloatingActionButton(
+                      heroTag: "add series",
+                      backgroundColor: Colors.indigo,
+                      onPressed: _addser,
+                      child:  Icon(
+                        Icons.add_circle,
+                        color:Colors.white,
+                      )
+                  ),
+                ),
 
                   ],
             ),
-            new Text("Repeticiones",style: new TextStyle(fontSize: 30.0)),
-            new Row(
+             Text("Repeticiones",style:  TextStyle(fontSize: 30.0)),
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new RaisedButton(
-                  onPressed: _resetrep,
-                  color: Colors.indigo,
-
-                  child: new Text("Resetear \n Repeticiones", style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),),
+                Semantics(
+                  label: "resetear repeticiones",
+                  child:FloatingActionButton(
+                      heroTag: "reset rep",
+                      backgroundColor: Colors.indigo,
+                      onPressed: _resetrep,
+                      child:  Icon(
+                        Icons.refresh,
+                        color:Colors.white,
+                      )
+                  ),
                 ),
-                new Text('$repcount', style: new TextStyle(fontSize: 60.0)),
-                new RaisedButton(
-                  onPressed: _addrep,
-                  color: Colors.indigo,
-
-                  child: new Text("Repeticion \n Completada", style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),),
+                 Text('$repcount', style: new TextStyle(fontSize: 60.0)),
+                Semantics(
+                  label: "añadir repeticion",
+                  child:FloatingActionButton(
+                      heroTag: "add rep",
+                      backgroundColor: Colors.indigo,
+                      onPressed: _addrep,
+                      child:  Icon(
+                        Icons.add_circle,
+                        color:Colors.white,
+                      )
+                  ),
                 ),
               ],
             ),

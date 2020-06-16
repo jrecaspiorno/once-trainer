@@ -4,7 +4,7 @@ import 'package:flutterapp/Perfil/Perfil.dart';
 import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
 import 'package:health/health.dart';
 
-import '../lista_ejer.dart';
+import '../ejercicios/lista_ejer.dart';
 import '../recomendados.dart';
 import '../pulsera/datosHistorial/tablaDatos.dart';
 

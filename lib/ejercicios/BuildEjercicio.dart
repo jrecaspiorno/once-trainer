@@ -1,4 +1,4 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
@@ -13,33 +13,22 @@ import 'package:provider/provider.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'dart:async';
 
+import 'lista_ejer.dart';
 
 class BuildEjercicio extends StatefulWidget {
-  Ejercicio ejercicio;
-
   BuildEjercicio({Ejercicio ejercicio}) {
     this.ejercicio = ejercicio;
   }
+
+  Ejercicio ejercicio;
 
   @override
   _BuildEjercicioState createState() => _BuildEjercicioState();
 }
 
 class _BuildEjercicioState extends State<BuildEjercicio> {
-
-  Timer timer;
   bool auxParar = true;
-  @override
-  void initState() {
-    super.initState();
-    //int edad = sacarEdad(); no va por el future
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t){
-      if(auxParar) {
-        sacarEdad();
-        auxParar = false;
-      }
-    });
-  }
+  Timer timer;
 
   @override
   void dispose() {
@@ -47,9 +36,36 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    //int edad = sacarEdad(); no va por el future
+    timer = Timer.periodic(Duration(seconds: 2), (Timer t) {
+      if (auxParar) {
+        sacarEdad();
+        auxParar = false;
+      }
+    });
+  }
 
- void sacarEdad ()async {
+  void addEjercicio(BuildContext context) async {
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    var state = Provider.of<LoginState>(context, listen: false);
+    String uid = state.getId();
+    Historial hist =  Historial(
+        id: null,
+        dificultad: 0,
+        ejercicio: widget.ejercicio.name,
+        fecha: DateTime.now(),
+        duracion: 30,
+        calorias: widget.ejercicio.calories,
+        idUser: uid,
+        activo: true);
+    database.historialDAO.insertHistorial(hist);
+    Navigator.push(context,MaterialPageRoute(builder: (context) => MyList()));
+  }
 
+  void sacarEdad() async {
     DateTime endDate = DateTime.now();
     /*
     final database = Provider.of<AppDatabase>(context, listen: false);
@@ -66,11 +82,24 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     int edad = 50;
     getHealthRate(edad, context);
     // return  edad;
-
   }
+
+  Widget widgetEj(Ejercicio ejercicio) {
+    if (ejercicio is EjercicioTiempo) {
+      EjercicioTiempo ejt = widget.ejercicio;
+      return Container(
+        child: AppTimer(time: ejt.time),
+      );
+    } else {
+      return Container(
+        child: RepCounter(),
+      );
+    }
+    ;
+  }
+
   @override
   Widget build(BuildContext context) {
-
     Ejercicio ej = widget.ejercicio;
 
     return MaterialApp(
@@ -81,7 +110,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         appBar: AppBar(
           leading: BackButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(context,MaterialPageRoute(builder: (context) => MyList()));
             },
           ),
           title: Text(widget.ejercicio.name),
@@ -89,48 +118,55 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         ),
         body: Container(
             child: Column(
-              children: <Widget>[
-               // MyRitmo(),
-                const SizedBox(height: 20,),
-                widgetEj(ej),
+          children: <Widget>[
+            // MyRitmo(),
+            const SizedBox(
+              height: 20,
+            ),
+            widgetEj(ej),
 
-                const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
 
-                Expanded(
-                  flex: 1,
-                  child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 19,
-                      ),
-                      child: Text("Descripcion: " + widget.ejercicio.description, style: TextStyle(
-                        fontSize: 27,))
+            Expanded(
+              flex: 1,
+              child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 19,
                   ),
+                  child: Text("Descripcion: " + widget.ejercicio.description,
+                      style: TextStyle(
+                        fontSize: 27,
+                      ))),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              autofocus: true,
+              color: Colors.indigo,
+              onPressed:() => addEjercicio(context),
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                "Hecho",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
 
+                  fontWeight: FontWeight.bold,
                 ),
-
-              ],
-            )
-        ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+        )),
       ),
     );
   }
-  Widget widgetEj(Ejercicio ejercicio){
-    if(ejercicio is EjercicioTiempo) {
-      EjercicioTiempo ejt = widget.ejercicio;
-      return Container(
-        child: AppTimer(time: ejt.time),
-      );
-    }else{
-      return Container(
-          child: RepCounter(),
-      );
-    };
-  }
 }
-
-
-
-
-
-
