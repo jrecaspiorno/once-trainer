@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'dart:async';
 
+import 'EjerciciosState.dart';
 import 'lista_ejer.dart';
 
 class BuildEjercicio extends StatefulWidget {
