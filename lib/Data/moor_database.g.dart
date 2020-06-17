@@ -556,7 +556,7 @@ class Historial extends DataClass implements Insertable<Historial> {
   final String tipo;
   final DateTime fecha;
   final int calorias;
-  final int duracion;
+  final String duracion;
   final int repeticiones;
   final int series;
   final String idUser;
@@ -591,8 +591,8 @@ class Historial extends DataClass implements Insertable<Historial> {
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}fecha']),
       calorias:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}calorias']),
-      duracion:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}duracion']),
+      duracion: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}duracion']),
       repeticiones: intType
           .mapFromDatabaseResponse(data['${effectivePrefix}repeticiones']),
       series: intType.mapFromDatabaseResponse(data['${effectivePrefix}series']),
@@ -612,7 +612,7 @@ class Historial extends DataClass implements Insertable<Historial> {
       tipo: serializer.fromJson<String>(json['tipo']),
       fecha: serializer.fromJson<DateTime>(json['fecha']),
       calorias: serializer.fromJson<int>(json['calorias']),
-      duracion: serializer.fromJson<int>(json['duracion']),
+      duracion: serializer.fromJson<String>(json['duracion']),
       repeticiones: serializer.fromJson<int>(json['repeticiones']),
       series: serializer.fromJson<int>(json['series']),
       idUser: serializer.fromJson<String>(json['idUser']),
@@ -629,7 +629,7 @@ class Historial extends DataClass implements Insertable<Historial> {
       'tipo': serializer.toJson<String>(tipo),
       'fecha': serializer.toJson<DateTime>(fecha),
       'calorias': serializer.toJson<int>(calorias),
-      'duracion': serializer.toJson<int>(duracion),
+      'duracion': serializer.toJson<String>(duracion),
       'repeticiones': serializer.toJson<int>(repeticiones),
       'series': serializer.toJson<int>(series),
       'idUser': serializer.toJson<String>(idUser),
@@ -675,7 +675,7 @@ class Historial extends DataClass implements Insertable<Historial> {
           String tipo,
           DateTime fecha,
           int calorias,
-          int duracion,
+          String duracion,
           int repeticiones,
           int series,
           String idUser,
@@ -756,7 +756,7 @@ class HistorialsCompanion extends UpdateCompanion<Historial> {
   final Value<String> tipo;
   final Value<DateTime> fecha;
   final Value<int> calorias;
-  final Value<int> duracion;
+  final Value<String> duracion;
   final Value<int> repeticiones;
   final Value<int> series;
   final Value<String> idUser;
@@ -798,7 +798,7 @@ class HistorialsCompanion extends UpdateCompanion<Historial> {
       Value<String> tipo,
       Value<DateTime> fecha,
       Value<int> calorias,
-      Value<int> duracion,
+      Value<String> duracion,
       Value<int> repeticiones,
       Value<int> series,
       Value<String> idUser,
@@ -888,15 +888,12 @@ class $HistorialsTable extends Historials
   }
 
   final VerificationMeta _duracionMeta = const VerificationMeta('duracion');
-  GeneratedIntColumn _duracion;
+  GeneratedTextColumn _duracion;
   @override
-  GeneratedIntColumn get duracion => _duracion ??= _constructDuracion();
-  GeneratedIntColumn _constructDuracion() {
-    return GeneratedIntColumn(
-      'duracion',
-      $tableName,
-      true,
-    );
+  GeneratedTextColumn get duracion => _duracion ??= _constructDuracion();
+  GeneratedTextColumn _constructDuracion() {
+    return GeneratedTextColumn('duracion', $tableName, true,
+        minTextLength: 1, maxTextLength: 30);
   }
 
   final VerificationMeta _repeticionesMeta =
@@ -1055,7 +1052,7 @@ class $HistorialsTable extends Historials
       map['calorias'] = Variable<int, IntType>(d.calorias.value);
     }
     if (d.duracion.present) {
-      map['duracion'] = Variable<int, IntType>(d.duracion.value);
+      map['duracion'] = Variable<String, StringType>(d.duracion.value);
     }
     if (d.repeticiones.present) {
       map['repeticiones'] = Variable<int, IntType>(d.repeticiones.value);

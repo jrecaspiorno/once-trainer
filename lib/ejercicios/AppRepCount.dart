@@ -3,62 +3,73 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
+import 'package:flutterapp/ejercicios/EjerciciosState.dart';
 
 class RepCounter extends StatelessWidget {
   final EjercicioRepeticiones ej;
-  RepCounter({@required this.ej});
+  final EjercicioState state;
+  RepCounter({@required this.ej, @required this.state});
   @override
   Widget build(BuildContext context) {
-    return  Repcount(ejercicioRepeticiones: ej,);
+    return  Repcount(ejercicioRepeticiones: ej, ejstate: state,);
   }
 }
 
 class Repcount extends StatefulWidget {
   final EjercicioRepeticiones ejercicioRepeticiones;
-  Repcount({@required this.ejercicioRepeticiones});
+  EjercicioState ejstate;
+  Repcount({@required this.ejercicioRepeticiones, @required this.ejstate});
   @override
   _RepCountState createState() =>  _RepCountState();
 }
 
 class _RepCountState extends State<Repcount> {
   EjercicioRepeticiones ej;
-
-  int repcount = 2 ;
-  int sercount = 3;
-  final ser = 3;
-  final rep =2;
+  EjercicioState state;
+  int repcount;
+  int sercount;
+  
 
   void _rmrep() {
     setState(() {
-      repcount--;
+      if(repcount > 0){
+        repcount--;
+      
+      }
     });
   }
 
   void _resetrep() {
     setState(() {
-      repcount = rep;
+      
+      repcount = ej.reps;
     });
   }
 
   void _rmser() {
     setState(() {
-      sercount--;
-      repcount = ser ;
+      if(sercount > 0){
+        sercount--;
+        repcount = ej.reps;
+        state.setSeries(ej.series -(ej.series-sercount));
+      }
     });
+
   }
 
   void _resetser() {
     setState(() {
-      sercount = ser;
+      sercount = ej.series;
     });
   }
 
-  void init() {
-    setState(() {
+  void initState() {
+    
       ej = widget.ejercicioRepeticiones;
+      state = widget.ejstate;
       repcount = ej.reps;                                                                         
       sercount =ej.series;
-    });
+    
   }
 
   @override

@@ -51,7 +51,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     });
   }
 
-  void addEjercicio(BuildContext context) async {
+  void addEjercicio(BuildContext context, EjercicioState ejstate) async {
     final database = Provider.of<AppDatabase>(context, listen: false);
     var state = Provider.of<LoginState>(context, listen: false);
     String uid = state.getId();
@@ -63,7 +63,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
           fecha: DateTime.now(),
           calorias: widget.ejercicio.calories,
           tipo: "tiempo",
-          duracion: ej.time,
+          duracion: ejstate.getTime(),
           series: null,
           repeticiones: null,
           idUser: uid,
@@ -78,8 +78,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
           calorias: widget.ejercicio.calories,
           tipo:"reps",
           duracion: null,
-          series: int.parse(ej.series),
-          repeticiones: int.parse(ej.reps),
+          series: ejstate.getSeries(),
+          repeticiones: ejstate.getReps(),
           idUser: uid,
           activo: true);
         database.historialDAO.insertHistorial(hist);
@@ -118,10 +118,10 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     } else {
       EjercicioRepeticiones ejr = widget.ejercicio;
       ejstate.setSeries(0);
-      ejstate.setReps(0);
+      ejstate.setReps(ejr.reps);
       ejstate.setTipo("R");
       return Container(
-        child: RepCounter(ej: ejr,),
+        child: RepCounter(ej: ejr,state: ejstate,),
       );
     }
     ;
@@ -130,7 +130,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
   @override
   Widget build(BuildContext context) {
     Ejercicio ej = widget.ejercicio;
-    var ejstatus = context.read<EjercicioState>();
+    var ejstatus = context.watch<EjercicioState>();
     ejstatus.setEjercicio(ej);
     return MaterialApp(
       title: 'App actividad física',
@@ -179,7 +179,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                   borderRadius: BorderRadius.circular(12)),
               autofocus: true,
               color: Colors.indigo,
-              onPressed:() => addEjercicio(context),
+              onPressed:() => addEjercicio(context, ejstatus),
               padding: EdgeInsets.all(15.0),
               child: Text(
                 "Hecho",

@@ -47,14 +47,14 @@ class FactoriaEj {
         break;
       case "rep":
         {
-          String series = file
+          int series = int.parse(file
               .findAllElements("series")
               .first
-              .text;
-          String reps = file
+              .text);
+          int reps = int.parse( file
               .findAllElements("reps")
               .first
-              .text;
+              .text);
           ej = EjercicioRepeticiones(name, desc, cal, tags, series, reps);
         }
         break;

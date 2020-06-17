@@ -37,7 +37,7 @@ class Historials extends Table {
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
   DateTimeColumn get fecha => dateTime()();
   IntColumn get calorias => integer().nullable()();
-  IntColumn get duracion => integer().nullable()();
+  TextColumn get duracion => text().withLength(min:1, max:30).nullable()();
   IntColumn get repeticiones => integer().nullable()();
   IntColumn get series => integer().nullable()();
   TextColumn get idUser =>
