@@ -4,11 +4,17 @@ part 'moor_database.g.dart';
 
 class Usuario extends Table {
   TextColumn get id => text().withLength(min: 1)();
+
   TextColumn get nombre => text().withLength(min: 1)();
+
   DateTimeColumn get edad => dateTime()();
+
   TextColumn get photoUrl => text().withLength(min: 1)();
+
   TextColumn get email => text().withLength(min: 1)();
+
   TextColumn get backupid => text().withLength(min: 1).nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -16,9 +22,11 @@ class Usuario extends Table {
 
 class Restricciones extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
-  TextColumn get idUser =>
-      text().customConstraint('REFERENCES Usuario(id)')();
+
+  TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
+
   BoolColumn get activo => boolean().withDefault(Constant(false))();
 }
 
@@ -26,9 +34,12 @@ class Historials extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get dificultad => integer()();
   TextColumn get ejercicio => text().withLength(min: 1, max: 50)();
+  TextColumn get tipo => text().withLength(min: 1, max: 50)();
   DateTimeColumn get fecha => dateTime()();
   IntColumn get calorias => integer().nullable()();
-  IntColumn get duracion => integer()();
+  IntColumn get duracion => integer().nullable()();
+  IntColumn get repeticiones => integer().nullable()();
+  IntColumn get series => integer().nullable()();
   TextColumn get idUser =>
       text().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();

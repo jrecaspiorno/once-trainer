@@ -6,6 +6,8 @@ import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
+
+//import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
 import 'package:flutterapp/Data/moor_database.dart';
@@ -52,17 +54,37 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     final database = Provider.of<AppDatabase>(context, listen: false);
     var state = Provider.of<LoginState>(context, listen: false);
     String uid = state.getId();
-    Historial hist =  Historial(
-        id: null,
-        dificultad: 0,
-        ejercicio: widget.ejercicio.name,
-        fecha: DateTime.now(),
-        duracion: 30,
-        calorias: widget.ejercicio.calories,
-        idUser: uid,
-        activo: true);
-    database.historialDAO.insertHistorial(hist);
-    Navigator.push(context,MaterialPageRoute(builder: (context) => MyList()));
+    if (widget.ejercicio is EjercicioTiempo) {
+      EjercicioTiempo ej = widget.ejercicio;
+      Historial hist = Historial(
+          dificultad: 0,
+          ejercicio: widget.ejercicio.name,
+          fecha: DateTime.now(),
+          calorias: widget.ejercicio.calories,
+          tipo: "tiempo",
+          duracion: ej.time,
+          series: null,
+          repeticiones: null,
+          idUser: uid,
+          activo: true);
+      database.historialDAO.insertHistorial(hist);
+    } else {
+      EjercicioRepeticiones ej = widget.ejercicio;
+      Historial hist = Historial(
+          dificultad: 0,
+          ejercicio: widget.ejercicio.name,
+          fecha: DateTime.now(),
+          calorias: widget.ejercicio.calories,
+          tipo:"reps",
+          duracion: null,
+          series: int.parse(ej.series),
+          repeticiones: int.parse(ej.reps),
+          idUser: uid,
+          activo: true);
+        database.historialDAO.insertHistorial(hist);
+
+    }
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyList()));
   }
 
   void sacarEdad() async {
