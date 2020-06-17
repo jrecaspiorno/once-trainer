@@ -6,6 +6,7 @@ import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
+import 'package:flutterapp/ejercicios/EjerciciosState.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
 import 'package:flutterapp/Data/moor_database.dart';
@@ -84,14 +85,19 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     // return  edad;
   }
 
-  Widget widgetEj(Ejercicio ejercicio) {
+  Widget widgetEj(Ejercicio ejercicio, EjercicioState ejstate) {
     if (ejercicio is EjercicioTiempo) {
       EjercicioTiempo ejt = widget.ejercicio;
+      ejstate.setTiempo(ejt.time);
+      ejstate.setTipo("T");
       return Container(
         child: AppTimer(time: ejt.time),
       );
     } else {
       EjercicioRepeticiones ejr = widget.ejercicio;
+      ejstate.setSeries(0);
+      ejstate.setReps(0);
+      ejstate.setTipo("R");
       return Container(
         child: RepCounter(ej: ejr,),
       );
@@ -102,7 +108,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
   @override
   Widget build(BuildContext context) {
     Ejercicio ej = widget.ejercicio;
-
+    var ejstatus = context.read<EjercicioState>();
+    ejstatus.setEjercicio(ej);
     return MaterialApp(
       title: 'App actividad física',
       home: Scaffold(
@@ -124,7 +131,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
             const SizedBox(
               height: 20,
             ),
-            widgetEj(ej),
+            widgetEj(ej, ejstatus),
 
             const SizedBox(
               height: 20,
