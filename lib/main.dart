@@ -33,10 +33,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
 
 
-    return Provider(
-      create: (_) => AppDatabase(),
-      child: ChangeNotifierProvider<LoginState>(
-        create: (BuildContext context) => LoginState() ,
+    return MultiProvider(
+      providers: [
+        Provider<AppDatabase>(create: (_) => AppDatabase(),),
+        ChangeNotifierProvider<LoginState>(create: (BuildContext context) => LoginState(),)
+      ],
         child: MaterialApp(
            localizationsDelegates: [
              GlobalMaterialLocalizations.delegate,
@@ -69,8 +70,7 @@ class _MyAppState extends State<MyApp> {
 //          body: Home(),
 //        ),
         ),
-      ),
-    );
+      );
   }
 }
 

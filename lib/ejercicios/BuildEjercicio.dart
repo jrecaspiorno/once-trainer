@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
+import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
@@ -90,8 +91,9 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         child: AppTimer(time: ejt.time),
       );
     } else {
+      EjercicioRepeticiones ejr = widget.ejercicio;
       return Container(
-        child: RepCounter(),
+        child: RepCounter(ej: ejr,),
       );
     }
     ;

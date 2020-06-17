@@ -2,52 +2,62 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 
 class RepCounter extends StatelessWidget {
+  final EjercicioRepeticiones ej;
+  RepCounter({@required this.ej});
   @override
   Widget build(BuildContext context) {
-    return new repcount();
+    return  Repcount(ejercicioRepeticiones: ej,);
   }
 }
 
-class repcount extends StatefulWidget {
+class Repcount extends StatefulWidget {
+  final EjercicioRepeticiones ejercicioRepeticiones;
+  Repcount({@required this.ejercicioRepeticiones});
   @override
-  _repCountState createState() => new _repCountState();
+  _RepCountState createState() =>  _RepCountState();
 }
 
-class _repCountState extends State<repcount> {
-  int repcount = 0;
-  int sercount = 0;
+class _RepCountState extends State<Repcount> {
+  EjercicioRepeticiones ej;
 
-  void _addrep() {
+  int repcount = 2 ;
+  int sercount = 3;
+  final ser = 3;
+  final rep =2;
+
+  void _rmrep() {
     setState(() {
-      repcount++;
+      repcount--;
     });
   }
 
   void _resetrep() {
     setState(() {
-      repcount = 0;
+      repcount = rep;
     });
   }
 
-  void _addser() {
+  void _rmser() {
     setState(() {
-      sercount++;
-      repcount = 0;
+      sercount--;
+      repcount = ser ;
     });
   }
 
   void _resetser() {
     setState(() {
-      sercount = 0;
+      sercount = ser;
     });
   }
 
-  void _init() {
+  void init() {
     setState(() {
-      repcount = 0;
-      sercount = 0;
+      ej = widget.ejercicioRepeticiones;
+      repcount = ej.reps;                                                                         
+      sercount =ej.series;
     });
   }
 
@@ -80,9 +90,9 @@ class _repCountState extends State<repcount> {
                   child:FloatingActionButton(
                       heroTag: "add series",
                       backgroundColor: Colors.indigo,
-                      onPressed: _addser,
+                      onPressed: _rmser,
                       child:  Icon(
-                        Icons.add_circle,
+                        Icons.remove_circle,
                         color:Colors.white,
                       )
                   ),
@@ -106,16 +116,16 @@ class _repCountState extends State<repcount> {
                       )
                   ),
                 ),
-                 Text('$repcount', style: new TextStyle(fontSize: 60.0)),
+                 Text('$repcount', style:  TextStyle(fontSize: 60.0)),
                 Semantics(
                   label: "añadir repeticion",
                   child:FloatingActionButton(
                       heroTag: "add rep",
                       backgroundColor: Colors.indigo,
-                      onPressed: _addrep,
+                      onPressed: _rmrep,
                       child:  Icon(
-                        Icons.add_circle,
-                        color:Colors.white,
+                        Icons.remove_circle,
+                        color:Colors.white
                       )
                   ),
                 ),
