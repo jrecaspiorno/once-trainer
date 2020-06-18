@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 
 import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:flutterapp/ejercicios/EjerciciosState.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:provider/provider.dart';
@@ -33,10 +34,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
 
 
-    return Provider(
-      create: (_) => AppDatabase(),
-      child: ChangeNotifierProvider<LoginState>(
-        create: (BuildContext context) => LoginState() ,
+    return MultiProvider(
+      providers: [
+        Provider<AppDatabase>(create: (_) => AppDatabase(),),
+        ChangeNotifierProvider<LoginState>(create: (BuildContext context) => LoginState(),),
+        ChangeNotifierProvider<EjercicioState>(create: (BuildContext context) => EjercicioState(),)
+
+      ],
         child: MaterialApp(
            localizationsDelegates: [
              GlobalMaterialLocalizations.delegate,
@@ -69,8 +73,7 @@ class _MyAppState extends State<MyApp> {
 //          body: Home(),
 //        ),
         ),
-      ),
-    );
+      );
   }
 }
 

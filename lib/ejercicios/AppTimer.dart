@@ -1,48 +1,39 @@
 import 'dart:async';
 
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AppTimer extends StatefulWidget{
-  String time;
-
+class AppTimer extends StatefulWidget {
   AppTimer({String time}) {
     this.time = time;
   }
-  
+
+  String time;
+
   @override
-  State<StatefulWidget> createState()  => _AppTimerState();
-
-
-
+  State<StatefulWidget> createState() => _AppTimerState();
 }
 
-class _AppTimerState extends State<AppTimer>{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return stopwatch(widget.time);
-  }
-
-  bool startispressed = true;
-
-  bool stopispressed = true;
-
-  bool resetispressd = true;
-
-
-  bool primera = true;
-
-  String stoptimedisplay = "";
-
-  String defaultTime;
-
+class _AppTimerState extends State<AppTimer> {
   bool checktimer = true;
-
+  String defaultTime;
+  bool primera = true;
+  bool resetispressd = true;
+  bool startispressed = true;
+  bool stopispressed = true;
+  String stoptimedisplay = "";
   int time4Timer = 0;
 
+  AudioCache _audioCache;
 
-  void startStopwatch(){
+  void initState(){
+    super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+  }
+
+  void startStopwatch() {
     setState(() {
       startispressed = false;
       stopispressed = false;
@@ -51,41 +42,38 @@ class _AppTimerState extends State<AppTimer>{
     });
     time4Timer = StringtoTime(stoptimedisplay);
     debugPrint(time4Timer.toString());
-    Timer.periodic(Duration(
-        seconds: 1), (Timer t){
-      if(mounted) {
+    Timer.periodic(Duration(seconds: 1), (Timer t) {
+      if (mounted) {
         setState(() {
           if (time4Timer < 1 || checktimer == false) {
+            
             if (time4Timer < 1) {
+              _audioCache.play("beep-09.mp3");
               stopispressed = true;
               resetispressd = false;
             }
 
             t.cancel();
             checktimer = true;
-          }
-          else {
+          } else {
             time4Timer = time4Timer - 1;
           }
           stoptimedisplay = TimetoString(time4Timer);
         });
       }
     });
-
   }
 
-  void stopStopwatch(){
-
+  void stopStopwatch() {
     setState(() {
       startispressed = true;
       stopispressed = true;
       resetispressd = false;
       checktimer = false;
     });
-
   }
 
-  void resetStopwatch(){
+  void resetStopwatch() {
     setState(() {
       startispressed = true;
       resetispressd = true;
@@ -97,18 +85,23 @@ class _AppTimerState extends State<AppTimer>{
     stoptimedisplay = defaultTime;
     debugPrint(stoptimedisplay);
   }
-  int StringtoTime(String h){
-    return ((int.parse(h[0])*10) + (int.parse(h[1])) * 60 ) + (int.parse(h[3])*10)+ (int.parse(h[4]));
+
+  int StringtoTime(String h) {
+    return ((int.parse(h[0]) * 10) + (int.parse(h[1])) * 60) +
+        (int.parse(h[3]) * 10) +
+        (int.parse(h[4]));
   }
-  String TimetoString(int t){
-    int min = t ~/60 ;
-    int sec = t%60;
-    return (min.toString().padLeft(2, "0") + ":"+sec.toString().padLeft(2, "0") );
+
+  String TimetoString(int t) {
+    int min = t ~/ 60;
+    int sec = t % 60;
+    return (min.toString().padLeft(2, "0") +
+        ":" +
+        sec.toString().padLeft(2, "0"));
   }
 
   Widget stopwatch(String time) {
-
-    if(primera){
+    if (primera) {
       primera = false;
       stoptimedisplay = time;
       defaultTime = time;
@@ -118,14 +111,18 @@ class _AppTimerState extends State<AppTimer>{
         children: <Widget>[
           Container(
             alignment: Alignment.center,
-            child: Text(stoptimedisplay, style: TextStyle(
-              fontSize: 70,
-              fontWeight: FontWeight.w900,
-            ),),
+            child: Text(
+              stoptimedisplay,
+              style: TextStyle(
+                fontSize: 70,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           Container(
-
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -141,13 +138,15 @@ class _AppTimerState extends State<AppTimer>{
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
-
                       ),
-                      child: Text("Start", style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),),
+                      child: Text(
+                        "Start",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     RaisedButton(
                       onPressed: stopispressed ? null : stopStopwatch,
@@ -158,13 +157,15 @@ class _AppTimerState extends State<AppTimer>{
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
-
                       ),
-                      child: Text("Stop", style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),),
+                      child: Text(
+                        "Stop",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     RaisedButton(
                       onPressed: resetispressd ? null : resetStopwatch,
@@ -175,24 +176,28 @@ class _AppTimerState extends State<AppTimer>{
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
-
                       ),
-                      child: Text("Reset", style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),),
+                      child: Text(
+                        "Reset",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
                     )
                   ],
                 )
               ],
             ),
           )
-
-
         ],
       ),
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return stopwatch(widget.time);
+  }
 }

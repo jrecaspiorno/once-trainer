@@ -44,65 +44,46 @@ class _MenuState extends State<Menu> {
 
   Widget MenuView(BuildContext context) {
     return Center(
-      child: Container(
-          child: ListView(
+
+      child: ListView(
+        shrinkWrap: true,
         padding: EdgeInsets.all(30),
         children: <Widget>[
           _buildButton('Recomendaciones', MyRecomList(), context),
           _buildButton('Lista Ejercicios', MyList(), context),
           _buildButton('Perfil', MyProfile(), context),
-          _buildButton('Historial', MyHistory(), context),
-          //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
-          //_buildButton('Prueba Ritmo', MyRitmo(), context),
-          botonBackup(context)
+      //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
+      //_buildButton('Prueba Ritmo', MyRitmo(), context),
+         
         ],
-      )),
+      ),
     );
   }
 
-  Widget botonBackup(BuildContext context) {
-    var state = Provider.of<LoginState>(context, listen: false);
-    final database = Provider.of<AppDatabase>(context);
-    Backup backup = Backup(header:state.getHeader(),id:state.getId(), database: database);
-    Alerts alertOK = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> MaterialPageRoute(builder: (context) => Menu()), title: "Backup", message: "El bakcup ha sido realizado correctamente");
-    Alerts alertKO = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> Navigator.pop(context), title: "Backup Error", message: "Ha habido un error realizando el backup");
-    Alerts alerta = Alerts(context: context, firstButtonText: "Cancelar",
-      secondButtonText: "Ok" ,
-      fun1: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => Menu())),
-      fun2: (){backup.uploadDataToDrive(); Navigator.pop(context);},
-      title: "Backup", message: "¿Desea realizar un backup?"
-    );
+  
 
-    return Center(
-      child: RaisedButton(
-        child: Text('Backup', style: TextStyle(fontSize: 30)),
-        shape:  RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-
-        onPressed: () => alerta.showAlertDialog2(),
-        color: Colors.indigo,
-        textColor: Colors.white,
-        padding: EdgeInsets.all(24.0),
-        ),
-    );
-  }
-
-  Column _buildButton(String label, Widget funcion, BuildContext context) {
-    return Column(
+  Flex _buildButton(String label, Widget funcion, BuildContext context) {
+    return Flex(
+      direction: Axis.vertical,
+      
       // mainAxisSize: MainAxisSize.min,
       children: [
-        RaisedButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => funcion),
-            );
-          },
-          color: Colors.indigo,
-          textColor: Colors.white,
-          padding: EdgeInsets.all(24.0),
-          child: Text(label, style: TextStyle(fontSize: 30)),
+        SizedBox(
+          width: 300,
+          child: RaisedButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => funcion),
+              );
+            },
+            color: Colors.indigo,
+            textColor: Colors.white,
+            padding: EdgeInsets.all(24.0),
+            child: Text(label, style: TextStyle(fontSize: 30)),
+          ),
         ),
         const SizedBox(height: 40),
       ],

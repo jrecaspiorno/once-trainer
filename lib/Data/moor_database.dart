@@ -4,11 +4,17 @@ part 'moor_database.g.dart';
 
 class Usuario extends Table {
   TextColumn get id => text().withLength(min: 1)();
+
   TextColumn get nombre => text().withLength(min: 1)();
+
   DateTimeColumn get edad => dateTime()();
+
   TextColumn get photoUrl => text().withLength(min: 1)();
+
   TextColumn get email => text().withLength(min: 1)();
+
   TextColumn get backupid => text().withLength(min: 1).nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -16,9 +22,11 @@ class Usuario extends Table {
 
 class Restricciones extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
-  TextColumn get idUser =>
-      text().customConstraint('REFERENCES Usuario(id)')();
+
+  TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
+
   BoolColumn get activo => boolean().withDefault(Constant(false))();
 }
 
@@ -26,9 +34,12 @@ class Historials extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get dificultad => integer()();
   TextColumn get ejercicio => text().withLength(min: 1, max: 50)();
+  TextColumn get tipo => text().withLength(min: 1, max: 50)();
   DateTimeColumn get fecha => dateTime()();
   IntColumn get calorias => integer().nullable()();
-  IntColumn get duracion => integer()();
+  TextColumn get duracion => text().withLength(min:1, max:30).nullable()();
+  IntColumn get repeticiones => integer().nullable()();
+  IntColumn get series => integer().nullable()();
   TextColumn get idUser =>
       text().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();
@@ -121,7 +132,7 @@ class HistorialDAO extends DatabaseAccessor<AppDatabase>
   Future insertHistorial(Insertable<Historial> hist) => into(historials).insert(hist);
   Stream<List<Historial>> watchallHist()=> select(historials).watch();
   Future deleteHist() => delete(historials).go();
-  Future deleteHistorial(Historial Hist) => delete(historials).delete(Hist);
+  Future deleteHistorial(Historial hist) => delete(historials).delete(hist);
   Future insertAllHist(List<Insertable<Historial>> hist) async => await batch((b) => b.insertAll(historials, hist));
   Future<List<Historial>> getHistfromUser(String id){
     return (select(historials)..where((t) => t.idUser.equals(id))).get();

@@ -7,7 +7,23 @@ import 'HistorialBuild.dart';
 
 class BuildHistEntry extends StatelessWidget {
 
-
+Widget dato(String texto, String dato){
+  return Column(
+    children: <Widget>[
+      Text(
+      texto,
+        style: t1,
+        textAlign: TextAlign.center,
+      ),
+      padd1(),
+      Text(
+        dato,
+        style: t2,
+        textAlign: TextAlign.center,
+      )
+    ],
+  );
+}
 
   Historial entry;
   HistorialDAO dao;
@@ -68,69 +84,28 @@ class BuildHistEntry extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 direction: Axis.vertical,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Nombre del ejercicio: ",
-                        style: t1,
-                        textAlign: TextAlign.center,
-                      ),
-                      padd1(),
-                      Text(
-                        entry.ejercicio,
-                        style: t2,
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
+                  dato("Nombre del ejercicio", entry.ejercicio),
                   padd2(),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Fecha de realizacion: ",
-                        style: t1,
-                        textAlign: TextAlign.center,
-                      ),
-                      padd1(),
-                      Text(
-                        dateTimeToString(entry.fecha),
-                        style: t2,
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
+                  dato("Fecha de realizacion:", dateTimeToString(entry.fecha)),
                   padd2(),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Estimacion de calorias ",
-                        style: t1,
-                        textAlign: TextAlign.center,
-                      ),
-                      padd1(),
-                      Text(
-                        entry.calorias.toString(),
-                        style: t2,
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
+                  dato("Estimacion de calorias", entry.calorias.toString()),
                   padd2(),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Dificultad de realizacion: ",
-                        style: t1,
-                        textAlign: TextAlign.center,
-                      ),
-                      padd1(),
-                      Text(
-                        entry.dificultad.toString(),
-                        style: t2,
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
+                  dato("Dificultad de realizacion: ", entry.dificultad.toString()),
+                  ((){
+                    Column r;
+                    if(entry.tipo == "tiempo"){
+                      r = dato("Tiempo del ejercicio", entry.dificultad.toString());
+                    }else {
+                      r = Column(
+                        children: <Widget>[
+                          dato("Repeticiones del ejercicio", entry.repeticiones.toString()),
+                          padd2(),
+                          dato("Series del ejercicio", entry.series.toString()),
+                        ],
+                      );
+                    }
+                    return r;
+                  }()),
                   Padding(padding: EdgeInsets.all(24),),
                   RaisedButton(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

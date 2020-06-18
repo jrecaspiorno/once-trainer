@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Menu/Menu.dart';
+import 'package:flutterapp/Perfil/Perfil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 
@@ -26,7 +27,7 @@ class MyHistory extends StatelessWidget {
           appBar: AppBar(
             leading: BackButton(
               onPressed: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
+                Navigator.push(context,MaterialPageRoute(builder: (context) => MyProfile()));
               },
             ),
             title: Text('Tu historial'),

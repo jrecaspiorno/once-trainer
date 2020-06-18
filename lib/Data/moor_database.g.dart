@@ -553,18 +553,24 @@ class Historial extends DataClass implements Insertable<Historial> {
   final int id;
   final int dificultad;
   final String ejercicio;
+  final String tipo;
   final DateTime fecha;
   final int calorias;
-  final int duracion;
+  final String duracion;
+  final int repeticiones;
+  final int series;
   final String idUser;
   final bool activo;
   Historial(
       {@required this.id,
       @required this.dificultad,
       @required this.ejercicio,
+      @required this.tipo,
       @required this.fecha,
-      @required this.calorias,
-      @required this.duracion,
+      this.calorias,
+      this.duracion,
+      this.repeticiones,
+      this.series,
       @required this.idUser,
       @required this.activo});
   factory Historial.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -580,12 +586,16 @@ class Historial extends DataClass implements Insertable<Historial> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}dificultad']),
       ejercicio: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}ejercicio']),
+      tipo: stringType.mapFromDatabaseResponse(data['${effectivePrefix}tipo']),
       fecha:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}fecha']),
       calorias:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}calorias']),
-      duracion:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}duracion']),
+      duracion: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}duracion']),
+      repeticiones: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}repeticiones']),
+      series: intType.mapFromDatabaseResponse(data['${effectivePrefix}series']),
       idUser:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}id_user']),
       activo:
@@ -599,9 +609,12 @@ class Historial extends DataClass implements Insertable<Historial> {
       id: serializer.fromJson<int>(json['id']),
       dificultad: serializer.fromJson<int>(json['dificultad']),
       ejercicio: serializer.fromJson<String>(json['ejercicio']),
+      tipo: serializer.fromJson<String>(json['tipo']),
       fecha: serializer.fromJson<DateTime>(json['fecha']),
       calorias: serializer.fromJson<int>(json['calorias']),
-      duracion: serializer.fromJson<int>(json['duracion']),
+      duracion: serializer.fromJson<String>(json['duracion']),
+      repeticiones: serializer.fromJson<int>(json['repeticiones']),
+      series: serializer.fromJson<int>(json['series']),
       idUser: serializer.fromJson<String>(json['idUser']),
       activo: serializer.fromJson<bool>(json['activo']),
     );
@@ -613,9 +626,12 @@ class Historial extends DataClass implements Insertable<Historial> {
       'id': serializer.toJson<int>(id),
       'dificultad': serializer.toJson<int>(dificultad),
       'ejercicio': serializer.toJson<String>(ejercicio),
+      'tipo': serializer.toJson<String>(tipo),
       'fecha': serializer.toJson<DateTime>(fecha),
       'calorias': serializer.toJson<int>(calorias),
-      'duracion': serializer.toJson<int>(duracion),
+      'duracion': serializer.toJson<String>(duracion),
+      'repeticiones': serializer.toJson<int>(repeticiones),
+      'series': serializer.toJson<int>(series),
       'idUser': serializer.toJson<String>(idUser),
       'activo': serializer.toJson<bool>(activo),
     };
@@ -631,6 +647,7 @@ class Historial extends DataClass implements Insertable<Historial> {
       ejercicio: ejercicio == null && nullToAbsent
           ? const Value.absent()
           : Value(ejercicio),
+      tipo: tipo == null && nullToAbsent ? const Value.absent() : Value(tipo),
       fecha:
           fecha == null && nullToAbsent ? const Value.absent() : Value(fecha),
       calorias: calorias == null && nullToAbsent
@@ -639,6 +656,11 @@ class Historial extends DataClass implements Insertable<Historial> {
       duracion: duracion == null && nullToAbsent
           ? const Value.absent()
           : Value(duracion),
+      repeticiones: repeticiones == null && nullToAbsent
+          ? const Value.absent()
+          : Value(repeticiones),
+      series:
+          series == null && nullToAbsent ? const Value.absent() : Value(series),
       idUser:
           idUser == null && nullToAbsent ? const Value.absent() : Value(idUser),
       activo:
@@ -650,18 +672,24 @@ class Historial extends DataClass implements Insertable<Historial> {
           {int id,
           int dificultad,
           String ejercicio,
+          String tipo,
           DateTime fecha,
           int calorias,
-          int duracion,
+          String duracion,
+          int repeticiones,
+          int series,
           String idUser,
           bool activo}) =>
       Historial(
         id: id ?? this.id,
         dificultad: dificultad ?? this.dificultad,
         ejercicio: ejercicio ?? this.ejercicio,
+        tipo: tipo ?? this.tipo,
         fecha: fecha ?? this.fecha,
         calorias: calorias ?? this.calorias,
         duracion: duracion ?? this.duracion,
+        repeticiones: repeticiones ?? this.repeticiones,
+        series: series ?? this.series,
         idUser: idUser ?? this.idUser,
         activo: activo ?? this.activo,
       );
@@ -671,9 +699,12 @@ class Historial extends DataClass implements Insertable<Historial> {
           ..write('id: $id, ')
           ..write('dificultad: $dificultad, ')
           ..write('ejercicio: $ejercicio, ')
+          ..write('tipo: $tipo, ')
           ..write('fecha: $fecha, ')
           ..write('calorias: $calorias, ')
           ..write('duracion: $duracion, ')
+          ..write('repeticiones: $repeticiones, ')
+          ..write('series: $series, ')
           ..write('idUser: $idUser, ')
           ..write('activo: $activo')
           ..write(')'))
@@ -688,11 +719,19 @@ class Historial extends DataClass implements Insertable<Historial> {
           $mrjc(
               ejercicio.hashCode,
               $mrjc(
-                  fecha.hashCode,
+                  tipo.hashCode,
                   $mrjc(
-                      calorias.hashCode,
-                      $mrjc(duracion.hashCode,
-                          $mrjc(idUser.hashCode, activo.hashCode))))))));
+                      fecha.hashCode,
+                      $mrjc(
+                          calorias.hashCode,
+                          $mrjc(
+                              duracion.hashCode,
+                              $mrjc(
+                                  repeticiones.hashCode,
+                                  $mrjc(
+                                      series.hashCode,
+                                      $mrjc(idUser.hashCode,
+                                          activo.hashCode)))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -700,9 +739,12 @@ class Historial extends DataClass implements Insertable<Historial> {
           other.id == this.id &&
           other.dificultad == this.dificultad &&
           other.ejercicio == this.ejercicio &&
+          other.tipo == this.tipo &&
           other.fecha == this.fecha &&
           other.calorias == this.calorias &&
           other.duracion == this.duracion &&
+          other.repeticiones == this.repeticiones &&
+          other.series == this.series &&
           other.idUser == this.idUser &&
           other.activo == this.activo);
 }
@@ -711,18 +753,24 @@ class HistorialsCompanion extends UpdateCompanion<Historial> {
   final Value<int> id;
   final Value<int> dificultad;
   final Value<String> ejercicio;
+  final Value<String> tipo;
   final Value<DateTime> fecha;
   final Value<int> calorias;
-  final Value<int> duracion;
+  final Value<String> duracion;
+  final Value<int> repeticiones;
+  final Value<int> series;
   final Value<String> idUser;
   final Value<bool> activo;
   const HistorialsCompanion({
     this.id = const Value.absent(),
     this.dificultad = const Value.absent(),
     this.ejercicio = const Value.absent(),
+    this.tipo = const Value.absent(),
     this.fecha = const Value.absent(),
     this.calorias = const Value.absent(),
     this.duracion = const Value.absent(),
+    this.repeticiones = const Value.absent(),
+    this.series = const Value.absent(),
     this.idUser = const Value.absent(),
     this.activo = const Value.absent(),
   });
@@ -730,33 +778,41 @@ class HistorialsCompanion extends UpdateCompanion<Historial> {
     this.id = const Value.absent(),
     @required int dificultad,
     @required String ejercicio,
+    @required String tipo,
     @required DateTime fecha,
-    @required int calorias,
-    @required int duracion,
+    this.calorias = const Value.absent(),
+    this.duracion = const Value.absent(),
+    this.repeticiones = const Value.absent(),
+    this.series = const Value.absent(),
     @required String idUser,
     this.activo = const Value.absent(),
   })  : dificultad = Value(dificultad),
         ejercicio = Value(ejercicio),
+        tipo = Value(tipo),
         fecha = Value(fecha),
-        calorias = Value(calorias),
-        duracion = Value(duracion),
         idUser = Value(idUser);
   HistorialsCompanion copyWith(
       {Value<int> id,
       Value<int> dificultad,
       Value<String> ejercicio,
+      Value<String> tipo,
       Value<DateTime> fecha,
       Value<int> calorias,
-      Value<int> duracion,
+      Value<String> duracion,
+      Value<int> repeticiones,
+      Value<int> series,
       Value<String> idUser,
       Value<bool> activo}) {
     return HistorialsCompanion(
       id: id ?? this.id,
       dificultad: dificultad ?? this.dificultad,
       ejercicio: ejercicio ?? this.ejercicio,
+      tipo: tipo ?? this.tipo,
       fecha: fecha ?? this.fecha,
       calorias: calorias ?? this.calorias,
       duracion: duracion ?? this.duracion,
+      repeticiones: repeticiones ?? this.repeticiones,
+      series: series ?? this.series,
       idUser: idUser ?? this.idUser,
       activo: activo ?? this.activo,
     );
@@ -798,6 +854,15 @@ class $HistorialsTable extends Historials
         minTextLength: 1, maxTextLength: 50);
   }
 
+  final VerificationMeta _tipoMeta = const VerificationMeta('tipo');
+  GeneratedTextColumn _tipo;
+  @override
+  GeneratedTextColumn get tipo => _tipo ??= _constructTipo();
+  GeneratedTextColumn _constructTipo() {
+    return GeneratedTextColumn('tipo', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
   final VerificationMeta _fechaMeta = const VerificationMeta('fecha');
   GeneratedDateTimeColumn _fecha;
   @override
@@ -818,19 +883,42 @@ class $HistorialsTable extends Historials
     return GeneratedIntColumn(
       'calorias',
       $tableName,
-      false,
+      true,
     );
   }
 
   final VerificationMeta _duracionMeta = const VerificationMeta('duracion');
-  GeneratedIntColumn _duracion;
+  GeneratedTextColumn _duracion;
   @override
-  GeneratedIntColumn get duracion => _duracion ??= _constructDuracion();
-  GeneratedIntColumn _constructDuracion() {
+  GeneratedTextColumn get duracion => _duracion ??= _constructDuracion();
+  GeneratedTextColumn _constructDuracion() {
+    return GeneratedTextColumn('duracion', $tableName, true,
+        minTextLength: 1, maxTextLength: 30);
+  }
+
+  final VerificationMeta _repeticionesMeta =
+      const VerificationMeta('repeticiones');
+  GeneratedIntColumn _repeticiones;
+  @override
+  GeneratedIntColumn get repeticiones =>
+      _repeticiones ??= _constructRepeticiones();
+  GeneratedIntColumn _constructRepeticiones() {
     return GeneratedIntColumn(
-      'duracion',
+      'repeticiones',
       $tableName,
-      false,
+      true,
+    );
+  }
+
+  final VerificationMeta _seriesMeta = const VerificationMeta('series');
+  GeneratedIntColumn _series;
+  @override
+  GeneratedIntColumn get series => _series ??= _constructSeries();
+  GeneratedIntColumn _constructSeries() {
+    return GeneratedIntColumn(
+      'series',
+      $tableName,
+      true,
     );
   }
 
@@ -853,8 +941,19 @@ class $HistorialsTable extends Historials
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, dificultad, ejercicio, fecha, calorias, duracion, idUser, activo];
+  List<GeneratedColumn> get $columns => [
+        id,
+        dificultad,
+        ejercicio,
+        tipo,
+        fecha,
+        calorias,
+        duracion,
+        repeticiones,
+        series,
+        idUser,
+        activo
+      ];
   @override
   $HistorialsTable get asDslTable => this;
   @override
@@ -880,6 +979,12 @@ class $HistorialsTable extends Historials
     } else if (isInserting) {
       context.missing(_ejercicioMeta);
     }
+    if (d.tipo.present) {
+      context.handle(
+          _tipoMeta, tipo.isAcceptableValue(d.tipo.value, _tipoMeta));
+    } else if (isInserting) {
+      context.missing(_tipoMeta);
+    }
     if (d.fecha.present) {
       context.handle(
           _fechaMeta, fecha.isAcceptableValue(d.fecha.value, _fechaMeta));
@@ -889,14 +994,20 @@ class $HistorialsTable extends Historials
     if (d.calorias.present) {
       context.handle(_caloriasMeta,
           calorias.isAcceptableValue(d.calorias.value, _caloriasMeta));
-    } else if (isInserting) {
-      context.missing(_caloriasMeta);
     }
     if (d.duracion.present) {
       context.handle(_duracionMeta,
           duracion.isAcceptableValue(d.duracion.value, _duracionMeta));
-    } else if (isInserting) {
-      context.missing(_duracionMeta);
+    }
+    if (d.repeticiones.present) {
+      context.handle(
+          _repeticionesMeta,
+          repeticiones.isAcceptableValue(
+              d.repeticiones.value, _repeticionesMeta));
+    }
+    if (d.series.present) {
+      context.handle(
+          _seriesMeta, series.isAcceptableValue(d.series.value, _seriesMeta));
     }
     if (d.idUser.present) {
       context.handle(
@@ -931,6 +1042,9 @@ class $HistorialsTable extends Historials
     if (d.ejercicio.present) {
       map['ejercicio'] = Variable<String, StringType>(d.ejercicio.value);
     }
+    if (d.tipo.present) {
+      map['tipo'] = Variable<String, StringType>(d.tipo.value);
+    }
     if (d.fecha.present) {
       map['fecha'] = Variable<DateTime, DateTimeType>(d.fecha.value);
     }
@@ -938,7 +1052,13 @@ class $HistorialsTable extends Historials
       map['calorias'] = Variable<int, IntType>(d.calorias.value);
     }
     if (d.duracion.present) {
-      map['duracion'] = Variable<int, IntType>(d.duracion.value);
+      map['duracion'] = Variable<String, StringType>(d.duracion.value);
+    }
+    if (d.repeticiones.present) {
+      map['repeticiones'] = Variable<int, IntType>(d.repeticiones.value);
+    }
+    if (d.series.present) {
+      map['series'] = Variable<int, IntType>(d.series.value);
     }
     if (d.idUser.present) {
       map['id_user'] = Variable<String, StringType>(d.idUser.value);

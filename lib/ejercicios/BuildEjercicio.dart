@@ -1,10 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
+import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
+
 //import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
@@ -13,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'dart:async';
 
+import 'EjerciciosState.dart';
 import 'lista_ejer.dart';
 
 class BuildEjercicio extends StatefulWidget {
@@ -48,21 +51,41 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     });
   }
 
-  void addEjercicio(BuildContext context) async {
+  void addEjercicio(BuildContext context, EjercicioState ejstate) async {
     final database = Provider.of<AppDatabase>(context, listen: false);
     var state = Provider.of<LoginState>(context, listen: false);
     String uid = state.getId();
-    Historial hist =  Historial(
-        id: null,
-        dificultad: 0,
-        ejercicio: widget.ejercicio.name,
-        fecha: DateTime.now(),
-        duracion: 30,
-        calorias: widget.ejercicio.calories,
-        idUser: uid,
-        activo: true);
-    database.historialDAO.insertHistorial(hist);
-    Navigator.push(context,MaterialPageRoute(builder: (context) => MyList()));
+    if (widget.ejercicio is EjercicioTiempo) {
+      EjercicioTiempo ej = widget.ejercicio;
+      Historial hist = Historial(
+          dificultad: 0,
+          ejercicio: widget.ejercicio.name,
+          fecha: DateTime.now(),
+          calorias: widget.ejercicio.calories,
+          tipo: "tiempo",
+          duracion: ejstate.getTime(),
+          series: null,
+          repeticiones: null,
+          idUser: uid,
+          activo: true);
+      database.historialDAO.insertHistorial(hist);
+    } else {
+      EjercicioRepeticiones ej = widget.ejercicio;
+      Historial hist = Historial(
+          dificultad: 0,
+          ejercicio: widget.ejercicio.name,
+          fecha: DateTime.now(),
+          calorias: widget.ejercicio.calories,
+          tipo:"reps",
+          duracion: null,
+          series: ejstate.getSeries(),
+          repeticiones: ejstate.getReps(),
+          idUser: uid,
+          activo: true);
+        database.historialDAO.insertHistorial(hist);
+
+    }
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyList()));
   }
 
   void sacarEdad() async {
@@ -84,15 +107,21 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     // return  edad;
   }
 
-  Widget widgetEj(Ejercicio ejercicio) {
+  Widget widgetEj(Ejercicio ejercicio, EjercicioState ejstate) {
     if (ejercicio is EjercicioTiempo) {
       EjercicioTiempo ejt = widget.ejercicio;
+      ejstate.setTiempo(ejt.time);
+      ejstate.setTipo("T");
       return Container(
         child: AppTimer(time: ejt.time),
       );
     } else {
+      EjercicioRepeticiones ejr = widget.ejercicio;
+      ejstate.setSeries(0);
+      ejstate.setReps(ejr.reps);
+      ejstate.setTipo("R");
       return Container(
-        child: RepCounter(),
+        child: RepCounter(ej: ejr,state: ejstate,),
       );
     }
     ;
@@ -101,7 +130,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
   @override
   Widget build(BuildContext context) {
     Ejercicio ej = widget.ejercicio;
-
+    var ejstatus = context.watch<EjercicioState>();
+    ejstatus.setEjercicio(ej);
     return MaterialApp(
       title: 'App actividad física',
       home: Scaffold(
@@ -123,7 +153,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
             const SizedBox(
               height: 20,
             ),
-            widgetEj(ej),
+            widgetEj(ej, ejstatus),
 
             const SizedBox(
               height: 20,
@@ -149,7 +179,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                   borderRadius: BorderRadius.circular(12)),
               autofocus: true,
               color: Colors.indigo,
-              onPressed:() => addEjercicio(context),
+              onPressed:() => addEjercicio(context, ejstatus),
               padding: EdgeInsets.all(15.0),
               child: Text(
                 "Hecho",

@@ -2,53 +2,74 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
+import 'package:flutterapp/ejercicios/EjerciciosState.dart';
 
 class RepCounter extends StatelessWidget {
+  final EjercicioRepeticiones ej;
+  final EjercicioState state;
+  RepCounter({@required this.ej, @required this.state});
   @override
   Widget build(BuildContext context) {
-    return new repcount();
+    return  Repcount(ejercicioRepeticiones: ej, ejstate: state,);
   }
 }
 
-class repcount extends StatefulWidget {
+class Repcount extends StatefulWidget {
+  final EjercicioRepeticiones ejercicioRepeticiones;
+  EjercicioState ejstate;
+  Repcount({@required this.ejercicioRepeticiones, @required this.ejstate});
   @override
-  _repCountState createState() => new _repCountState();
+  _RepCountState createState() =>  _RepCountState();
 }
 
-class _repCountState extends State<repcount> {
-  int repcount = 0;
-  int sercount = 0;
+class _RepCountState extends State<Repcount> {
+  EjercicioRepeticiones ej;
+  EjercicioState state;
+  int repcount;
+  int sercount;
+  
 
-  void _addrep() {
+  void _rmrep() {
     setState(() {
-      repcount++;
+      if(repcount > 0){
+        repcount--;
+      
+      }
     });
   }
 
   void _resetrep() {
     setState(() {
-      repcount = 0;
+      
+      repcount = ej.reps;
     });
   }
 
-  void _addser() {
+  void _rmser() {
     setState(() {
-      sercount++;
-      repcount = 0;
+      if(sercount > 0){
+        sercount--;
+        repcount = ej.reps;
+        state.setSeries(ej.series -(ej.series-sercount));
+      }
     });
+
   }
 
   void _resetser() {
     setState(() {
-      sercount = 0;
+      sercount = ej.series;
     });
   }
 
-  void _init() {
-    setState(() {
-      repcount = 0;
-      sercount = 0;
-    });
+  void initState() {
+    
+      ej = widget.ejercicioRepeticiones;
+      state = widget.ejstate;
+      repcount = ej.reps;                                                                         
+      sercount =ej.series;
+    
   }
 
   @override
@@ -80,9 +101,9 @@ class _repCountState extends State<repcount> {
                   child:FloatingActionButton(
                       heroTag: "add series",
                       backgroundColor: Colors.indigo,
-                      onPressed: _addser,
+                      onPressed: _rmser,
                       child:  Icon(
-                        Icons.add_circle,
+                        Icons.remove_circle,
                         color:Colors.white,
                       )
                   ),
@@ -106,16 +127,16 @@ class _repCountState extends State<repcount> {
                       )
                   ),
                 ),
-                 Text('$repcount', style: new TextStyle(fontSize: 60.0)),
+                 Text('$repcount', style:  TextStyle(fontSize: 60.0)),
                 Semantics(
                   label: "añadir repeticion",
                   child:FloatingActionButton(
                       heroTag: "add rep",
                       backgroundColor: Colors.indigo,
-                      onPressed: _addrep,
+                      onPressed: _rmrep,
                       child:  Icon(
-                        Icons.add_circle,
-                        color:Colors.white,
+                        Icons.remove_circle,
+                        color:Colors.white
                       )
                   ),
                 ),
