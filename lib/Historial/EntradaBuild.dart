@@ -80,9 +80,9 @@ Widget dato(String texto, String dato){
             backgroundColor: Colors.indigo,
           ),
           body: Center(
-            child: Flex(
-                mainAxisAlignment: MainAxisAlignment.center,
-                direction: Axis.vertical,
+            child: ListView(
+                padding: EdgeInsets.all(10),
+                shrinkWrap: true,
                 children: <Widget>[
                   dato("Nombre del ejercicio", entry.ejercicio),
                   padd2(),
@@ -99,14 +99,14 @@ Widget dato(String texto, String dato){
                       r = Column(
                         children: <Widget>[
                           dato("Repeticiones del ejercicio", entry.repeticiones.toString()),
-                          padd2(),
-                          dato("Series del ejercicio", entry.series.toString()),
+                          //padd2(),
+                          dato("Series realizadas", entry.series.toString()),
                         ],
                       );
                     }
                     return r;
                   }()),
-                  Padding(padding: EdgeInsets.all(24),),
+                  Padding(padding: EdgeInsets.all(20),),
                   RaisedButton(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     color: Colors.indigo,
