@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -65,6 +66,7 @@ class _AppTimerState extends State<AppTimer> {
   }
 
   void stopStopwatch() {
+    sleep(Duration(seconds: 1));
     setState(() {
       startispressed = true;
       stopispressed = true;
