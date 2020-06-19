@@ -67,14 +67,6 @@ class MyPideDatos extends StatelessWidget {
  */
 
 bool trataDatos (List<HealthDataPoint> _healthDataList, var edad){
-  //final database = Provider.of<AppDatabase>(context);
-  
-  //var state = context.watch<LoginState>();
-  //String id = state.getId();
-  //var user = await database.usuarioDAO.getUser(id)
-  //var fecha_n = user.edad;
-  //var _healthDataList = getHealthRate(); // Revisar
-
   // FCmax = 220 - edad
   // Ej: 50 años, serian 170 latidos por minuto
 
@@ -106,8 +98,8 @@ bool trataDatos (List<HealthDataPoint> _healthDataList, var edad){
   media = (suma / cont);
   print(media);
 
-  //if (media > (220 - edad)) // Edad se saca de la base de datos
-  if(media > 10)
+  if (media > (220 - edad)) // Edad se saca de la base de datos
+  //if(media > 10)
     return true;
   return false;
 }
