@@ -63,6 +63,7 @@ class _AppTimerState extends State<AppTimer> {
   }
 
   void stopStopwatch() {
+    sleep(Duration(seconds: 1));
     setState(() {
       startispressed = true;
       stopispressed = true;

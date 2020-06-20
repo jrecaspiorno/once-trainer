@@ -1,13 +1,11 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/RouteManager.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
-import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
-
 //import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
@@ -16,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'dart:async';
 
+import 'EjercicioRepeticiones.dart';
 import 'EjerciciosState.dart';
 import 'lista_ejer.dart';
 
@@ -30,25 +29,26 @@ class BuildEjercicio extends StatefulWidget {
 }
 
 class _BuildEjercicioState extends State<BuildEjercicio> {
-  bool auxParar = true;
+
   Timer timer;
 
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
-  }
 
   @override
   void initState() {
     super.initState();
     //int edad = sacarEdad(); no va por el future
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t) {
-      if (auxParar) {
+    setAuxExceso(false);
+    timer = Timer.periodic(Duration(seconds: 3), (Timer t){ // En principio cada 3 seg
+      if(!getAuxExceso()) {
         sacarEdad();
-        auxParar = false;
       }
     });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   void addEjercicio(BuildContext context, EjercicioState ejstate) async {
@@ -88,7 +88,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     Navigator.pop(context);
   }
 
-  void sacarEdad() async {
+ void sacarEdad ()async {
+
     DateTime endDate = DateTime.now();
     /*
     final database = Provider.of<AppDatabase>(context, listen: false);
@@ -101,9 +102,13 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     if(edad == null){
       edad = 50;
     }
-  */
-    int edad = 50;
-    getHealthRate(edad, context);
+  */var state = context.read<LoginState>();
+    //state.setDate(_dateTime);
+    //print(state.getFNacimiento());
+    int edad = endDate.year - state.getFNacimiento().year;
+    //print(edad);
+    //int edad = 50;
+    getHealthRate(edad, context); // Si true es que se ha pasado
     // return  edad;
   }
 

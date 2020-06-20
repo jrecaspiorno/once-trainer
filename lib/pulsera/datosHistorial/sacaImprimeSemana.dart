@@ -130,7 +130,8 @@ class _MySacaImprime extends State<MySaca> {
     DateTime endDate = DateTime.now();
     DateTime startDate = endDate.subtract(Duration(days: 6));
 
-    //print("hola");
+    print(endDate.millisecondsSinceEpoch);
+    print(endDate);
     Future.delayed(Duration(seconds: 2), () async {
       _isAuthorized = await Health.requestAuthorization();
 
@@ -158,11 +159,11 @@ class _MySacaImprime extends State<MySaca> {
           print(exception.toString());
         }
         //}
-        /*
+        //*
         for (var healthData in _healthDataList) {
           print("Data: $healthData");
         }
-        */
+        //*/
         /// Update the UI to display the results
         //TimeSeriesBar.withSampleData(tipoEntrada.toString(), _healthDataList);
         setState(() {});

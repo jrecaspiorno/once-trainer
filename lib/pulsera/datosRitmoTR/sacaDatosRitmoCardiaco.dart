@@ -16,7 +16,14 @@ import 'package:flutterapp/Provider/MyProvider.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
 
-  // bool exceso = false;
+bool AuxExceso = false;
+void setAuxExceso(bool aux){
+  AuxExceso = aux;
+}
+
+bool getAuxExceso(){
+  return AuxExceso;
+}
 
   void getHealthRate(int edad, BuildContext context) {
 
@@ -35,7 +42,8 @@ import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
     DateTime endDate = DateTime.now();
     //DateTime startDate = endDate.subtract(Duration(seconds: 3));
     DateTime startDate = endDate.subtract(
-        Duration(days: 20)); // TODO: Cambiar a segundos
+        Duration(seconds: 3));
+        //Duration(days: 300)); // TODO: Cambiar a segundos
     //Future.delayed(Duration(seconds: 1), () async{});
 
     Future.delayed(Duration(seconds: 2), () async {
@@ -60,13 +68,12 @@ import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
               var edad = endDate.year - fecha_n;*/
               // exceso = trataDatos(_healthDataList, edad);
               exceso = trataDatos(_healthDataList, edad);
-              print(exceso);
               //print(exceso);
               //if(exceso) alert;
-              if (exceso) {
+              if (exceso && !getAuxExceso()) {
               // MyAlerta();
-               _showAlert(context);
-
+                setAuxExceso(exceso);
+                _showAlert(context);
               }
             }
           } catch (exception) {
@@ -79,7 +86,7 @@ import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
         print('Not authorized');
       }
     });
-    print("fuera");
+    //print("fuera");
     //return exceso;
   }
 
