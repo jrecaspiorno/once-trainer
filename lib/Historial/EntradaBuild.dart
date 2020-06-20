@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/RouteManager.dart';
 import 'package:provider/provider.dart';
 
 import 'HistorialBuild.dart';
@@ -69,6 +70,7 @@ Widget dato(String texto, String dato){
 
     return MaterialApp(
         title: entry.ejercicio,
+        onGenerateRoute: RouteGenerator.generateRoute,
         home: Scaffold(
           appBar: AppBar(
             leading: BackButton(
@@ -112,7 +114,7 @@ Widget dato(String texto, String dato){
                     color: Colors.indigo,
                     onPressed: (){
                       dao.deleteHistorial(entry);
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => MyHistory()));
+                      Navigator.pop(context);
 
                     },
                     padding: EdgeInsets.all(20.0),

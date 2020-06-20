@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Historial/HistorialBuild.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
@@ -8,6 +9,7 @@ import 'package:flutterapp/Perfil/Perfil.dart';
 
 import 'package:flutterapp/Perfil/historialClinico.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:flutterapp/RouteManager.dart';
 import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
 import 'package:flutterapp/pulsera/datosHistorial/tablaDatos.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
@@ -22,6 +24,18 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+
+  Future<bool> _onBackPressed(BuildContext context) {
+    Alerts alert = Alerts(
+        context: context,
+        firstButtonText: "No",
+        secondButtonText: "Si",
+        fun1: () => Navigator.pop(context, false),
+        fun2: () => SystemNavigator.pop(),
+        title: "Quieres salir de la aplicacion?",
+        message: "");
+        return alert.showAlertDialog2();
+  }
   @override
   Widget build(BuildContext context) {
     final uDao = context.watch<AppDatabase>().usuarioDAO;
@@ -30,15 +44,20 @@ class _MenuState extends State<Menu> {
     var user =  uDao.getUser(id);
     user.then((value) => state.setDate(value.edad));
     return MaterialApp(
+      onGenerateRoute:  RouteGenerator.generateRoute,
+      home: WillPopScope(
 
-      home: Scaffold(
-        appBar: AppBar(
+        onWillPop:() => _onBackPressed(context),
+        child: Scaffold(
+          appBar: AppBar(
 
-          title: Text("Menu"),
-          backgroundColor: Colors.indigo,
+            title: Text("Menu"),
+             backgroundColor: Colors.indigo,
+          ),
+          body: MenuView(context),
         ),
-        body: MenuView(context),
       ),
+      
     );
   }
 
@@ -49,9 +68,9 @@ class _MenuState extends State<Menu> {
         shrinkWrap: true,
         padding: EdgeInsets.all(30),
         children: <Widget>[
-          _buildButton('Recomendaciones', MyRecomList(), context),
-          _buildButton('Lista Ejercicios', MyList(), context),
-          _buildButton('Perfil', MyProfile(), context),
+          _buildButton('Recomendaciones' , context,'/Recomendaciones'),
+          _buildButton('Lista Ejercicios', context, '/Lista Ejercicios'),
+          _buildButton('Perfil', context,'/Perfil'),
       //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
       //_buildButton('Prueba Ritmo', MyRitmo(), context),
          
@@ -62,7 +81,7 @@ class _MenuState extends State<Menu> {
 
   
 
-  Flex _buildButton(String label, Widget funcion, BuildContext context) {
+  Flex _buildButton(String label,BuildContext context, String route) {
     return Flex(
       direction: Axis.vertical,
       
@@ -74,10 +93,7 @@ class _MenuState extends State<Menu> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => funcion),
-              );
+              Navigator.of(context).pushNamed( route);
             },
             color: Colors.indigo,
             textColor: Colors.white,

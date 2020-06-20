@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/RouteManager.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
@@ -19,11 +20,10 @@ import 'EjerciciosState.dart';
 import 'lista_ejer.dart';
 
 class BuildEjercicio extends StatefulWidget {
-  BuildEjercicio({Ejercicio ejercicio}) {
-    this.ejercicio = ejercicio;
-  }
-
   Ejercicio ejercicio;
+  BuildEjercicio({@required this.ejercicio});
+
+  
 
   @override
   _BuildEjercicioState createState() => _BuildEjercicioState();
@@ -85,7 +85,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         database.historialDAO.insertHistorial(hist);
 
     }
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyList()));
+    Navigator.pop(context);
   }
 
   void sacarEdad() async {
@@ -107,6 +107,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     // return  edad;
   }
 
+
+
   Widget widgetEj(Ejercicio ejercicio, EjercicioState ejstate) {
     if (ejercicio is EjercicioTiempo) {
       EjercicioTiempo ejt = widget.ejercicio;
@@ -121,82 +123,87 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       ejstate.setReps(ejr.reps);
       ejstate.setTipo("R");
       return Container(
-        child: RepCounter(ej: ejr,state: ejstate,),
+        child: Repcount(ejercicioRepeticiones: ejr,ejstate: ejstate,),
       );
     }
-    ;
+    
   }
+
 
   @override
   Widget build(BuildContext context) {
     Ejercicio ej = widget.ejercicio;
     var ejstatus = context.watch<EjercicioState>();
     ejstatus.setEjercicio(ej);
-    return MaterialApp(
-      title: 'App actividad física',
-      home: Scaffold(
-        // Widget con app prediseñada, esquema
+    return  WillPopScope(
+        onWillPop:() {
+          print('Backbutton pressed (device or appbar button), do whatever you want.');
+          Navigator.pop(context, false);
+          return Future.value(false);
+        },
+        child: Scaffold(
+          // Widget con app prediseñada, esquema
 
-        appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => MyList()));
-            },
+          appBar: AppBar(
+            leading: BackButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: Text(widget.ejercicio.name),
+            backgroundColor: Colors.indigo,
           ),
-          title: Text(widget.ejercicio.name),
-          backgroundColor: Colors.indigo,
-        ),
-        body: Container(
-            child: Column(
-          children: <Widget>[
-            // MyRitmo(),
-            const SizedBox(
-              height: 20,
-            ),
-            widgetEj(ej, ejstatus),
+          body: Container(
+              child: Column(
+            children: <Widget>[
+              // MyRitmo(),
+              const SizedBox(
+                height: 20,
+              ),
+              widgetEj(ej, ejstatus),
 
-            const SizedBox(
-              height: 20,
-            ),
+              const SizedBox(
+                height: 20,
+              ),
 
-            Expanded(
-              flex: 1,
-              child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 18,
-                    vertical: 19,
+              Expanded(
+                flex: 1,
+                child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 19,
+                    ),
+                    child: Text("Descripcion: " + widget.ejercicio.description,
+                        style: TextStyle(
+                          fontSize: 27,
+                        ))),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                autofocus: true,
+                color: Colors.indigo,
+                onPressed:() => addEjercicio(context, ejstatus),
+                padding: EdgeInsets.all(15.0),
+                child: Text(
+                  "Hecho",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+
+                    fontWeight: FontWeight.bold,
                   ),
-                  child: Text("Descripcion: " + widget.ejercicio.description,
-                      style: TextStyle(
-                        fontSize: 27,
-                      ))),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              autofocus: true,
-              color: Colors.indigo,
-              onPressed:() => addEjercicio(context, ejstatus),
-              padding: EdgeInsets.all(15.0),
-              child: Text(
-                "Hecho",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-
-                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        )),
-      ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          )),
+        ),
     );
   }
 }

@@ -3,7 +3,9 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 
 import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:flutterapp/RouteManager.dart';
 import 'package:flutterapp/ejercicios/EjerciciosState.dart';
+import 'package:flutterapp/recomendados.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:provider/provider.dart';
@@ -12,10 +14,12 @@ import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'Menu/Menu.dart';
+import 'Perfil/Perfil.dart';
 import 'Registro/DatePicker/DatePicker.dart';
 
 import 'Registro/Registro.dart';
 import 'Provider/MyProvider.dart';
+import 'ejercicios/lista_ejer.dart';
 
 Future<void> main() async {
   debugPrint = (String message, {int wrapWidth}) {};
@@ -52,18 +56,23 @@ class _MyAppState extends State<MyApp> {
           ],
 
           title: 'App actividad física',
-          routes: {
-            '/':(BuildContext context){
-              //var state = context.watch<LoginState>();
-              var state = Provider.of<LoginState>(context);
-              if(state.isLogedIn()){
-                return Menu();
-              }else{
-                return state.getFecha() ? DatePicker() : LoginPage();
+          initialRoute: '/',
+          onGenerateRoute: RouteGenerator.generateRoute,
+          // routes: {
+          //   '/':(BuildContext context){
+          //     //var state = context.watch<LoginState>();
+          //     var state = Provider.of<LoginState>(context);
+          //     if(state.isLogedIn()){
+          //       return Menu();
+          //     }else{
+          //       return state.getFecha() ? DatePicker() : LoginPage();
 
-              }
-            }
-          },
+          //     }
+          //   },
+          //   '/Recomendaciones': (BuildContext context) => MyRecomList(),
+          //   '/Lista Ejercicios': (BuildContext context) => MyList(),
+          //   '/Perfil': (BuildContext context) => MyProfile(),
+          // },
 //        home: Scaffold(
 //          // Widget con app prediseñada, esquema
 //          appBar: AppBar(

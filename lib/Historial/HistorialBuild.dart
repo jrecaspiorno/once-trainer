@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
+import 'package:flutterapp/RouteManager.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 
@@ -8,7 +9,12 @@ import 'EntradaBuild.dart';
 
 
 
-class MyHistory extends StatelessWidget {
+class MyHistory extends StatefulWidget {
+  @override
+  _MyHistoryState createState() => _MyHistoryState();
+}
+
+class _MyHistoryState extends State<MyHistory> {
   @override
   Widget build(BuildContext context) {
     final daoHist = Provider.of<AppDatabase>(context, listen: false).historialDAO;
@@ -19,24 +25,26 @@ class MyHistory extends StatelessWidget {
       return hist;
     }
 
-
+    
 
     return MaterialApp(
       title: 'App actividad física',
+      onGenerateRoute: RouteGenerator.generateRoute,
       home: Scaffold(
           appBar: AppBar(
             leading: BackButton(
               onPressed: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => MyProfile()));
+                Navigator.pop(context);
               },
             ),
             title: Text('Tu historial'),
             backgroundColor: Colors.indigo,
           ),
           extendBodyBehindAppBar: false,
+
           body: Container(
-            child: FutureBuilder(
-                future: getHist(context),
+            child: StreamBuilder(
+                stream: daoHist.watchallHist(),
                 builder: (context,data){
                   if(data.hasData){
                     List<Historial> hist = data.data;
@@ -60,8 +68,9 @@ class MyHistory extends StatelessWidget {
                                 autofocus: true,
                                 onPressed: () {
                                   final Historial entry = hist[index];
-                                  Navigator.push(context,MaterialPageRoute(builder: (context) => (BuildHistEntry(dao: daoHist,entry: entry,)),
-                                  ));
+                                  List<dynamic> l = [daoHist, entry];
+                                  Navigator.pushNamed(context,'/Actividad', arguments: l
+                                  );
                                 },
                                 color: Colors.indigo,
                                 textColor: Colors.white,

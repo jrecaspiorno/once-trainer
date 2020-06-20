@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -6,10 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppTimer extends StatefulWidget {
-  AppTimer({String time}) {
-    this.time = time;
-  }
-
+  AppTimer({@required this.time});
   String time;
 
   @override
@@ -40,7 +38,7 @@ class _AppTimerState extends State<AppTimer> {
       resetispressd = true;
       checktimer = true;
     });
-    time4Timer = StringtoTime(stoptimedisplay);
+    time4Timer = stringtoTime(stoptimedisplay);
     debugPrint(time4Timer.toString());
     Timer.periodic(Duration(seconds: 1), (Timer t) {
       if (mounted) {
@@ -58,7 +56,7 @@ class _AppTimerState extends State<AppTimer> {
           } else {
             time4Timer = time4Timer - 1;
           }
-          stoptimedisplay = TimetoString(time4Timer);
+          stoptimedisplay = timetoString(time4Timer);
         });
       }
     });
@@ -86,13 +84,13 @@ class _AppTimerState extends State<AppTimer> {
     debugPrint(stoptimedisplay);
   }
 
-  int StringtoTime(String h) {
+  int stringtoTime(String h) {
     return ((int.parse(h[0]) * 10) + (int.parse(h[1])) * 60) +
         (int.parse(h[3]) * 10) +
         (int.parse(h[4]));
   }
 
-  String TimetoString(int t) {
+  String timetoString(int t) {
     int min = t ~/ 60;
     int sec = t % 60;
     return (min.toString().padLeft(2, "0") +
@@ -198,6 +196,11 @@ class _AppTimerState extends State<AppTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return stopwatch(widget.time);
+    return WillPopScope(
+      onWillPop: () { 
+        print('Backbutton pressed (device or appbar button), do whatever you want.');
+        Navigator.pop(context, false);
+        return Future.value(false); },
+    child: stopwatch(widget.time));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/RouteManager.dart';
 import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
@@ -54,6 +55,7 @@ class MyRecomList extends StatelessWidget {
 
     return MaterialApp(
       title: 'App actividad física',
+      onGenerateRoute:  RouteGenerator.generateRoute,
       home: Scaffold(
           // Widget con app prediseñada, esquema
           appBar: AppBar(
@@ -93,13 +95,11 @@ class MyRecomList extends StatelessWidget {
                                 autofocus: true,
                                 onPressed: () {
                                   final Ejercicio ejercicio = ejercicios[index];
-                                  Navigator.push(
+                                  Navigator.pushNamed(
                                       context,
-                                      MaterialPageRoute(
-                                        builder: (context) => (BuildEjercicio(
-                                          ejercicio: ejercicio,
-                                        )),
-                                      ));
+                                      '/Ejercicio',
+                                      arguments: ejercicio
+                                  );
                                 },
                                 color: Colors.indigo,
                                 textColor: Colors.white,

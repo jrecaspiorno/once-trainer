@@ -22,7 +22,7 @@ class _EditProfileState extends State<EditProfile> {
     //UsuarioData(id: user.id, nombre: user., edad: null, photoUrl: null, email: null)
   }
 
-  Widget DateSel() {
+  Widget dateSel() {
     return Center(
         child: RaisedButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
@@ -58,7 +58,7 @@ class _EditProfileState extends State<EditProfile> {
     ));
   }
 
-  Widget CambiarF(UsuarioDAO dao) {
+  Widget cambiarF(UsuarioDAO dao) {
     return RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         color: Colors.indigo,
@@ -78,23 +78,23 @@ class _EditProfileState extends State<EditProfile> {
           state.setDate(_dateTime);
           print(state.getFNacimiento());
           debugPrint(state.getFecha().toString());
-           Navigator.push(context,MaterialPageRoute(builder: (context) => MyProfile()));
+           Navigator.pop(context);
         });
   }
 
-  Widget ActualSelDate() {
+  Widget actualSelDate() {
     return Center(
       child: Text(
         _dateTime == null
             ? 'Todavía no has eligido fecha'
-            : DateTimeToString(_dateTime),
+            : dateTimeToString(_dateTime),
         style: TextStyle(fontSize: 30, color: Colors.indigo),
         textAlign: TextAlign.center,
       ),
     );
   }
 
-  String DateTimeToString(DateTime _dateTime) {
+  String dateTimeToString(DateTime _dateTime) {
     String day = _dateTime.day.toString();
     String month = _dateTime.month.toString();
     String year = _dateTime.year.toString();
@@ -121,15 +121,15 @@ class _EditProfileState extends State<EditProfile> {
           shrinkWrap: true,
           padding: const EdgeInsets.all(20.0),
           children: <Widget>[
-            DateSel(),
+            dateSel(),
             Padding(
               padding: EdgeInsets.all(40),
             ),
-            ActualSelDate(),
+            actualSelDate(),
             Padding(
               padding: EdgeInsets.all(40),
             ),
-            CambiarF(database.usuarioDAO)
+            cambiarF(database.usuarioDAO)
           ],
         ),
       ),
