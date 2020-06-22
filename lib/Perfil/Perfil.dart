@@ -72,10 +72,9 @@ class _MyProfileState extends State<MyProfile> {
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
             padding: EdgeInsets.all(17.0),
-            onPressed: () {
-              context.read<LoginState>().logout();
-              Navigator.pushAndRemoveUntil(
-                  context, MaterialPageRoute(builder: (context) => MyApp()),(Route<dynamic> route) => false);
+            onPressed: () {                
+                context.read<LoginState>().logout();
+                Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil('/',(Route<dynamic> route) => false);
             },
           ),
         )
@@ -87,7 +86,7 @@ class _MyProfileState extends State<MyProfile> {
     return usuarioDAO.getUsers();
   }
 
-  Stream<UsuarioData> watchCurrentsUser(UsuarioDAO usuarioDAO, String id)  {
+  Stream<UsuarioData> watchCurrentsUser(UsuarioDAO usuarioDAO, String id) {
     return usuarioDAO.watchUser(id);
   }
 
@@ -130,6 +129,7 @@ class _MyProfileState extends State<MyProfile> {
                     padding: EdgeInsets.all(20),
                   ),
                   logoutButton(context),
+                  
                   Padding(
                     padding: EdgeInsets.all(20),
                   ),
@@ -155,7 +155,8 @@ class _MyProfileState extends State<MyProfile> {
 }
 
 class MyButtonType extends StatelessWidget {
-  Flex _buildButton(String label,String route, BuildContext context, Object args) {
+  Flex _buildButton(
+      String label, String route, BuildContext context, Object args) {
     return Flex(
       direction: Axis.vertical,
       // mainAxisSize: MainAxisSize.min,
@@ -166,14 +167,10 @@ class MyButtonType extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () {
-              if(args != null)
-              Navigator.pushNamed(
-                context,             
-                route,
-                arguments: args
-              );
-              else 
-                Navigator.of(context).pushNamed( route);
+              if (args != null)
+                Navigator.pushNamed(context, route, arguments: args);
+              else
+                Navigator.of(context).pushNamed(route);
             },
             color: Colors.indigo,
             textColor: Colors.white,
@@ -195,17 +192,12 @@ class MyButtonType extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const SizedBox(height: 20),
-          _buildButton('Historial Actividades', '/Historial Actividades', context, null),
-          _buildButton('Historial Clínico', '/Historial Clínico', context, null),
           _buildButton(
-              'Dolencias',
-              '/Dolencias',
-              context, id),
+              'Historial Actividades', '/Historial Actividades', context, null),
           _buildButton(
-              'Editar F.Nacimiento',
-              '/Editar Fecha',
-              context,
-              id)
+              'Historial Clínico', '/Historial Clínico', context, null),
+          _buildButton('Dolencias', '/Dolencias', context, id),
+          _buildButton('Editar F.Nacimiento', '/Editar Fecha', context, id)
         ],
       ),
     );

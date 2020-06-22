@@ -115,6 +115,7 @@ Widget dato(String texto, String dato){
                     onPressed: (){
                       dao.deleteHistorial(entry);
                       Navigator.pop(context);
+                      //Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil('/Historial Actividades', ModalRoute.withName('/Perfil'));
 
                     },
                     padding: EdgeInsets.all(20.0),

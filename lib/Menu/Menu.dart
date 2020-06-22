@@ -54,14 +54,14 @@ class _MenuState extends State<Menu> {
             title: Text("Menu"),
              backgroundColor: Colors.indigo,
           ),
-          body: MenuView(context),
+          body: menuView(context),
         ),
       ),
       
     );
   }
 
-  Widget MenuView(BuildContext context) {
+  Widget menuView(BuildContext context) {
     return Center(
 
       child: ListView(
