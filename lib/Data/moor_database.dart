@@ -62,21 +62,17 @@ class UsuarioDAO extends DatabaseAccessor<AppDatabase> with _$UsuarioDAOMixin {
 
   UsuarioDAO(this.db) : super(db);
   Future<void> deleteAllUsers() => delete(usuario).go();
+  Stream<UsuarioData> watchUser(String id) => (select(usuario)..where((t) => t.id.like(id))).watchSingle();
   Future<List<UsuarioData>> getUsers() => select(usuario).get();
   Future insertUser(Insertable<UsuarioData> user) => into(usuario).insert(user);
   Future updateUser(Insertable<UsuarioData> user) =>
       update(usuario).replace(user);
   Future deleteUser(Insertable<UsuarioData> user) =>
       delete(usuario).delete(user);
-  Future<UsuarioData> getUser(String id) {
-        return (select(usuario)..where((t) => t.id.equals(id))).getSingle();
-  }
-  Future updateEdad(String id, DateTime edad){
-    return (update(usuario)..where((t) => t.id.like(id))).write(UsuarioData(edad: edad));
-  }
-  Future insertBackIdIntoUser(String bid, String uid){
-    return (update(usuario)..where((t) => t.id.like(uid))).write(UsuarioData(backupid: bid));
-  }
+  Future<UsuarioData> getUser(String id) => (select(usuario)..where((t) => t.id.equals(id))).getSingle();
+  Future updateEdad(String id, DateTime edad) => (update(usuario)..where((t) => t.id.like(id))).write(UsuarioData(edad: edad));
+  Future insertBackIdIntoUser(String bid, String uid) => (update(usuario)..where((t) => t.id.like(uid))).write(UsuarioData(backupid: bid));
+ 
 }
 
 @UseDao(tables: [Restricciones, Usuario])

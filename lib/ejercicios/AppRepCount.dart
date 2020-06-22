@@ -84,6 +84,8 @@ class _RepCountState extends State<Repcount> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Semantics(
+                  button: true,
+                  excludeSemantics: true,
                   label: "Resetear series",
                   child:FloatingActionButton(
                     heroTag: "reset series",
@@ -97,7 +99,9 @@ class _RepCountState extends State<Repcount> {
                 ),
                  Text('$sercount', style:  TextStyle(fontSize: 60.0)),
                 Semantics(
-                  label: "añadir serie",
+                  button: true,
+                  excludeSemantics: true,
+                  label: "serie realizada",
                   child:FloatingActionButton(
                       heroTag: "add series",
                       backgroundColor: Colors.indigo,
@@ -116,6 +120,8 @@ class _RepCountState extends State<Repcount> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Semantics(
+                  button: true,
+                  excludeSemantics: true,
                   label: "resetear repeticiones",
                   child:FloatingActionButton(
                       heroTag: "reset rep",
@@ -129,7 +135,9 @@ class _RepCountState extends State<Repcount> {
                 ),
                  Text('$repcount', style:  TextStyle(fontSize: 60.0)),
                 Semantics(
-                  label: "añadir repeticion",
+                  label: "repetición realizada",
+                  excludeSemantics: true,
+                  button: true,
                   child:FloatingActionButton(
                       heroTag: "add rep",
                       backgroundColor: Colors.indigo,

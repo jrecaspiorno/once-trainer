@@ -9,6 +9,7 @@ import 'package:flutterapp/Perfil/EditarPerfil.dart';
 import 'package:flutterapp/Perfil/historialClinico.dart';
 
 import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:flutterapp/RouteManager.dart';
 
 import 'package:provider/provider.dart';
 import '../main.dart';
@@ -73,8 +74,8 @@ class _MyProfileState extends State<MyProfile> {
             padding: EdgeInsets.all(17.0),
             onPressed: () {
               context.read<LoginState>().logout();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyApp()));
+              Navigator.pushAndRemoveUntil(
+                  context, MaterialPageRoute(builder: (context) => MyApp()),(Route<dynamic> route) => false);
             },
           ),
         )
@@ -86,8 +87,8 @@ class _MyProfileState extends State<MyProfile> {
     return usuarioDAO.getUsers();
   }
 
-  Future<UsuarioData> getCurrentsUser(UsuarioDAO usuarioDAO, String id) async {
-    return usuarioDAO.getUser(id);
+  Stream<UsuarioData> watchCurrentsUser(UsuarioDAO usuarioDAO, String id)  {
+    return usuarioDAO.watchUser(id);
   }
 
   @override
@@ -97,20 +98,20 @@ class _MyProfileState extends State<MyProfile> {
     String id = state.getId();
     return MaterialApp(
       title: 'App actividad física',
+      onGenerateRoute: RouteGenerator.generateRoute,
       home: Scaffold(
         // Widget con app prediseñada, esquema
         appBar: AppBar(
           leading: BackButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Menu()));
+              Navigator.pop(context);
             },
           ),
           title: Text('Perfil'),
           backgroundColor: Colors.indigo,
         ),
-        body: FutureBuilder(
-          future: getCurrentsUser(database.usuarioDAO, id),
+        body: StreamBuilder(
+          stream: watchCurrentsUser(database.usuarioDAO, id),
           builder: (context, data) {
             if (data.hasData) {
               UsuarioData mainUser = data.data;
@@ -154,7 +155,7 @@ class _MyProfileState extends State<MyProfile> {
 }
 
 class MyButtonType extends StatelessWidget {
-  Flex _buildButton(String label, Widget funcion, BuildContext context) {
+  Flex _buildButton(String label,String route, BuildContext context, Object args) {
     return Flex(
       direction: Axis.vertical,
       // mainAxisSize: MainAxisSize.min,
@@ -165,10 +166,14 @@ class MyButtonType extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => funcion),
+              if(args != null)
+              Navigator.pushNamed(
+                context,             
+                route,
+                arguments: args
               );
+              else 
+                Navigator.of(context).pushNamed( route);
             },
             color: Colors.indigo,
             textColor: Colors.white,
@@ -190,20 +195,17 @@ class MyButtonType extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const SizedBox(height: 20),
-          _buildButton('Historial Actividades', MyHistory(), context),
-          _buildButton('Historial Clínico', MyHistorial(), context),
+          _buildButton('Historial Actividades', '/Historial Actividades', context, null),
+          _buildButton('Historial Clínico', '/Historial Clínico', context, null),
           _buildButton(
               'Dolencias',
-              Dolencias(
-                id: id,
-              ),
-              context),
+              '/Dolencias',
+              context, id),
           _buildButton(
               'Editar F.Nacimiento',
-              EditProfile(
-                id: id,
-              ),
-              context)
+              '/Editar Fecha',
+              context,
+              id)
         ],
       ),
     );
