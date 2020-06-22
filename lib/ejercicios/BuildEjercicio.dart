@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/RouteManager.dart';
+import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
+import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
+
 //import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
@@ -25,7 +27,7 @@ class BuildEjercicio extends StatefulWidget {
   Ejercicio ejercicio;
   BuildEjercicio({@required this.ejercicio});
 
-  
+
 
   @override
   _BuildEjercicioState createState() => _BuildEjercicioState();
@@ -63,13 +65,27 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       }
     });
   }
+  void botonHecho(BuildContext context){
+    Alerts alerta = Alerts(
+      context: context,
+      title: "Ejercicio Completado",
+      message: "Ejercicio Completado con los siguientes datos, ¿Deseas modificarlos?",
 
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
+      firstButtonText: "ok",
+      secondButtonText: "cambiar",
+      fun1:addEjercicio(BuildContext context,)
+
+        @override
+        void dispose() {
+      timer?.cancel();
+      super.dispose();
+    }
+
+
+    );
+
+    return
   }
-
   void addEjercicio(BuildContext context, EjercicioState ejstate) async {
     final database = Provider.of<AppDatabase>(context, listen: false);
     var state = Provider.of<LoginState>(context, listen: false);
@@ -150,7 +166,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         child: Repcount(ejercicioRepeticiones: ejr,ejstate: ejstate,),
       );
     }
-    
+
   }
 
 
