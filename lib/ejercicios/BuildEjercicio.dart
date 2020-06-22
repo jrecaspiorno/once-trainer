@@ -18,6 +18,9 @@ import 'EjercicioRepeticiones.dart';
 import 'EjerciciosState.dart';
 import 'lista_ejer.dart';
 
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 class BuildEjercicio extends StatefulWidget {
   Ejercicio ejercicio;
   BuildEjercicio({@required this.ejercicio});
@@ -31,16 +34,32 @@ class BuildEjercicio extends StatefulWidget {
 class _BuildEjercicioState extends State<BuildEjercicio> {
 
   Timer timer;
-
+  AudioCache _audioCache;
+  bool sacaaudio = false;
+  int cont = 0;
 
   @override
   void initState() {
     super.initState();
     //int edad = sacarEdad(); no va por el future
     setAuxExceso(false);
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     timer = Timer.periodic(Duration(seconds: 3), (Timer t){ // En principio cada 3 seg
-      if(!getAuxExceso()) {
+      if(!getAuxExceso()) { // Si no salta la alerta
         sacarEdad();
+        cont = 0;
+      }
+      else{ // Si salta
+        cont++;
+        print(cont);
+        if(!sacaaudio) {
+          _audioCache.play("beep-09.mp3");
+          sacaaudio = true;
+        }
+        if(cont == 4) {
+          setAuxExceso(false);
+          sacaaudio = false;
+        }
       }
     });
   }
