@@ -23,7 +23,10 @@ class Alerts {
         @required this.title,
         @required this.message,
         this.fun2,
+        this.fun3,
         this.secondButtonText,
+        this.thirdButtonText,
+        content,
      }
    );
   
@@ -122,7 +125,7 @@ class Alerts {
      );
 
      Widget thirdButton = FlatButton(
-       child: Text(secondButtonText, style: TextStyle(color:Colors.white, fontSize: 20),),
+       child: Text(thirdButtonText, style: TextStyle(color:Colors.white, fontSize: 20),),
 
        onPressed:  () {
          fun3();
@@ -138,7 +141,7 @@ class Alerts {
        actions: [
          firstButton,
          secondButton,
-
+         thirdButton,
        ],
      );
 

@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
@@ -65,26 +66,41 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       }
     });
   }
-  void botonHecho(BuildContext context){
+
+  void botonHecho(BuildContext context,EjercicioState ejstate){
     Alerts alerta = Alerts(
       context: context,
       title: "Ejercicio Completado",
-      message: "Ejercicio Completado con los siguientes datos, ¿Deseas modificarlos?",
+      message: "¿Que datos deseas usar?",
 
-      firstButtonText: "ok",
-      secondButtonText: "cambiar",
-      fun1:addEjercicio(BuildContext context,)
-
-        @override
-        void dispose() {
-      timer?.cancel();
-      super.dispose();
-    }
+      firstButtonText: "Datos del Ejercicio",
+      secondButtonText: "Datos del Usuario",
+      thirdButtonText: "cancelar",
+      fun1:()=> addEjercicio(context,ejstate),
+      fun2:()=>addEjercicioBase(context, ejstate),
+      fun3:()=> Navigator.of(context, rootNavigator: true).pop(),
 
 
     );
+    alerta.showAlertDialog3();
+    return;
+  }
+  addEjercicioBase(BuildContext context,EjercicioState ejstate){
+    if(ejstate is EjercicioTiempo){
+      EjercicioTiempo aux = ejstate.getEjercicio();
+      ejstate.setTiempo(aux.time);
+    }else{
+      EjercicioRepeticiones aux = ejstate.getEjercicio();
+      ejstate.setReps(aux.reps);
+      ejstate.setReps(aux.series);
+    }
+    addEjercicio(context, ejstate);
+  }
 
-    return
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
   void addEjercicio(BuildContext context, EjercicioState ejstate) async {
     final database = Provider.of<AppDatabase>(context, listen: false);
@@ -226,7 +242,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                     borderRadius: BorderRadius.circular(12)),
                 autofocus: true,
                 color: Colors.indigo,
-                onPressed:() => addEjercicio(context, ejstatus),
+                onPressed:() => botonHecho(context, ejstatus),
                 padding: EdgeInsets.all(15.0),
                 child: Text(
                   "Hecho",

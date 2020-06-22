@@ -13,6 +13,7 @@ class EjercicioState with ChangeNotifier{
   void setTiempo(String time) => this._time = time;
   void setReps(int rep) => this._reps= rep;
   void setSeries(int series) => this._series = series;
+  Ejercicio getEjercicio() => this._ej;
   String getTime() => _time;
   int getReps() => _reps;
   int getSeries() => _series;
