@@ -8,6 +8,9 @@ import 'package:moor_flutter/moor_flutter.dart';
 
 import 'package:translator/translator.dart';
 
+import 'package:flutterapp/ejercicios/AppTimer.dart';
+import 'package:flutterapp/ejercicios/AppRepCount.dart';
+
 class MySaca extends StatefulWidget{
   String tipoEntrada;
 
@@ -30,6 +33,11 @@ class _MySacaImprime extends State<MySaca> {
   List<double> media = [0, 0, 0 ,0 ,0 ,0, 0];
   List<String> quedia = ["", "", "", "", "", "", ""];
   int aux = 0;
+
+  Timer timer;
+  bool estaCargando = true;
+  String varImprimir = "Cargando";
+  int cont = 0;
 
   /*
   _MySacaImprime(HealthDataType tipoEntrada){
@@ -62,6 +70,27 @@ class _MySacaImprime extends State<MySaca> {
   void initState() {
     super.initState();
     initPlatformState();
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t){ // En principio cada 3 seg
+      if(_healthDataList.isEmpty) { // Si la lista es vacia
+        cont++;
+        //print(_healthDataList);
+        //print(cont);
+        if(cont == 10){ // Has esperado 10 seg
+          varImprimir = "Error al coger los datos";
+          setState(() {});
+          dispose();
+        }
+      }
+      else{ // Si hay algo en la lista
+        dispose();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   List<double> sacaMedia (String tipo, List <HealthDataPoint> _healthDataList) {
@@ -198,7 +227,7 @@ class _MySacaImprime extends State<MySaca> {
           backgroundColor: Colors.indigo,
         ),
         body: _healthDataList.isEmpty
-            ? Text("Cargando...", style: TextStyle(fontSize: 25)) // Centrar y mas grande
+            ? Text(varImprimir, style: TextStyle(fontSize: 25)) // Centrar y mas grande
             //: Semantics (child: TimeSeriesBar.withSampleData(sacaMedia(tipoEntrada.toString(), _healthDataList)), label: "Tabla",),
             : ListView(
                 //padding: const EdgeInsets.all(8),
