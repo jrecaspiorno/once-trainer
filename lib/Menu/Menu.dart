@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutterapp/Historial/HistorialBuild.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutterapp/DriveBackup/Backup.dart';
-import 'package:flutterapp/Perfil/Perfil.dart';
-
-import 'package:flutterapp/Perfil/historialClinico.dart';
+import 'package:flutterapp/NavigationTools/locator.dart';
+import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
-import 'package:flutterapp/RouteManager.dart';
-import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
-import 'package:flutterapp/pulsera/datosHistorial/tablaDatos.dart';
-import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
-import 'package:provider/provider.dart';
 
-import '../ejercicios/lista_ejer.dart';
-import '../recomendados.dart';
+import 'package:provider/provider.dart';
 
 class Menu extends StatefulWidget {
   @override
@@ -24,7 +15,7 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-
+  final NavigationService _navigationService = locator<NavigationService>();
   Future<bool> _onBackPressed(BuildContext context) {
     Alerts alert = Alerts(
         context: context,
@@ -34,57 +25,48 @@ class _MenuState extends State<Menu> {
         fun2: () => SystemNavigator.pop(),
         title: "Quieres salir de la aplicacion?",
         message: "");
-        return alert.showAlertDialog2();
+    return alert.showAlertDialog2();
   }
+
   @override
   Widget build(BuildContext context) {
     final uDao = context.watch<AppDatabase>().usuarioDAO;
     var state = Provider.of<LoginState>(context, listen: false);
-    String  id = state.getId();
-    var user =  uDao.getUser(id);
+    String id = state.getId();
+    var user = uDao.getUser(id);
     user.then((value) => state.setDate(value.edad));
-    return MaterialApp(
-      onGenerateRoute:  RouteGenerator.generateRoute,
-      home: WillPopScope(
-
-        onWillPop:() => _onBackPressed(context),
-        child: Scaffold(
-          appBar: AppBar(
-
-            title: Text("Menu"),
-             backgroundColor: Colors.indigo,
-          ),
-          body: menuView(context),
+    return WillPopScope(
+      onWillPop: () => _onBackPressed(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Menu"),
+          backgroundColor: Colors.indigo,
         ),
+        body: menuView(context),
       ),
-      
     );
   }
 
   Widget menuView(BuildContext context) {
     return Center(
-
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.all(30),
         children: <Widget>[
-          _buildButton('Recomendaciones' , context,'/Recomendaciones'),
+          _buildButton('Recomendaciones', context, '/Recomendaciones'),
           _buildButton('Lista Ejercicios', context, '/Lista Ejercicios'),
-          _buildButton('Perfil', context,'/Perfil'),
-      //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
-      //_buildButton('Prueba Ritmo', MyRitmo(), context),
-         
+          _buildButton('Perfil', context, '/Perfil'),
+          //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
+          //_buildButton('Prueba Ritmo', MyRitmo(), context),
         ],
       ),
     );
   }
 
-  
-
-  Flex _buildButton(String label,BuildContext context, String route) {
+  Flex _buildButton(String label, BuildContext context, String route) {
     return Flex(
       direction: Axis.vertical,
-      
+
       // mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
@@ -93,7 +75,8 @@ class _MenuState extends State<Menu> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () {
-              Navigator.of(context).pushNamed( route);
+              //Navigator.of(context).pushNamed(route);
+              _navigationService.navigateTo(route);
             },
             color: Colors.indigo,
             textColor: Colors.white,

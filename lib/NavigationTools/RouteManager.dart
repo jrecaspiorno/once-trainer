@@ -5,16 +5,18 @@ import 'package:flutterapp/Historial/HistorialBuild.dart';
 import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
 import 'package:flutterapp/Perfil/EditarPerfil.dart';
+import 'package:flutterapp/Perfil/Perfil.dart';
 import 'package:flutterapp/Perfil/historialClinico.dart';
 import 'package:flutterapp/Registro/DatePicker/DatePicker.dart';
 import 'package:flutterapp/Registro/Registro.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
 import 'package:flutterapp/ejercicios/lista_ejer.dart';
+import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
 import 'package:flutterapp/recomendados.dart';
 import 'package:provider/provider.dart';
 
-import 'Perfil/Perfil.dart';
+
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -52,11 +54,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MyHistorial());
       case '/Ejercicio':
         return MaterialPageRoute(builder: (_) =>BuildEjercicio(ejercicio: args ,));
-      case '/Actividad' :
-        if(args is List<dynamic>)
-          return MaterialPageRoute(builder: (_) => BuildHistEntry(dao: args.first, entry: args.last,));     
+      case '/SacaDatos':
+        return MaterialPageRoute(builder: (_) => MySaca(args));
+      case '/Actividad' :{
+        var a = args as List<dynamic>;
+        return MaterialPageRoute(builder: (_) => BuildHistEntry(dao: a.first, entry: a.last,));     
       
-      
+      }
 
     }
   }

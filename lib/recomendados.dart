@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutterapp/RouteManager.dart';
+import 'package:flutterapp/NavigationTools/locator.dart';
+import 'package:flutterapp/NavigationTools/navigator_service.dart';
+
 import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
@@ -8,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:xml/xml.dart' as xml;
 
 class MyRecomList extends StatelessWidget {
+  final NavigationService _navigationService = locator<NavigationService>();
+
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
@@ -53,76 +57,68 @@ class MyRecomList extends StatelessWidget {
       return ejercicios;
     }
 
-    return MaterialApp(
-      title: 'App actividad física',
-      onGenerateRoute:  RouteGenerator.generateRoute,
-      home: Scaffold(
-          // Widget con app prediseñada, esquema
-          appBar: AppBar(
-            leading: BackButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            title: Text('Ejercicios Recomendados'),
-            backgroundColor: Colors.indigo,
-          ),
-          extendBodyBehindAppBar: false,
-          body: Container(
-            child: FutureBuilder(
-                future: getEjercicios(context),
-                builder: (context, data) {
-                  if (data.hasData) {
-                    List<Ejercicio> ejercicios = data.data;
-                    return ListView.builder(
-                      padding: EdgeInsets.fromLTRB(15, 1, 15, 1),
-                      itemCount: ejercicios.length,
-                      itemBuilder: (context, index) {
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 30),
-                        );
-                        return Flex(
-                          direction: Axis.vertical,
-                          textDirection: TextDirection.ltr,
-                          verticalDirection: VerticalDirection.down,
-                          children: [
-                            SizedBox(height: 40),
-                            SizedBox(
-                              width: 270,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
-                                autofocus: true,
-                                onPressed: () {
-                                  final Ejercicio ejercicio = ejercicios[index];
-                                  Navigator.pushNamed(
-                                      context,
-                                      '/Ejercicio',
-                                      arguments: ejercicio
-                                  );
-                                },
-                                color: Colors.indigo,
-                                textColor: Colors.white,
-                                padding: EdgeInsets.all(24.0),
-                                child: Text(
-                                  ejercicios[index].name,
-                                  style: TextStyle(fontSize: 30),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
+    return Scaffold(
+      // Widget con app prediseñada, esquema
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: _navigationService.goBack,
+        ),
+        title: Text('Ejercicios Recomendados'),
+        backgroundColor: Colors.indigo,
+      ),
+      extendBodyBehindAppBar: false,
+      body: Container(
+        child: FutureBuilder(
+            future: getEjercicios(context),
+            builder: (context, data) {
+              if (data.hasData) {
+                List<Ejercicio> ejercicios = data.data;
+                return ListView.builder(
+                  padding: EdgeInsets.fromLTRB(15, 1, 15, 1),
+                  itemCount: ejercicios.length,
+                  itemBuilder: (context, index) {
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 30),
+                    );
+                    return Flex(
+                      direction: Axis.vertical,
+                      textDirection: TextDirection.ltr,
+                      verticalDirection: VerticalDirection.down,
+                      children: [
+                        SizedBox(height: 40),
+                        SizedBox(
+                          width: 270,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            autofocus: true,
+                            onPressed: () {
+                              final Ejercicio ejercicio = ejercicios[index];
+                              _navigationService.navigateTo( '/Ejercicio',
+                                  arguments: ejercicio);
+                            },
+                            color: Colors.indigo,
+                            textColor: Colors.white,
+                            padding: EdgeInsets.all(24.0),
+                            child: Text(
+                              ejercicios[index].name,
+                              style: TextStyle(fontSize: 30),
+                              textAlign: TextAlign.center,
                             ),
-                            //const SizedBox(height: 20),
-                          ],
-                        );
-                      },
+                          ),
+                        ),
+                        //const SizedBox(height: 20),
+                      ],
                     );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                }),
-          )),
+                  },
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
+      ),
     );
   }
 }

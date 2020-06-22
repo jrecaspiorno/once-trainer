@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/RouteManager.dart';
+import 'package:flutterapp/NavigationTools/locator.dart';
+import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
@@ -16,7 +17,6 @@ import 'dart:async';
 
 import 'EjercicioRepeticiones.dart';
 import 'EjerciciosState.dart';
-import 'lista_ejer.dart';
 
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -32,7 +32,7 @@ class BuildEjercicio extends StatefulWidget {
 }
 
 class _BuildEjercicioState extends State<BuildEjercicio> {
-
+  final NavigationService _navigationService = locator<NavigationService>();
   Timer timer;
   AudioCache _audioCache;
   bool sacaaudio = false;
@@ -104,7 +104,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         database.historialDAO.insertHistorial(hist);
 
     }
-    Navigator.pop(context);
+    _navigationService.goBack();
   }
 
  void sacarEdad ()async {
@@ -162,7 +162,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     return  WillPopScope(
         onWillPop:() {
           print('Backbutton pressed (device or appbar button), do whatever you want.');
-          Navigator.pop(context, false);
+          _navigationService.goBack();
           return Future.value(false);
         },
         child: Scaffold(
@@ -170,9 +170,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
 
           appBar: AppBar(
             leading: BackButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: 
+                _navigationService.goBack,
             ),
             title: Text(widget.ejercicio.name),
             backgroundColor: Colors.indigo,

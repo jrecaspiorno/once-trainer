@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Alertas/Alertas.dart';
+import 'package:flutterapp/NavigationTools/locator.dart';
+import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:provider/provider.dart';
@@ -15,16 +18,17 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final NavigationService _navigationService = locator<NavigationService>();
+
   DateTime _dateTime;
 
-  Future<void> setDate(UsuarioDAO dao) async{
+  Future<void> setDate(UsuarioDAO dao) async {
     UsuarioData user = await dao.getUser(widget.id);
     //UsuarioData(id: user.id, nombre: user., edad: null, photoUrl: null, email: null)
   }
 
   Widget dateSel() {
-    return Center(
-        child: RaisedButton(
+    return RaisedButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       color: Colors.indigo,
       padding: EdgeInsets.all(13.0),
@@ -39,6 +43,17 @@ class _EditProfileState extends State<EditProfile> {
       ),
       onPressed: () {
         showDatePicker(
+                builder: (context, child) => Theme(
+                      child: child,
+                      data: ThemeData.light().copyWith(
+                        primaryColor: Colors.indigo,
+                        accentColor: Colors.indigo,
+                        colorScheme:
+                            ColorScheme.light(primary: const Color(0xFF3F51B5)),
+                        buttonTheme:
+                            ButtonThemeData(textTheme: ButtonTextTheme.primary),
+                      ),
+                    ),
                 initialEntryMode: DatePickerEntryMode.input,
                 helpText: "Introduzca su fecha de nacimiento",
                 fieldLabelText: "Fecha",
@@ -55,7 +70,7 @@ class _EditProfileState extends State<EditProfile> {
           });
         });
       },
-    ));
+    );
   }
 
   Widget cambiarF(UsuarioDAO dao) {
@@ -73,12 +88,23 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
         onPressed: () {
-          dao.updateEdad(widget.id, _dateTime);
-          var state = context.read<LoginState>();
-          state.setDate(_dateTime);
-          print(state.getFNacimiento());
-          debugPrint(state.getFecha().toString());
-           Navigator.pop(context);
+          if (_dateTime != null) {
+            dao.updateEdad(widget.id, _dateTime);
+            var state = context.read<LoginState>();
+            state.setDate(_dateTime);
+            print(state.getFNacimiento());
+            debugPrint(state.getFecha().toString());
+             _navigationService.goBack();
+          } else {
+            Alerts alert = Alerts(
+              context: context,
+              firstButtonText: "Ok",
+              fun1: () => _navigationService.goBack(),
+              title: "Alerta",
+              message: "Seleccione su fecha de nacimiento",
+            );
+            alert.showAlertDialog();
+          }
         });
   }
 
@@ -101,7 +127,6 @@ class _EditProfileState extends State<EditProfile> {
     return day + "/" + month + "/" + year;
   }
 
-  
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
@@ -110,7 +135,7 @@ class _EditProfileState extends State<EditProfile> {
       appBar: AppBar(
         leading: BackButton(
           onPressed: () {
-            Navigator.pop(context);
+             _navigationService.goBack();
           },
         ),
         title: Text('Cambio de F. Nacimiento'),
