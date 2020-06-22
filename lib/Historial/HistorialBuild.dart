@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
+import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:flutterapp/RouteManager.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/Data/moor_database.dart';
@@ -19,12 +20,7 @@ class _MyHistoryState extends State<MyHistory> {
   Widget build(BuildContext context) {
     final daoHist = Provider.of<AppDatabase>(context, listen: false).historialDAO;
 
-    Future<List<Historial>> getHist(BuildContext context) async {
-      
-      List<Historial> hist = await daoHist.getallHist();
-      return hist;
-    }
-
+    final id = context.watch<LoginState>().getId();
     
 
     return MaterialApp(
@@ -44,7 +40,7 @@ class _MyHistoryState extends State<MyHistory> {
 
           body: Container(
             child: StreamBuilder(
-                stream: daoHist.watchallHist(),
+                stream: daoHist.watchallHistFromUser(id),
                 builder: (context,data){
                   if(data.hasData){
                     List<Historial> hist = data.data;
