@@ -32,7 +32,6 @@ class _RepCountState extends State<Repcount> {
 
   void _resetrep() {
     setState(() {
-      
       repcount = ej.reps;
     });
   }

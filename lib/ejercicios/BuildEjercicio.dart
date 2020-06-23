@@ -1,8 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/RouteManager.dart';
-import 'package:flutter/services.dart';
+//import 'package:flutterapp/RouteManager.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
@@ -30,9 +29,6 @@ import 'package:audioplayers/audioplayers.dart';
 class BuildEjercicio extends StatefulWidget {
   Ejercicio ejercicio;
   BuildEjercicio({@required this.ejercicio});
-
-
-
   @override
   _BuildEjercicioState createState() => _BuildEjercicioState();
 }
@@ -79,8 +75,10 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       firstButtonText: "Datos del Ejercicio",
       secondButtonText: "Datos del Usuario",
       thirdButtonText: "cancelar",
-      fun1:()=> addEjercicio(context,ejstate),
-      fun2:()=>addEjercicioBase(context, ejstate),
+      fun1:()=> {addEjercicio(context,ejstate),
+        Navigator.of(context, rootNavigator: true).pop()},
+      fun2:()=>{addEjercicioBase(context, ejstate),
+        Navigator.of(context, rootNavigator: true).pop()},
       fun3:()=> Navigator.of(context, rootNavigator: true).pop(),
 
 
@@ -95,7 +93,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     }else{
       EjercicioRepeticiones aux = ejstate.getEjercicio();
       ejstate.setReps(aux.reps);
-      ejstate.setReps(aux.series);
+      ejstate.setSeries(aux.series);
     }
     addEjercicio(context, ejstate);
   }

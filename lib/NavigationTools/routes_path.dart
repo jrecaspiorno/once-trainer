@@ -1,5 +1,5 @@
 const String MainPage = "/";
-const String PerfilPage = "/Lista Ejercicios";
+const String PerfilPage = "/Perfil";
 const String ListaEjerciciosPage = "/Lista Ejercicios";
 const String RecomendaosPage = "/Recomendaciones";
 const String HistorialActividadesPage = "/Historial Actividades";
