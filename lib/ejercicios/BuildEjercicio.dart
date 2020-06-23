@@ -1,12 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutterapp/RouteManager.dart';
+import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
+
 import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
+import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
+
 //import 'package:flutterapp/pulsera/datosRitmoTR/alertaRitmo.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 
@@ -24,9 +29,6 @@ import 'package:audioplayers/audioplayers.dart';
 class BuildEjercicio extends StatefulWidget {
   Ejercicio ejercicio;
   BuildEjercicio({@required this.ejercicio});
-
-  
-
   @override
   _BuildEjercicioState createState() => _BuildEjercicioState();
 }
@@ -64,12 +66,43 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     });
   }
 
+  void botonHecho(BuildContext context,EjercicioState ejstate){
+    Alerts alerta = Alerts(
+      context: context,
+      title: "Ejercicio Completado",
+      message: "¿Que datos deseas usar?",
+
+      firstButtonText: "Datos del Ejercicio",
+      secondButtonText: "Datos del Usuario",
+      thirdButtonText: "cancelar",
+      fun1:()=> {addEjercicio(context,ejstate),
+        Navigator.of(context, rootNavigator: true).pop()},
+      fun2:()=>{addEjercicioBase(context, ejstate),
+        Navigator.of(context, rootNavigator: true).pop()},
+      fun3:()=> Navigator.of(context, rootNavigator: true).pop(),
+
+
+    );
+    alerta.showAlertDialog3();
+    return;
+  }
+  addEjercicioBase(BuildContext context,EjercicioState ejstate){
+    if(ejstate is EjercicioTiempo){
+      EjercicioTiempo aux = ejstate.getEjercicio();
+      ejstate.setTiempo(aux.time);
+    }else{
+      EjercicioRepeticiones aux = ejstate.getEjercicio();
+      ejstate.setReps(aux.reps);
+      ejstate.setSeries(aux.series);
+    }
+    addEjercicio(context, ejstate);
+  }
+
   @override
   void dispose() {
     timer?.cancel();
     super.dispose();
   }
-
   void addEjercicio(BuildContext context, EjercicioState ejstate) async {
     final database = Provider.of<AppDatabase>(context, listen: false);
     var state = Provider.of<LoginState>(context, listen: false);
@@ -150,7 +183,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         child: Repcount(ejercicioRepeticiones: ejr,ejstate: ejstate,),
       );
     }
-    
+
   }
 
 
@@ -170,7 +203,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
 
           appBar: AppBar(
             leading: BackButton(
-              onPressed: 
+              onPressed:
                 _navigationService.goBack,
             ),
             title: Text(widget.ejercicio.name),
@@ -209,7 +242,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                     borderRadius: BorderRadius.circular(12)),
                 autofocus: true,
                 color: Colors.indigo,
-                onPressed:() => addEjercicio(context, ejstatus),
+                onPressed:() => botonHecho(context, ejstatus),
                 padding: EdgeInsets.all(15.0),
                 child: Text(
                   "Hecho",

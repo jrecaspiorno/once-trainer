@@ -32,8 +32,12 @@ class _RepCountState extends State<Repcount> {
 
   void _resetrep() {
     setState(() {
+<<<<<<< HEAD
       
       repcount = reptot;
+=======
+      repcount = ej.reps;
+>>>>>>> 576c48aeb249c60b0baaa11beacc3d5dc98b2261
     });
   }
 
