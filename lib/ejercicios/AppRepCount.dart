@@ -5,15 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjerciciosState.dart';
 
-class RepCounter extends StatelessWidget {
-  final EjercicioRepeticiones ej;
-  final EjercicioState state;
-  RepCounter({@required this.ej, @required this.state});
-  @override
-  Widget build(BuildContext context) {
-    return  Repcount(ejercicioRepeticiones: ej, ejstate: state,);
-  }
-}
 
 class Repcount extends StatefulWidget {
   final EjercicioRepeticiones ejercicioRepeticiones;

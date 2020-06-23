@@ -215,8 +215,7 @@ class _MySacaImprime extends State<MySaca> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: BackButton(
             onPressed: () {
@@ -251,7 +250,7 @@ class _MySacaImprime extends State<MySaca> {
                   ),
                 ],
         )
-      ),
+      ,
     );
   }
 }

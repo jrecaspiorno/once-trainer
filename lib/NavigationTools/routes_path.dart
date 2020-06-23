@@ -1,0 +1,11 @@
+const String MainPage = "/";
+const String PerfilPage = "/Lista Ejercicios";
+const String ListaEjerciciosPage = "/Lista Ejercicios";
+const String RecomendaosPage = "/Recomendaciones";
+const String HistorialActividadesPage = "/Historial Actividades";
+const String HistorialClinicoPage = "/Historial Clínico";
+const String DolenciasPage = "/Dolencias";
+const String EditarFechaPage = "/Editar Fecha";
+const String EjercicioPage = "/Ejercicio";
+const String ActividadPage = "/Actividad";
+const String SacaDatosPage = "/SacaDatos";

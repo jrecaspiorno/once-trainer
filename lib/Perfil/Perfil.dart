@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/DriveBackup/Backup.dart';
-import 'package:flutterapp/Historial/HistorialBuild.dart';
-import 'package:flutterapp/Menu/Menu.dart';
-import 'package:flutterapp/Perfil/Dolencias.dart';
-import 'package:flutterapp/Perfil/EditarPerfil.dart';
-import 'package:flutterapp/Perfil/historialClinico.dart';
-
+import 'package:flutterapp/NavigationTools/locator.dart';
+import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
-import 'package:flutterapp/RouteManager.dart';
-
 import 'package:provider/provider.dart';
-import '../main.dart';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
+
 
 class MyProfile extends StatefulWidget {
   @override
@@ -20,6 +15,8 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
+  final NavigationService _navigationService = locator<NavigationService>();
+
   Widget botonBackup(BuildContext context) {
     var state = Provider.of<LoginState>(context, listen: false);
     final database = Provider.of<AppDatabase>(context);
@@ -31,13 +28,10 @@ class _MyProfileState extends State<MyProfile> {
         context: context,
         firstButtonText: "Cancelar",
         secondButtonText: "Ok",
-        fun1: () => Navigator.of(
-              context,
-              rootNavigator: true,
-            ).pop(),
+        fun1: () => _navigationService.goBack(),
         fun2: () {
           backup.uploadDataToDrive();
-          Navigator.of(context, rootNavigator: true).pop();
+          _navigationService.goBack();
         },
         title: "Backup",
         message: "¿Desea realizar un backup?");
@@ -58,7 +52,7 @@ class _MyProfileState extends State<MyProfile> {
     );
   }
 
-  Widget logoutButton(BuildContext context) {
+  Widget logoutButton() {
     return Column(
       children: <Widget>[
         SizedBox(
@@ -74,8 +68,7 @@ class _MyProfileState extends State<MyProfile> {
             padding: EdgeInsets.all(17.0),
             onPressed: () {                
                 context.read<LoginState>().logout();
-                Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil('/',(Route<dynamic> route) => false);
-            },
+                _navigationService.removeUntilAndPush(route.MainPage);            },
           ),
         )
       ],
@@ -93,17 +86,15 @@ class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
+
     var state = context.watch<LoginState>();
     String id = state.getId();
-    return MaterialApp(
-      title: 'App actividad física',
-      onGenerateRoute: RouteGenerator.generateRoute,
-      home: Scaffold(
+    return Scaffold(
         // Widget con app prediseñada, esquema
         appBar: AppBar(
           leading: BackButton(
             onPressed: () {
-              Navigator.pop(context);
+              _navigationService.goBack();
             },
           ),
           title: Text('Perfil'),
@@ -128,7 +119,7 @@ class _MyProfileState extends State<MyProfile> {
                   Padding(
                     padding: EdgeInsets.all(20),
                   ),
-                  logoutButton(context),
+                  logoutButton(),
                   
                   Padding(
                     padding: EdgeInsets.all(20),
@@ -149,14 +140,15 @@ class _MyProfileState extends State<MyProfile> {
 //
 //            ),
 //          ])
-      ),
+      
     );
   }
 }
 
 class MyButtonType extends StatelessWidget {
-  Flex _buildButton(
-      String label, String route, BuildContext context, Object args) {
+  final NavigationService _navigationService = locator<NavigationService>();
+
+  Flex _buildButton( String label, String route, Object args) {
     return Flex(
       direction: Axis.vertical,
       // mainAxisSize: MainAxisSize.min,
@@ -168,9 +160,9 @@ class MyButtonType extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () {
               if (args != null)
-                Navigator.pushNamed(context, route, arguments: args);
+                _navigationService.navigateTo(route, arguments: args);
               else
-                Navigator.of(context).pushNamed(route);
+                _navigationService.navigateTo(route);
             },
             color: Colors.indigo,
             textColor: Colors.white,
@@ -193,11 +185,11 @@ class MyButtonType extends StatelessWidget {
         children: <Widget>[
           const SizedBox(height: 20),
           _buildButton(
-              'Historial Actividades', '/Historial Actividades', context, null),
+              'Historial Actividades', route.HistorialActividadesPage, null),
           _buildButton(
-              'Historial Clínico', '/Historial Clínico', context, null),
-          _buildButton('Dolencias', '/Dolencias', context, id),
-          _buildButton('Editar F.Nacimiento', '/Editar Fecha', context, id)
+              'Historial Clínico', route.HistorialClinicoPage, null),
+          _buildButton('Dolencias', route.DolenciasPage, id),
+          _buildButton('Editar F.Nacimiento', route.EditarFechaPage, id)
         ],
       ),
     );

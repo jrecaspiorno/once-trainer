@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutterapp/Perfil/Perfil.dart';
+import 'package:flutterapp/NavigationTools/locator.dart';
+import 'package:flutterapp/NavigationTools/navigator_service.dart';
+
 import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
 import 'package:health/health.dart';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 
-import '../ejercicios/lista_ejer.dart';
-import '../recomendados.dart';
+
 import '../pulsera/datosHistorial/tablaDatos.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -13,21 +15,19 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 
 class MyHistorial extends StatelessWidget {
+  final NavigationService _navigationService = locator<NavigationService>();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return  Scaffold(
         appBar: AppBar(
           leading: BackButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: _navigationService.goBack,
           ),
           title: Text("Historial Clinico"),
           backgroundColor: Colors.indigo,
         ),
         body: MenuView(context),
-      ),
+      
     );
   }
 
@@ -43,30 +43,29 @@ class MyHistorial extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _buildButton('Peso', "WEIGHT", context),
-              _buildButton('Ritmo Cardiaco', "HEART_RATE", context),
-              _buildButton('Energia Quemada', "ACTIVE_ENERGY_BURNED", context),
+              _buildButton('Peso', "WEIGHT"),
+              _buildButton('Ritmo Cardiaco', "HEART_RATE"),
+              _buildButton('Energia Quemada', "ACTIVE_ENERGY_BURNED"),
               //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
             ],
           )),
     );
   }
 
-  Column _buildButton(String label, String tipo, BuildContext context) {
+  Column _buildButton(String label, String tipo) {
     return Column(
       // mainAxisSize: MainAxisSize.min,
       children: [
-        RaisedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MySaca(tipo)),
-            );
-          },
-          color: Colors.indigo,
-          textColor: Colors.white,
-          padding: EdgeInsets.all(24.0),
-          child: Text(label, style: TextStyle(fontSize: 30)),
+        SizedBox(
+          width: 300,
+          child: RaisedButton(
+            shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            onPressed: () =>_navigationService.navigateTo(route.SacaDatosPage, arguments: tipo),
+            color: Colors.indigo,
+            textColor: Colors.white,
+            padding: EdgeInsets.all(24.0),
+            child: Text(label, style: TextStyle(fontSize: 30)),
+          ),
         ),
         const SizedBox(height: 40),
       ],

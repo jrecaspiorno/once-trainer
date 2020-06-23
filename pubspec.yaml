@@ -39,12 +39,14 @@ dependencies:
   provider:  ^4.0.5+1
   moor_flutter: ^2.1.1
   shared_preferences: ^0.5.7+1
+  get_it: ^4.0.2
+
 dev_dependencies:
   moor_generator: ^2.4.0
   build_runner: ^1.0.0
   flutter_test:
     sdk: flutter
-
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

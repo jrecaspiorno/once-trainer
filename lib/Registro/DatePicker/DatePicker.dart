@@ -14,7 +14,7 @@ class DatePicker extends StatefulWidget {
 class _DatePickerState extends State<DatePicker> {
   DateTime _dateTime;
   
-  Widget _DateBuilder(BuildContext context) {
+  Widget _dateBuilder(BuildContext context) {
     return Scaffold(
         body: Center(
   
@@ -34,7 +34,7 @@ class _DatePickerState extends State<DatePicker> {
     
                       
                     children: <Widget>[    
-                      DateSel(),
+                      dateSel(),
     
                       Padding(
     
@@ -42,7 +42,7 @@ class _DatePickerState extends State<DatePicker> {
     
                       ),
     
-                      ActualSelDate(),
+                      actualSelDate(),
     
                       Padding(
     
@@ -50,7 +50,7 @@ class _DatePickerState extends State<DatePicker> {
     
                       ),
     
-                      ButtoAccept(context),
+                      buttoAccept(context),
     
                       Padding(
     
@@ -71,7 +71,7 @@ class _DatePickerState extends State<DatePicker> {
     );
   }
 
-  Widget DateSel(){
+  Widget dateSel(){
       return Center(
         child: RaisedButton(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
@@ -81,6 +81,7 @@ class _DatePickerState extends State<DatePicker> {
           
           autofocus: true,
           child: Text(
+            
             'Introduzca su fecha de nacimiento',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -91,11 +92,23 @@ class _DatePickerState extends State<DatePicker> {
           ),
           onPressed: () {
             showDatePicker(
+                builder: (context, child) => Theme(
+                      child: child,
+                      data: ThemeData.light().copyWith(
+                        primaryColor: Colors.indigo,
+                        accentColor: Colors.indigo,
+                        colorScheme:
+                            ColorScheme.light(primary: const Color(0xFF3F51B5)),
+                        buttonTheme:
+                            ButtonThemeData(textTheme: ButtonTextTheme.primary),
+                      ),
+                    ),
                 initialEntryMode: DatePickerEntryMode.input,
                 helpText: "Introduzca su fecha de nacimiento",
                 fieldLabelText: "Fecha",
                 fieldHintText: "dd/mm/aaaa",
                 errorFormatText: "Formato no válido",
+                
                 context: context,
                 errorInvalidText: "El valor mínimo de la fecha es 1900",
                 locale: Locale('es', 'ES'),
@@ -113,9 +126,9 @@ class _DatePickerState extends State<DatePicker> {
       );
   }
 
-  Widget ActualSelDate(){
+  Widget actualSelDate(){
     return Center(
-      child: Text(_dateTime == null ? 'Todavía no has eligido fecha' : DateTimeToString(_dateTime),
+      child: Text(_dateTime == null ? 'Todavía no has eligido fecha' : dateTimeToString(_dateTime),
         style: TextStyle(
           fontSize: 30,
           color: Colors.indigo
@@ -125,14 +138,14 @@ class _DatePickerState extends State<DatePicker> {
     );
   }
 
-  String DateTimeToString(DateTime _dateTime){
+  String dateTimeToString(DateTime _dateTime){
     String day = _dateTime.day.toString();
     String month = _dateTime.month.toString();
     String year = _dateTime.year.toString();
     return day + "/" + month + "/" + year;
   }
 
-  Widget ButtoAccept(BuildContext context){
+  Widget buttoAccept(BuildContext context){
     final database = Provider.of<AppDatabase>(context); 
     Alerts alert;
     return Center(
@@ -183,6 +196,6 @@ class _DatePickerState extends State<DatePicker> {
 
     return Scaffold(
         
-        body: _DateBuilder(context));
+        body: _dateBuilder(context));
   }
 }
