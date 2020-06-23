@@ -15,11 +15,11 @@ class Repcount extends StatefulWidget {
 }
 
 class _RepCountState extends State<Repcount> {
-  EjercicioRepeticiones ej;
   EjercicioState state;
   int repcount;
   int sercount;
-  
+  int reptot;
+  int sertot;
 
   void _rmrep() {
     setState(() {
@@ -33,7 +33,7 @@ class _RepCountState extends State<Repcount> {
   void _resetrep() {
     setState(() {
       
-      repcount = ej.reps;
+      repcount = reptot;
     });
   }
 
@@ -41,8 +41,8 @@ class _RepCountState extends State<Repcount> {
     setState(() {
       if(sercount > 0){
         sercount--;
-        repcount = ej.reps;
-        state.setSeries(ej.series -(ej.series-sercount));
+        repcount = reptot;
+        state.setSeries(sertot -(sertot-sercount));
       }
     });
 
@@ -50,16 +50,18 @@ class _RepCountState extends State<Repcount> {
 
   void _resetser() {
     setState(() {
-      sercount = ej.series;
+      sercount = sertot;
     });
   }
 
   void initState() {
     
-      ej = widget.ejercicioRepeticiones;
       state = widget.ejstate;
-      repcount = ej.reps;                                                                         
-      sercount =ej.series;
+      repcount = state.getReps;                                                                         
+      reptot = state.getReps;                                                                         
+      sercount = state.getSeries;
+      sertot = state.getSeries;
+
     
   }
 

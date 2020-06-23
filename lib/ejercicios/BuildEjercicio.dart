@@ -77,7 +77,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     if (widget.ejercicio is EjercicioTiempo) {
       EjercicioTiempo ej = widget.ejercicio;
       Historial hist = Historial(
-          dificultad: 0,
+          dificultad: ej.dificultad,
           ejercicio: widget.ejercicio.name,
           fecha: DateTime.now(),
           calorias: widget.ejercicio.calories,
@@ -91,7 +91,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     } else {
       EjercicioRepeticiones ej = widget.ejercicio;
       Historial hist = Historial(
-          dificultad: 0,
+          dificultad: ej.dificultad,
           ejercicio: widget.ejercicio.name,
           fecha: DateTime.now(),
           calorias: widget.ejercicio.calories,
@@ -139,11 +139,11 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       ejstate.setTiempo(ejt.time);
       ejstate.setTipo("T");
       return Container(
-        child: AppTimer(time: ejt.time),
+        child: AppTimer(time: ejstate.getTime),
       );
     } else {
       EjercicioRepeticiones ejr = widget.ejercicio;
-      ejstate.setSeries(0);
+      ejstate.setSeries(ejr.series);
       ejstate.setReps(ejr.reps);
       ejstate.setTipo("R");
       return Container(

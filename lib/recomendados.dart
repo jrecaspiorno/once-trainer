@@ -11,6 +11,46 @@ import 'package:xml/xml.dart' as xml;
 class MyRecomList extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
 
+  void _onEjercicioSelected(Ejercicio ejercicio, BuildContext context) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        context: context,
+        builder: (_) => Container(
+                child: Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                  _viewSelecDiff(ejercicio, -1, 'Facil'),
+                  _viewSelecDiff(ejercicio, 0, 'Normal'),
+                  _viewSelecDiff(ejercicio, 1, 'Dificil'),
+                ]))));
+  }
+
+  Column _viewSelecDiff(Ejercicio ejercicio, int diff, String text) {
+    Ejercicio ej = ejercicio;
+    
+
+    return Column(
+      children: [
+        RaisedButton(
+            padding: EdgeInsets.all(15),
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 30, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            color: Colors.indigo,
+            onPressed: () {
+              ej.setDiff(diff);
+              _navigationService.replaceView(route.EjercicioPage,arguments: ej);
+            }),
+        Padding(padding: EdgeInsets.all(15))     
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
@@ -91,11 +131,7 @@ class MyRecomList extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
                             autofocus: true,
-                            onPressed: () {
-                              final Ejercicio ejercicio = ejercicios[index];
-                              _navigationService.navigateTo( route.EjercicioPage,
-                                  arguments: ejercicio);
-                            },
+                            onPressed: () =>_onEjercicioSelected(ejercicios[index], context),
                             color: Colors.indigo,
                             textColor: Colors.white,
                             padding: EdgeInsets.all(24.0),
