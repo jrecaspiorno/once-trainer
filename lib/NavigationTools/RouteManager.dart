@@ -15,7 +15,7 @@ import 'package:flutterapp/ejercicios/lista_ejer.dart';
 import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
 import 'package:flutterapp/recomendados.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutterapp/NavigationTools/routes_path.dart' as routes;
 
 
 class RouteGenerator {
@@ -24,7 +24,7 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch(settings.name){
-      case '/':
+      case routes.MainPage:
         return MaterialPageRoute(builder: (_) {
           var state = Provider.of<LoginState>(_);
               if(state.isLogedIn()){
@@ -34,29 +34,29 @@ class RouteGenerator {
 
               }
         });
-      case '/Recomendaciones':
+      case routes.RecomendaosPage:
         return MaterialPageRoute(builder: (_) => MyRecomList());
       
-      case '/Lista Ejercicios':
+      case routes.ListaEjerciciosPage:
         return MaterialPageRoute(builder: (_) => MyList());
       
-      case '/Perfil':
+      case routes.PerfilPage :
         return MaterialPageRoute(builder: (_) => MyProfile());
 
-      case '/Historial Actividades':
+      case routes.HistorialActividadesPage:
         return MaterialPageRoute(builder: (_)=> MyHistory());
 
-      case '/Dolencias':
+      case routes.DolenciasPage:
         return MaterialPageRoute(builder: (_)=> Dolencias(id: args,)); 
-      case '/Editar Fecha':
+      case routes.EditarFechaPage:
         return MaterialPageRoute(builder: (_) => EditProfile(id: args,));
-      case '/Historial Clínico' :
+      case routes.HistorialClinicoPage :
         return MaterialPageRoute(builder: (_) => MyHistorial());
-      case '/Ejercicio':
+      case routes.EjercicioPage:
         return MaterialPageRoute(builder: (_) =>BuildEjercicio(ejercicio: args ,));
-      case '/SacaDatos':
+      case routes.SacaDatosPage:
         return MaterialPageRoute(builder: (_) => MySaca(args));
-      case '/Actividad' :{
+      case routes.ActividadPage :{
         var a = args as List<dynamic>;
         return MaterialPageRoute(builder: (_) => BuildHistEntry(dao: a.first, entry: a.last,));     
       
@@ -68,3 +68,4 @@ class RouteGenerator {
 
 
 }
+

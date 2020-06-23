@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
-
-import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +93,7 @@ class MyRecomList extends StatelessWidget {
                             autofocus: true,
                             onPressed: () {
                               final Ejercicio ejercicio = ejercicios[index];
-                              _navigationService.navigateTo( '/Ejercicio',
+                              _navigationService.navigateTo( route.EjercicioPage,
                                   arguments: ejercicio);
                             },
                             color: Colors.indigo,

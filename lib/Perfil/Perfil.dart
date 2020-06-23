@@ -6,6 +6,7 @@ import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:provider/provider.dart';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 
 
 class MyProfile extends StatefulWidget {
@@ -67,7 +68,7 @@ class _MyProfileState extends State<MyProfile> {
             padding: EdgeInsets.all(17.0),
             onPressed: () {                
                 context.read<LoginState>().logout();
-                _navigationService.removeUntilAndPush('/');            },
+                _navigationService.removeUntilAndPush(route.MainPage);            },
           ),
         )
       ],
@@ -184,11 +185,11 @@ class MyButtonType extends StatelessWidget {
         children: <Widget>[
           const SizedBox(height: 20),
           _buildButton(
-              'Historial Actividades', '/Historial Actividades', null),
+              'Historial Actividades', route.HistorialActividadesPage, null),
           _buildButton(
-              'Historial Clínico', '/Historial Clínico', null),
-          _buildButton('Dolencias', '/Dolencias', id),
-          _buildButton('Editar F.Nacimiento', '/Editar Fecha', id)
+              'Historial Clínico', route.HistorialClinicoPage, null),
+          _buildButton('Dolencias', route.DolenciasPage, id),
+          _buildButton('Editar F.Nacimiento', route.EditarFechaPage, id)
         ],
       ),
     );

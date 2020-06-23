@@ -6,7 +6,7 @@ import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
-
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:provider/provider.dart';
 
 class Menu extends StatefulWidget {
@@ -53,9 +53,9 @@ class _MenuState extends State<Menu> {
         shrinkWrap: true,
         padding: EdgeInsets.all(30),
         children: <Widget>[
-          _buildButton('Recomendaciones', context, '/Recomendaciones'),
-          _buildButton('Lista Ejercicios', context, '/Lista Ejercicios'),
-          _buildButton('Perfil', context, '/Perfil'),
+          _buildButton('Recomendaciones',route.RecomendaosPage),
+          _buildButton('Lista Ejercicios', route.ListaEjerciciosPage),
+          _buildButton('Perfil',  route.PerfilPage),
           //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
           //_buildButton('Prueba Ritmo', MyRitmo(), context),
         ],
@@ -63,7 +63,7 @@ class _MenuState extends State<Menu> {
     );
   }
 
-  Flex _buildButton(String label, BuildContext context, String route) {
+  Flex _buildButton(String label, String route) {
     return Flex(
       direction: Axis.vertical,
 

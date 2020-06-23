@@ -5,6 +5,8 @@ import 'package:flutterapp/NavigationTools/navigator_service.dart';
 
 import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
 import 'package:health/health.dart';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
+
 
 import '../pulsera/datosHistorial/tablaDatos.dart';
 
@@ -58,7 +60,7 @@ class MyHistorial extends StatelessWidget {
           width: 300,
           child: RaisedButton(
             shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            onPressed: () =>_navigationService.navigateTo('/SacaDatos', arguments: tipo),
+            onPressed: () =>_navigationService.navigateTo(route.SacaDatosPage, arguments: tipo),
             color: Colors.indigo,
             textColor: Colors.white,
             padding: EdgeInsets.all(24.0),

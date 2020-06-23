@@ -4,6 +4,7 @@ import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
 import 'package:xml/xml.dart' as xml;
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 
 class MyList extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -92,7 +93,7 @@ class MyList extends StatelessWidget {
                             autofocus: true,
                             onPressed: () {
                               final Ejercicio ejercicio = ejercicios[index];
-                              _navigationService.navigateTo('/Ejercicio',
+                              _navigationService.navigateTo(route.EjercicioPage,
                                   arguments: ejercicio);
                             },
                             color: Colors.indigo,

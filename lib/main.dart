@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 
 
 Future<void> main() async {
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
           ],
           navigatorKey: locator<NavigationService>().navigatorkey,
           title: 'App actividad física',
-          initialRoute: '/',
+          initialRoute: route.MainPage,
           onGenerateRoute: RouteGenerator.generateRoute,
           
         ),

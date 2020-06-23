@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
-
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/Data/moor_database.dart';
@@ -67,7 +67,7 @@ class _MyHistoryState extends State<MyHistory> {
                                   onPressed: () {
                                     final Historial entry = hist[index];
                                     List<dynamic> l = [daoHist, entry];
-                                    _navigationService.navigateTo('/Actividad', arguments: l);
+                                    _navigationService.navigateTo(route.ActividadPage, arguments: l);
                                   },
                                   color: Colors.indigo,
                                   textColor: Colors.white,
