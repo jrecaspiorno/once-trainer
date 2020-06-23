@@ -58,7 +58,6 @@ class EjercicioState with ChangeNotifier{
     }
   }
   void setSeries(int series) => this._series = series;
-<<<<<<< HEAD
   set dif(int _dif) =>  _diff = _dif;
   get diff => _diff;
   get getTime => _time;
@@ -67,12 +66,5 @@ class EjercicioState with ChangeNotifier{
   get getTipo => _tipo;
   get ejercicio => _ej;
 
-=======
-  Ejercicio getEjercicio() => this._ej;
-  String getTime() => _time;
-  int getReps() => _reps;
-  int getSeries() => _series;
-  String getTipo() => _tipo;
->>>>>>> 576c48aeb249c60b0baaa11beacc3d5dc98b2261
 
 }

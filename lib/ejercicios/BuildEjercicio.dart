@@ -88,10 +88,10 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
   }
   addEjercicioBase(BuildContext context,EjercicioState ejstate){
     if(ejstate is EjercicioTiempo){
-      EjercicioTiempo aux = ejstate.getEjercicio();
+      EjercicioTiempo aux = ejstate.ejercicio;
       ejstate.setTiempo(aux.time);
     }else{
-      EjercicioRepeticiones aux = ejstate.getEjercicio();
+      EjercicioRepeticiones aux = ejstate.ejercicio;
       ejstate.setReps(aux.reps);
       ejstate.setSeries(aux.series);
     }
