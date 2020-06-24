@@ -19,6 +19,7 @@ import 'package:flutterapp/Data/moor_database.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'dart:async';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 
 import 'EjercicioRepeticiones.dart';
 import 'EjerciciosState.dart';
@@ -75,11 +76,16 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       firstButtonText: "Datos del Ejercicio",
       secondButtonText: "Datos del Usuario",
       thirdButtonText: "cancelar",
-      fun1:()=> {addEjercicio(context,ejstate),
-        Navigator.of(context, rootNavigator: true).pop()},
-      fun2:()=>{addEjercicioBase(context, ejstate),
-        Navigator.of(context, rootNavigator: true).pop()},
-      fun3:()=> Navigator.of(context, rootNavigator: true).pop(),
+      fun1:(){ 
+        addEjercicio(context,ejstate);
+        _navigationService.goBack();
+        },
+      fun2:() {
+        addEjercicioBase(context, ejstate);
+        _navigationService.goBack();
+
+      },
+      fun3:()=> _navigationService.goBack(),
 
 
     );
@@ -115,12 +121,12 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
           fecha: DateTime.now(),
           calorias: widget.ejercicio.calories,
           tipo: "tiempo",
-          duracion: ejstate.getTime(),
+          duracion: ejstate.getTime,
           series: null,
           repeticiones: null,
           idUser: uid,
           activo: true);
-      database.historialDAO.insertHistorial(hist);
+      await database.historialDAO.insertHistorial(hist);
     } else {
       EjercicioRepeticiones ej = widget.ejercicio;
       Historial hist = Historial(
