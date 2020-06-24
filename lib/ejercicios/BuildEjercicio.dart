@@ -77,11 +77,12 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       secondButtonText: "Datos del Usuario",
       thirdButtonText: "cancelar",
       fun1:(){ 
-        addEjercicio(context,ejstate);
+        addEjercicio(context, ejstate, widget.ejercicio, true);
+
         _navigationService.goBack();
         },
       fun2:() {
-        addEjercicioBase(context, ejstate);
+        addEjercicioBase(context,ejstate);
         _navigationService.goBack();
 
       },
@@ -93,15 +94,16 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     return;
   }
   addEjercicioBase(BuildContext context,EjercicioState ejstate){
-    if(ejstate is EjercicioTiempo){
-      EjercicioTiempo aux = ejstate.ejercicio;
-      ejstate.setTiempo(aux.time);
+    dynamic aux = widget.ejercicio;
+    if(aux is EjercicioTiempo){
+      aux.setTime(ejstate.getTime);
+      
     }else{
-      EjercicioRepeticiones aux = ejstate.ejercicio;
-      ejstate.setReps(aux.reps);
-      ejstate.setSeries(aux.series);
+      
+      aux.setReps(ejstate.getReps);
+      aux.setSeries(ejstate.getSeries);
     }
-    addEjercicio(context, ejstate);
+    addEjercicio(context, ejstate, aux, false);
   }
 
   @override
@@ -109,26 +111,33 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     timer?.cancel();
     super.dispose();
   }
-  void addEjercicio(BuildContext context, EjercicioState ejstate) async {
+  void addEjercicio(BuildContext context, EjercicioState ejstate, Ejercicio aux, bool ok) async {
     final database = Provider.of<AppDatabase>(context, listen: false);
     var state = Provider.of<LoginState>(context, listen: false);
     String uid = state.getId();
-    if (widget.ejercicio is EjercicioTiempo) {
-      EjercicioTiempo ej = widget.ejercicio;
-      Historial hist = Historial(
+    if (aux is EjercicioTiempo) {
+      EjercicioTiempo ej = aux;
+      EjercicioTiempo au = widget.ejercicio;
+      if(true) {
+        ejstate.setTiempo(au.time);
+        aux.setTime(ejstate.getTime);
+      
+      }Historial hist = Historial(
           dificultad: ej.dificultad,
           ejercicio: widget.ejercicio.name,
           fecha: DateTime.now(),
           calorias: widget.ejercicio.calories,
           tipo: "tiempo",
-          duracion: ejstate.getTime,
+          duracion: ej.time,
           series: null,
           repeticiones: null,
           idUser: uid,
           activo: true);
       await database.historialDAO.insertHistorial(hist);
     } else {
-      EjercicioRepeticiones ej = widget.ejercicio;
+      
+      EjercicioRepeticiones ej = aux;
+      ej.setReps(ejstate.getReps);
       Historial hist = Historial(
           dificultad: ej.dificultad,
           ejercicio: widget.ejercicio.name,
@@ -136,8 +145,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
           calorias: widget.ejercicio.calories,
           tipo:"reps",
           duracion: null,
-          series: ejstate.getSeries(),
-          repeticiones: ejstate.getReps(),
+          series: ej.series,
+          repeticiones: ej.reps,
           idUser: uid,
           activo: true);
         database.historialDAO.insertHistorial(hist);

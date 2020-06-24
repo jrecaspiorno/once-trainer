@@ -42,7 +42,7 @@ class _RepCountState extends State<Repcount> {
       if(sercount > 0){
         sercount--;
         repcount = reptot;
-        state.setSeries(sertot -(sertot-sercount));
+        state.setSeries(sertot -sercount);
       }
     });
 

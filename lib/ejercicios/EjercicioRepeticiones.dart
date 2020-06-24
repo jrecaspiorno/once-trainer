@@ -9,4 +9,6 @@ class EjercicioRepeticiones extends Ejercicio{
         super(name, description, calories, tags, diff);
   get reps => this._reps;
   get series => this._series;
+  void setReps(int reps) => _reps = reps;
+  void setSeries(int sers) => _series = sers;
 }

@@ -7,6 +7,19 @@ import 'package:flutterapp/NavigationTools/navigator_service.dart';
 class BuildHistEntry extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
 
+
+  String parsedificultad(int d){
+    switch (d) {
+      case -1:
+        return "Facil";
+      case 0:
+        return "Normal";
+      case 1:
+        return "Dificil";
+    
+
+    }
+  }
   Widget dato(String texto, String dato) {
     return Column(
       children: <Widget>[
@@ -82,11 +95,11 @@ class BuildHistEntry extends StatelessWidget {
               padd2(),
               dato("Estimacion de calorias", entry.calorias.toString()),
               padd2(),
-              dato("Dificultad de realizacion: ", entry.dificultad.toString()),
+              dato("Dificultad de realizacion: ", parsedificultad(entry.dificultad)),
               (() {
                 Column r;
                 if (entry.tipo == "tiempo") {
-                  r = dato("Tiempo del ejercicio", entry.dificultad.toString());
+                  r = dato("Tiempo del ejercicio", entry.duracion);
                 } else {
                   r = Column(
                     children: <Widget>[

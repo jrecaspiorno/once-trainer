@@ -7,4 +7,5 @@ class EjercicioTiempo extends Ejercicio{
         this._time = time,
         super(name, description, calories, tags, diff);
     get time => this._time;
+    void setTime(String time) => _time = time;
 }

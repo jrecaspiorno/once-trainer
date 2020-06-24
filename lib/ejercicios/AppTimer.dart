@@ -5,6 +5,8 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/ejercicios/EjerciciosState.dart';
+import 'package:provider/provider.dart';
 
 class AppTimer extends StatefulWidget {
   AppTimer({@required this.time});
@@ -15,6 +17,7 @@ class AppTimer extends StatefulWidget {
 }
 
 class _AppTimerState extends State<AppTimer> {
+  EjercicioState ejstate;
   bool checktimer = true;
   String defaultTime;
   bool primera = true;
@@ -46,6 +49,7 @@ class _AppTimerState extends State<AppTimer> {
           if (time4Timer < 1 || checktimer == false) {
             
             if (time4Timer < 1) {
+              
               _audioCache.play("beep-09.mp3");
               stopispressed = true;
               resetispressd = false;
@@ -55,8 +59,12 @@ class _AppTimerState extends State<AppTimer> {
             checktimer = true;
           } else {
             time4Timer = time4Timer - 1;
+            
           }
           stoptimedisplay = timetoString(time4Timer);
+          int ti = stringtoTime(   defaultTime);
+          int r = ti - time4Timer;
+          ejstate.setTiempo(timetoString(r));
         });
       }
     });
@@ -80,8 +88,9 @@ class _AppTimerState extends State<AppTimer> {
       checktimer = false;
     });
     debugPrint(defaultTime);
-
+    
     stoptimedisplay = defaultTime;
+    ejstate.setTiempo(defaultTime);
     debugPrint(stoptimedisplay);
   }
 
@@ -99,7 +108,11 @@ class _AppTimerState extends State<AppTimer> {
         sec.toString().padLeft(2, "0"));
   }
 
+      
+
+
   Widget stopwatch(String time) {
+    
     if (primera) {
       primera = false;
       stoptimedisplay = time;
@@ -197,6 +210,8 @@ class _AppTimerState extends State<AppTimer> {
 
   @override
   Widget build(BuildContext context) {
+    ejstate = context.watch<EjercicioState>();
+
     return WillPopScope(
       onWillPop: () { 
         print('Backbutton pressed (device or appbar button), do whatever you want.');
