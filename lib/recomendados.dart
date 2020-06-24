@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
@@ -54,34 +56,23 @@ class MyRecomList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
+    
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
-      List<String> XMLS = List();
+      final manifestContent =
+          await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+      final Map<String, dynamic> manifesMap = json.decode(manifestContent);
+      List<String> xmls = manifesMap.keys
+          .where((key) => key.contains('todos_ejercicios'))
+          .toList();
       List<Ejercicio> ejercicios = List();
-      XMLS = [
-        "AfirmacionNegacion.xml",
-        "Caminar.xml",
-        "CirculosCadera.xml",
-        "Ej1.xml",
-        "ElevacionBrazos.xml",
-        "EstrujarToalla.xml",
-        "LevantamientosLateralesMancuernas.xml",
-        "LevantarBotella.xml",
-        "LevantarseSilla.xml",
-        "MovimientoRodillas.xml",
-        "PlantaPechoMacnuernas.xml",
-        "PrensaHombroMancuernas.xml",
-        "RotacionTobillos.xml",
-        "SubirEscaleras.xml",
-        "VueloPechoMancuernas.xml"
-      ];
-      List<Restriccione> Tags = await database.restriccionesDAO.resActivas();
-      for (int i = 0; i < XMLS.length; ++i) {
+      List<Restriccione> tags = await database.restriccionesDAO.resActivas();
+      for (int i = 0; i < xmls.length; ++i) {
         String xmlS = await DefaultAssetBundle.of(context)
-            .loadString("todos_ejercicios/" + XMLS[i]);
+            .loadString(xmls[i]);
         var file = xml.parse(xmlS);
         Ejercicio ej = FactoriaEj.GenerateEj(file);
         bool ok = true;
-        Tags.forEach((tag) {
+        tags.forEach((tag) {
           ej.tags.forEach((tagej) {
             if (tag.tipo == tagej) {
               ok = false;

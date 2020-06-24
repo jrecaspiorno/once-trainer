@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
+import 'package:path/path.dart';
 import 'package:xml/xml.dart' as xml;
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
+import 'package:path_provider/path_provider.dart';
+import 'dart:convert';
 
 class MyList extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -26,7 +31,6 @@ class MyList extends StatelessWidget {
 
   Column _viewSelecDiff(Ejercicio ejercicio, int diff, String text) {
     Ejercicio ej = ejercicio;
-    
 
     return Column(
       children: [
@@ -42,9 +46,10 @@ class MyList extends StatelessWidget {
             color: Colors.indigo,
             onPressed: () {
               ej.setDiff(diff);
-              _navigationService.replaceView(route.EjercicioPage,arguments: ej);
+              _navigationService.replaceView(route.EjercicioPage,
+                  arguments: ej);
             }),
-        Padding(padding: EdgeInsets.all(15))     
+        Padding(padding: EdgeInsets.all(15))
       ],
     );
   }
@@ -52,47 +57,22 @@ class MyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
-      List<String> XMLS = List();
+      final manifestContent =
+          await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+      final Map<String, dynamic> manifesMap = json.decode(manifestContent);
+
+      List<String> xmls = manifesMap.keys
+          .where((key) => key.contains('todos_ejercicios'))
+          .toList();
       List<Ejercicio> ejercicios = List();
-      XMLS = [
-        "Ej1.xml",
-        "AfirmacionNegacion.xml",
-        "Caminar.xml",
-        "CirculosCadera.xml",
-        "ElevacionBrazos.xml",
-        "EstrujarToalla.xml",
-        "LevantamientosLateralesMancuernas.xml",
-        "LevantarBotella.xml",
-        "LevantarseSilla.xml",
-        "MovimientoRodillas.xml",
-        "PlantaPechoMacnuernas.xml",
-        "PrensaHombroMancuernas.xml",
-        "RotacionTobillos.xml",
-        "SubirEscaleras.xml",
-        "VueloPechoMancuernas.xml"
-      ];
-      for (int i = 0; i < XMLS.length; ++i) {
-        String xmlS = await DefaultAssetBundle.of(context)
-            .loadString("todos_ejercicios/" + XMLS[i]);
-        List<Ejercicio> ejercicios = List();
-        /*
-        var ejDir = new Directory('todos_ejercicios/');
-        ejDir.list(recursive: false, followLinks: false).listen((
-            FileSystemEntity entity) {
-          XMLS.add(entity.path);
-        });
-         */
-        for (int i = 0; i < XMLS.length; ++i) {
-          String xmlS = await DefaultAssetBundle.of(context)
-              .loadString("todos_ejercicios/" + XMLS[i]);
-          var file = xml.parse(xmlS);
-          var tags = file.findAllElements("tag").map((element) {
-            return element.text;
-          }).toList();
-          ejercicios.add(FactoriaEj.GenerateEj(file));
-        }
-        return ejercicios;
+
+      for (int i = 0; i < xmls.length; ++i) {
+        String xmlS = await DefaultAssetBundle.of(context).loadString(xmls[i]);
+        var file = xml.parse(xmlS);
+
+        ejercicios.add(FactoriaEj.GenerateEj(file));
       }
+      return ejercicios;
     }
 
     return Scaffold(

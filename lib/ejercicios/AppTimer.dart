@@ -63,7 +63,7 @@ class _AppTimerState extends State<AppTimer> {
           }
           stoptimedisplay = timetoString(time4Timer);
           int ti = stringtoTime(   defaultTime);
-          int r = ti - time4Timer;
+          int r = ti - time4Timer ;
           ejstate.setTiempo(timetoString(r));
         });
       }
