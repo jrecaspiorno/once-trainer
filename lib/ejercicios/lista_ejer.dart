@@ -60,16 +60,13 @@ class MyList extends StatelessWidget {
       final manifestContent =
           await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
       final Map<String, dynamic> manifesMap = json.decode(manifestContent);
-
       List<String> xmls = manifesMap.keys
           .where((key) => key.contains('todos_ejercicios'))
           .toList();
       List<Ejercicio> ejercicios = List();
-
       for (int i = 0; i < xmls.length; ++i) {
         String xmlS = await DefaultAssetBundle.of(context).loadString(xmls[i]);
         var file = xml.parse(xmlS);
-
         ejercicios.add(FactoriaEj.GenerateEj(file));
       }
       return ejercicios;

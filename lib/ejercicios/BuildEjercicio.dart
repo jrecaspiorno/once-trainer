@@ -252,22 +252,48 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
               const SizedBox(
                 height: 20,
               ),
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                autofocus: true,
-                color: Colors.indigo,
-                onPressed:() => botonHecho(context, ejstatus),
-                padding: EdgeInsets.all(15.0),
-                child: Text(
-                  "Hecho",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    autofocus: true,
+                    color: Colors.indigo,
+                    onPressed:() => addEjercicioBase(context, ejstatus),
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                      "Hecho",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
 
-                    fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                  ),
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    autofocus: true,
+                    color: Colors.indigo,
+                    onPressed:() => addEjercicio(context, ejstatus,widget.ejercicio,true),
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                      "Hecho",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                ],
               ),
               const SizedBox(
                 height: 20,
