@@ -1075,6 +1075,197 @@ class $HistorialsTable extends Historials
   }
 }
 
+class Recomendado extends DataClass implements Insertable<Recomendado> {
+  final String id;
+  final String grupo;
+  final String idUser;
+  Recomendado({@required this.id, @required this.grupo, @required this.idUser});
+  factory Recomendado.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final stringType = db.typeSystem.forDartType<String>();
+    return Recomendado(
+      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      grupo:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}grupo']),
+      idUser:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}id_user']),
+    );
+  }
+  factory Recomendado.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return Recomendado(
+      id: serializer.fromJson<String>(json['id']),
+      grupo: serializer.fromJson<String>(json['grupo']),
+      idUser: serializer.fromJson<String>(json['idUser']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'grupo': serializer.toJson<String>(grupo),
+      'idUser': serializer.toJson<String>(idUser),
+    };
+  }
+
+  @override
+  RecomendadosCompanion createCompanion(bool nullToAbsent) {
+    return RecomendadosCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      grupo:
+          grupo == null && nullToAbsent ? const Value.absent() : Value(grupo),
+      idUser:
+          idUser == null && nullToAbsent ? const Value.absent() : Value(idUser),
+    );
+  }
+
+  Recomendado copyWith({String id, String grupo, String idUser}) => Recomendado(
+        id: id ?? this.id,
+        grupo: grupo ?? this.grupo,
+        idUser: idUser ?? this.idUser,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Recomendado(')
+          ..write('id: $id, ')
+          ..write('grupo: $grupo, ')
+          ..write('idUser: $idUser')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      $mrjf($mrjc(id.hashCode, $mrjc(grupo.hashCode, idUser.hashCode)));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is Recomendado &&
+          other.id == this.id &&
+          other.grupo == this.grupo &&
+          other.idUser == this.idUser);
+}
+
+class RecomendadosCompanion extends UpdateCompanion<Recomendado> {
+  final Value<String> id;
+  final Value<String> grupo;
+  final Value<String> idUser;
+  const RecomendadosCompanion({
+    this.id = const Value.absent(),
+    this.grupo = const Value.absent(),
+    this.idUser = const Value.absent(),
+  });
+  RecomendadosCompanion.insert({
+    @required String id,
+    @required String grupo,
+    @required String idUser,
+  })  : id = Value(id),
+        grupo = Value(grupo),
+        idUser = Value(idUser);
+  RecomendadosCompanion copyWith(
+      {Value<String> id, Value<String> grupo, Value<String> idUser}) {
+    return RecomendadosCompanion(
+      id: id ?? this.id,
+      grupo: grupo ?? this.grupo,
+      idUser: idUser ?? this.idUser,
+    );
+  }
+}
+
+class $RecomendadosTable extends Recomendados
+    with TableInfo<$RecomendadosTable, Recomendado> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $RecomendadosTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedTextColumn _id;
+  @override
+  GeneratedTextColumn get id => _id ??= _constructId();
+  GeneratedTextColumn _constructId() {
+    return GeneratedTextColumn('id', $tableName, false, minTextLength: 1);
+  }
+
+  final VerificationMeta _grupoMeta = const VerificationMeta('grupo');
+  GeneratedTextColumn _grupo;
+  @override
+  GeneratedTextColumn get grupo => _grupo ??= _constructGrupo();
+  GeneratedTextColumn _constructGrupo() {
+    return GeneratedTextColumn('grupo', $tableName, false, minTextLength: 1);
+  }
+
+  final VerificationMeta _idUserMeta = const VerificationMeta('idUser');
+  GeneratedTextColumn _idUser;
+  @override
+  GeneratedTextColumn get idUser => _idUser ??= _constructIdUser();
+  GeneratedTextColumn _constructIdUser() {
+    return GeneratedTextColumn('id_user', $tableName, false,
+        $customConstraints: 'REFERENCES Usuario(id)');
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, grupo, idUser];
+  @override
+  $RecomendadosTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'recomendados';
+  @override
+  final String actualTableName = 'recomendados';
+  @override
+  VerificationContext validateIntegrity(RecomendadosCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (d.grupo.present) {
+      context.handle(
+          _grupoMeta, grupo.isAcceptableValue(d.grupo.value, _grupoMeta));
+    } else if (isInserting) {
+      context.missing(_grupoMeta);
+    }
+    if (d.idUser.present) {
+      context.handle(
+          _idUserMeta, idUser.isAcceptableValue(d.idUser.value, _idUserMeta));
+    } else if (isInserting) {
+      context.missing(_idUserMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  Recomendado map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return Recomendado.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(RecomendadosCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<String, StringType>(d.id.value);
+    }
+    if (d.grupo.present) {
+      map['grupo'] = Variable<String, StringType>(d.grupo.value);
+    }
+    if (d.idUser.present) {
+      map['id_user'] = Variable<String, StringType>(d.idUser.value);
+    }
+    return map;
+  }
+
+  @override
+  $RecomendadosTable createAlias(String alias) {
+    return $RecomendadosTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsuarioTable _usuario;
@@ -1084,6 +1275,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       _restricciones ??= $RestriccionesTable(this);
   $HistorialsTable _historials;
   $HistorialsTable get historials => _historials ??= $HistorialsTable(this);
+  $RecomendadosTable _recomendados;
+  $RecomendadosTable get recomendados =>
+      _recomendados ??= $RecomendadosTable(this);
   UsuarioDAO _usuarioDAO;
   UsuarioDAO get usuarioDAO => _usuarioDAO ??= UsuarioDAO(this as AppDatabase);
   RestriccionesDAO _restriccionesDAO;
@@ -1092,11 +1286,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   HistorialDAO _historialDAO;
   HistorialDAO get historialDAO =>
       _historialDAO ??= HistorialDAO(this as AppDatabase);
+  RecomendadosDAO _recomendadosDAO;
+  RecomendadosDAO get recomendadosDAO =>
+      _recomendadosDAO ??= RecomendadosDAO(this as AppDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [usuario, restricciones, historials];
+      [usuario, restricciones, historials, recomendados];
 }
 
 // **************************************************************************
@@ -1112,5 +1309,9 @@ mixin _$RestriccionesDAOMixin on DatabaseAccessor<AppDatabase> {
 }
 mixin _$HistorialDAOMixin on DatabaseAccessor<AppDatabase> {
   $HistorialsTable get historials => db.historials;
+  $UsuarioTable get usuario => db.usuario;
+}
+mixin _$RecomendadosDAOMixin on DatabaseAccessor<AppDatabase> {
+  $RecomendadosTable get recomendados => db.recomendados;
   $UsuarioTable get usuario => db.usuario;
 }

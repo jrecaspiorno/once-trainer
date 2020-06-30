@@ -4,29 +4,24 @@ part 'moor_database.g.dart';
 
 class Usuario extends Table {
   TextColumn get id => text().withLength(min: 1)();
-
   TextColumn get nombre => text().withLength(min: 1)();
-
   DateTimeColumn get edad => dateTime()();
-
   TextColumn get photoUrl => text().withLength(min: 1)();
-
   TextColumn get email => text().withLength(min: 1)();
-
   TextColumn get backupid => text().withLength(min: 1).nullable()();
-
   @override
   Set<Column> get primaryKey => {id};
 }
-
+class Recomendados extends Table{
+  TextColumn get id => text().withLength(min: 1)();
+  TextColumn get grupo => text().withLength(min: 1)();
+  TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
+}
 
 class Restricciones extends Table {
   IntColumn get id => integer().autoIncrement()();
-
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
-
   TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
-
   BoolColumn get activo => boolean().withDefault(Constant(false))();
 }
 
@@ -46,8 +41,8 @@ class Historials extends Table {
 }
 
 @UseMoor(
-    tables: [Usuario, Restricciones, Historials],
-  daos: [UsuarioDAO, RestriccionesDAO, HistorialDAO])
+    tables: [Usuario, Restricciones, Historials, Recomendados],
+  daos: [UsuarioDAO, RestriccionesDAO, HistorialDAO, RecomendadosDAO])
   class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super(FlutterQueryExecutor.inDatabaseFolder(
@@ -133,6 +128,18 @@ class HistorialDAO extends DatabaseAccessor<AppDatabase>
   Future<List<Historial>> getHistfromUser(String id){
     return (select(historials)..where((t) => t.idUser.equals(id))).get();
   }
+}
+
+@UseDao(tables: [Recomendados, Usuario])
+class RecomendadosDAO extends DatabaseAccessor<AppDatabase>
+    with _$RecomendadosDAOMixin {
+  final AppDatabase db;
+  RecomendadosDAO(this.db) : super(db);
+  Future insertRecomendado(Insertable<Recomendado> rec) => into(recomendados).insert(rec);
+  Future <List<Recomendado>> watchallRecFromUser(String id)=> (select(recomendados)..where((t) => t.idUser.equals(id))).get();
+  Future deleteRecomendado(Recomendado rec) => delete(recomendados).delete(rec);
+  Future delete5Recomendado(Recomendado rec) => delete(recomendados).delete(rec);
+
 }
 
 class RestWithUser {
