@@ -1,0 +1,12 @@
+<data>
+    <name>EjercicioTronco1</name>
+    <type>rep</type>
+    <series>4</series>
+    <reps>4</reps>
+    <description>
+		mueve el tronco 4 veces
+    </description>
+    <principal>Tronco</principal> 
+    <tag>Brazo</tag>
+    <calories>5530</calories>
+</data>
