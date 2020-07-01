@@ -22,7 +22,9 @@ class FactoriaEj {
         .text;
     int diff = 0;
     String gp = file
-        .findAllElements("principal");
+        .findAllElements("principal")
+        .first
+        .text;
 
     List<String> tags = new List<String>();
     final tagsl = file.findAllElements('tag');

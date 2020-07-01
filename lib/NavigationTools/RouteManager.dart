@@ -7,7 +7,7 @@ import 'package:flutterapp/Perfil/Dolencias.dart';
 import 'package:flutterapp/Perfil/EditarPerfil.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
 import 'package:flutterapp/Perfil/historialClinico.dart';
-import 'package:flutterapp/Recomendados/recomendados.dart';
+import 'package:flutterapp/Recomendados/Recomendador.dart';
 import 'package:flutterapp/Registro/DatePicker/DatePicker.dart';
 import 'package:flutterapp/Registro/Registro.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
