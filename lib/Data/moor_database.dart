@@ -16,6 +16,8 @@ class Recomendados extends Table{
   TextColumn get id => text().withLength(min: 1)();
   TextColumn get grupo => text().withLength(min: 1)();
   TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
+  DateTimeColumn get fecha => dateTime()();
+  Set<Column> get primaryKey => {id};
 }
 
 class Restricciones extends Table {
@@ -23,6 +25,7 @@ class Restricciones extends Table {
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
   TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();
+  
 }
 
 class Historials extends Table {
@@ -136,10 +139,12 @@ class RecomendadosDAO extends DatabaseAccessor<AppDatabase>
   final AppDatabase db;
   RecomendadosDAO(this.db) : super(db);
   Future insertRecomendado(Insertable<Recomendado> rec) => into(recomendados).insert(rec);
-  Future <List<Recomendado>> watchallRecFromUser(String id)=> (select(recomendados)..where((t) => t.idUser.equals(id))).get();
-  Future deleteRecomendado(Recomendado rec) => delete(recomendados).delete(rec);
-  Future delete5Recomendado(Recomendado rec) => delete(recomendados).delete(rec);
-
+  Future <List<Recomendado>> getallRecFromUser(String id)=> (select(recomendados)..where((t) => t.idUser.equals(id))).get();
+  Future <List<Recomendado>> getallRec()=> select(recomendados).get();
+  Future deleteAll() => delete(recomendados).go();
+  Future deleteRecomendado(Insertable<Recomendado> rec) => delete(recomendados).delete(rec);
+  Future <List<Recomendado>> getNRecomendado() => (select(recomendados)..orderBy([(t) => OrderingTerm(expression: t.fecha, mode: OrderingMode.desc)])..limit(5)).get();
+  
 }
 
 class RestWithUser {

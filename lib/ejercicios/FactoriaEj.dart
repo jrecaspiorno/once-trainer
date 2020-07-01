@@ -21,6 +21,8 @@ class FactoriaEj {
         .first
         .text;
     int diff = 0;
+    String gp = file
+        .findAllElements("principal");
 
     List<String> tags = new List<String>();
     final tagsl = file.findAllElements('tag');
@@ -42,7 +44,7 @@ class FactoriaEj {
               .findAllElements("time")
               .first
               .text;
-          ej = EjercicioTiempo(name, desc,cal,tags , time, diff);
+          ej = EjercicioTiempo(name, desc,cal,tags , time, diff, gp);
         }
         break;
       case "rep":
@@ -55,7 +57,7 @@ class FactoriaEj {
               .findAllElements("reps")
               .first
               .text);
-          ej = EjercicioRepeticiones(name, desc, cal, tags, series, reps, diff);
+          ej = EjercicioRepeticiones(name, desc, cal, tags, series, reps, diff,gp);
         }
         break;
     }

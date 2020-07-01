@@ -6,6 +6,7 @@
     <description>
 	Se trata de levantar el brazo todo lo que se pueda mientras se baja el otro.
     </description>
+    <principal>Brazos</principal>
     <tag>Hombro</tag>
     <calories>55</calories>
 </data>

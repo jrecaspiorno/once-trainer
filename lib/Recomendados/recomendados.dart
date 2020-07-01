@@ -6,10 +6,11 @@ import 'package:flutterapp/ejercicios/FactoriaEj.dart';
 import 'package:xml/xml.dart' as xml;
 import 'dart:convert';
 
-class Recomendados extends StatelessWidget{
+class RecomendadorView extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
+    aniadirPrueba(database.recomendadosDAO);
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       final manifestContent =
       await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
@@ -25,5 +26,40 @@ class Recomendados extends StatelessWidget{
         ejercicios.add(FactoriaEj.GenerateEj(file));
       }
     }
+    return Scaffold();
+
+  }
+
+  void aniadirPrueba(RecomendadosDAO dao ) async{
+    await dao.deleteAll();
+    Recomendado rec1 = Recomendado(id: "a", grupo: "d", idUser: "1",fecha: createDate(1999));
+    Recomendado rec2 = Recomendado(id: "b", grupo: "d", idUser: "1",fecha: createDate(1998));
+    Recomendado rec3 = Recomendado(id: "c", grupo: "d", idUser: "1",fecha: createDate(1997));
+    Recomendado rec4 = Recomendado(id: "d", grupo: "d", idUser: "1",fecha: createDate(1996));
+    Recomendado rec5 = Recomendado(id: "e", grupo: "d", idUser: "1",fecha: createDate(1995));
+    Recomendado rec6 = Recomendado(id: "f", grupo: "d", idUser: "1",fecha: createDate(1994));
+    Recomendado rec7 = Recomendado(id: "g", grupo: "d", idUser: "1",fecha: createDate(1993));
+    Recomendado rec8 = Recomendado(id: "h", grupo: "d", idUser: "1",fecha: createDate(1992));
+    dao.insertRecomendado(rec1);
+    dao.insertRecomendado(rec2);
+    dao.insertRecomendado(rec3);
+    dao.insertRecomendado(rec4);
+    dao.insertRecomendado(rec5);
+    dao.insertRecomendado(rec6);
+    dao.insertRecomendado(rec7);
+    dao.insertRecomendado(rec8);
+    List<Recomendado> ls = await dao.getallRec();
+    ls.length;
+    List<Recomendado> l = await dao.getNRecomendado();
+    
+    l.forEach((element) async {
+      await dao.deleteRecomendado(element);
+      });
+    ls = await dao.getallRec();
+    ls.length;
+  }
+
+  DateTime createDate(int y){
+    return DateTime(y);
   }
 }

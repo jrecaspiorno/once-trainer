@@ -9,3 +9,4 @@ const String EditarFechaPage = "/Editar Fecha";
 const String EjercicioPage = "/Ejercicio";
 const String ActividadPage = "/Actividad";
 const String SacaDatosPage = "/SacaDatos";
+const String RecomdadorPage = "/Recomendador";

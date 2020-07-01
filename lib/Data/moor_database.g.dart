@@ -1079,17 +1079,25 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
   final String id;
   final String grupo;
   final String idUser;
-  Recomendado({@required this.id, @required this.grupo, @required this.idUser});
+  final DateTime fecha;
+  Recomendado(
+      {@required this.id,
+      @required this.grupo,
+      @required this.idUser,
+      @required this.fecha});
   factory Recomendado.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Recomendado(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       grupo:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}grupo']),
       idUser:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}id_user']),
+      fecha:
+          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}fecha']),
     );
   }
   factory Recomendado.fromJson(Map<String, dynamic> json,
@@ -1099,6 +1107,7 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
       id: serializer.fromJson<String>(json['id']),
       grupo: serializer.fromJson<String>(json['grupo']),
       idUser: serializer.fromJson<String>(json['idUser']),
+      fecha: serializer.fromJson<DateTime>(json['fecha']),
     );
   }
   @override
@@ -1108,6 +1117,7 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
       'id': serializer.toJson<String>(id),
       'grupo': serializer.toJson<String>(grupo),
       'idUser': serializer.toJson<String>(idUser),
+      'fecha': serializer.toJson<DateTime>(fecha),
     };
   }
 
@@ -1119,58 +1129,73 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
           grupo == null && nullToAbsent ? const Value.absent() : Value(grupo),
       idUser:
           idUser == null && nullToAbsent ? const Value.absent() : Value(idUser),
+      fecha:
+          fecha == null && nullToAbsent ? const Value.absent() : Value(fecha),
     );
   }
 
-  Recomendado copyWith({String id, String grupo, String idUser}) => Recomendado(
+  Recomendado copyWith(
+          {String id, String grupo, String idUser, DateTime fecha}) =>
+      Recomendado(
         id: id ?? this.id,
         grupo: grupo ?? this.grupo,
         idUser: idUser ?? this.idUser,
+        fecha: fecha ?? this.fecha,
       );
   @override
   String toString() {
     return (StringBuffer('Recomendado(')
           ..write('id: $id, ')
           ..write('grupo: $grupo, ')
-          ..write('idUser: $idUser')
+          ..write('idUser: $idUser, ')
+          ..write('fecha: $fecha')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      $mrjf($mrjc(id.hashCode, $mrjc(grupo.hashCode, idUser.hashCode)));
+  int get hashCode => $mrjf($mrjc(id.hashCode,
+      $mrjc(grupo.hashCode, $mrjc(idUser.hashCode, fecha.hashCode))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Recomendado &&
           other.id == this.id &&
           other.grupo == this.grupo &&
-          other.idUser == this.idUser);
+          other.idUser == this.idUser &&
+          other.fecha == this.fecha);
 }
 
 class RecomendadosCompanion extends UpdateCompanion<Recomendado> {
   final Value<String> id;
   final Value<String> grupo;
   final Value<String> idUser;
+  final Value<DateTime> fecha;
   const RecomendadosCompanion({
     this.id = const Value.absent(),
     this.grupo = const Value.absent(),
     this.idUser = const Value.absent(),
+    this.fecha = const Value.absent(),
   });
   RecomendadosCompanion.insert({
     @required String id,
     @required String grupo,
     @required String idUser,
+    @required DateTime fecha,
   })  : id = Value(id),
         grupo = Value(grupo),
-        idUser = Value(idUser);
+        idUser = Value(idUser),
+        fecha = Value(fecha);
   RecomendadosCompanion copyWith(
-      {Value<String> id, Value<String> grupo, Value<String> idUser}) {
+      {Value<String> id,
+      Value<String> grupo,
+      Value<String> idUser,
+      Value<DateTime> fecha}) {
     return RecomendadosCompanion(
       id: id ?? this.id,
       grupo: grupo ?? this.grupo,
       idUser: idUser ?? this.idUser,
+      fecha: fecha ?? this.fecha,
     );
   }
 }
@@ -1205,8 +1230,20 @@ class $RecomendadosTable extends Recomendados
         $customConstraints: 'REFERENCES Usuario(id)');
   }
 
+  final VerificationMeta _fechaMeta = const VerificationMeta('fecha');
+  GeneratedDateTimeColumn _fecha;
   @override
-  List<GeneratedColumn> get $columns => [id, grupo, idUser];
+  GeneratedDateTimeColumn get fecha => _fecha ??= _constructFecha();
+  GeneratedDateTimeColumn _constructFecha() {
+    return GeneratedDateTimeColumn(
+      'fecha',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, grupo, idUser, fecha];
   @override
   $RecomendadosTable get asDslTable => this;
   @override
@@ -1234,11 +1271,17 @@ class $RecomendadosTable extends Recomendados
     } else if (isInserting) {
       context.missing(_idUserMeta);
     }
+    if (d.fecha.present) {
+      context.handle(
+          _fechaMeta, fecha.isAcceptableValue(d.fecha.value, _fechaMeta));
+    } else if (isInserting) {
+      context.missing(_fechaMeta);
+    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Recomendado map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1256,6 +1299,9 @@ class $RecomendadosTable extends Recomendados
     }
     if (d.idUser.present) {
       map['id_user'] = Variable<String, StringType>(d.idUser.value);
+    }
+    if (d.fecha.present) {
+      map['fecha'] = Variable<DateTime, DateTimeType>(d.fecha.value);
     }
     return map;
   }
