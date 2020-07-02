@@ -1,0 +1,12 @@
+
+<data>
+    <name>Cuello 2</name>
+    <type>time</type>
+    <time>03:00</time>
+    <description>
+		mueve el cuello mucho tiempo
+    </description>
+    <principal>Cuello</principal>
+    <tag>Cuello</tag>
+    <calories>500</calories>
+</data>

@@ -1,0 +1,11 @@
+<data>
+    <name>Cuello 1</name>
+    <type>time</type>
+    <time>02:00</time>
+    <description>
+		mueve el cuello 
+    </description>
+    <principal>Cuello</principal>
+    <tag>Cuello</tag>
+    <calories>50</calories>
+</data>
