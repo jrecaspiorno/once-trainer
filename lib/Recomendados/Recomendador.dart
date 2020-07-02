@@ -76,6 +76,7 @@ class RecomendadorView extends StatelessWidget {
         ejercicios.add(ej.grupoprincipal, ej);
       }
       var l = ejercicios.asMap()[Cuello];
+      return l;
     }
 
     return Scaffold(
