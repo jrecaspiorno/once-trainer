@@ -17,7 +17,7 @@ class Recomendados extends Table{
   TextColumn get grupo => text().withLength(min: 1)();
   TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
   DateTimeColumn get fecha => dateTime()();
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {id, idUser};
 }
 
 class Restricciones extends Table {
@@ -142,6 +142,7 @@ class RecomendadosDAO extends DatabaseAccessor<AppDatabase>
   Future <List<Recomendado>> getallRecFromUser(String id)=> (select(recomendados)..where((t) => t.idUser.equals(id))).get();
   Future <List<Recomendado>> getallRec()=> select(recomendados).get();
   Future deleteAll() => delete(recomendados).go();
+  Future<List<Recomendado>> getRecsbyid(String id) =>  (select(recomendados)..where((tbl) => tbl.id.equals(id))).get();
   Future deleteRecomendado(Insertable<Recomendado> rec) => delete(recomendados).delete(rec);
   Future <List<Recomendado>> getNRecomendado() => (select(recomendados)..orderBy([(t) => OrderingTerm(expression: t.fecha, mode: OrderingMode.desc)])..limit(5)).get();
   
