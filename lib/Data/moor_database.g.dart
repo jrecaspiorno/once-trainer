@@ -1077,11 +1077,13 @@ class $HistorialsTable extends Historials
 
 class Recomendado extends DataClass implements Insertable<Recomendado> {
   final String id;
+  final String nombre;
   final String grupo;
   final String idUser;
   final DateTime fecha;
   Recomendado(
       {@required this.id,
+      @required this.nombre,
       @required this.grupo,
       @required this.idUser,
       @required this.fecha});
@@ -1092,6 +1094,8 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Recomendado(
       id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      nombre:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}nombre']),
       grupo:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}grupo']),
       idUser:
@@ -1105,6 +1109,7 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Recomendado(
       id: serializer.fromJson<String>(json['id']),
+      nombre: serializer.fromJson<String>(json['nombre']),
       grupo: serializer.fromJson<String>(json['grupo']),
       idUser: serializer.fromJson<String>(json['idUser']),
       fecha: serializer.fromJson<DateTime>(json['fecha']),
@@ -1115,6 +1120,7 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
+      'nombre': serializer.toJson<String>(nombre),
       'grupo': serializer.toJson<String>(grupo),
       'idUser': serializer.toJson<String>(idUser),
       'fecha': serializer.toJson<DateTime>(fecha),
@@ -1125,6 +1131,8 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
   RecomendadosCompanion createCompanion(bool nullToAbsent) {
     return RecomendadosCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      nombre:
+          nombre == null && nullToAbsent ? const Value.absent() : Value(nombre),
       grupo:
           grupo == null && nullToAbsent ? const Value.absent() : Value(grupo),
       idUser:
@@ -1135,9 +1143,14 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
   }
 
   Recomendado copyWith(
-          {String id, String grupo, String idUser, DateTime fecha}) =>
+          {String id,
+          String nombre,
+          String grupo,
+          String idUser,
+          DateTime fecha}) =>
       Recomendado(
         id: id ?? this.id,
+        nombre: nombre ?? this.nombre,
         grupo: grupo ?? this.grupo,
         idUser: idUser ?? this.idUser,
         fecha: fecha ?? this.fecha,
@@ -1146,6 +1159,7 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
   String toString() {
     return (StringBuffer('Recomendado(')
           ..write('id: $id, ')
+          ..write('nombre: $nombre, ')
           ..write('grupo: $grupo, ')
           ..write('idUser: $idUser, ')
           ..write('fecha: $fecha')
@@ -1154,13 +1168,16 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(grupo.hashCode, $mrjc(idUser.hashCode, fecha.hashCode))));
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(nombre.hashCode,
+          $mrjc(grupo.hashCode, $mrjc(idUser.hashCode, fecha.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Recomendado &&
           other.id == this.id &&
+          other.nombre == this.nombre &&
           other.grupo == this.grupo &&
           other.idUser == this.idUser &&
           other.fecha == this.fecha);
@@ -1168,31 +1185,37 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
 
 class RecomendadosCompanion extends UpdateCompanion<Recomendado> {
   final Value<String> id;
+  final Value<String> nombre;
   final Value<String> grupo;
   final Value<String> idUser;
   final Value<DateTime> fecha;
   const RecomendadosCompanion({
     this.id = const Value.absent(),
+    this.nombre = const Value.absent(),
     this.grupo = const Value.absent(),
     this.idUser = const Value.absent(),
     this.fecha = const Value.absent(),
   });
   RecomendadosCompanion.insert({
     @required String id,
+    @required String nombre,
     @required String grupo,
     @required String idUser,
     @required DateTime fecha,
   })  : id = Value(id),
+        nombre = Value(nombre),
         grupo = Value(grupo),
         idUser = Value(idUser),
         fecha = Value(fecha);
   RecomendadosCompanion copyWith(
       {Value<String> id,
+      Value<String> nombre,
       Value<String> grupo,
       Value<String> idUser,
       Value<DateTime> fecha}) {
     return RecomendadosCompanion(
       id: id ?? this.id,
+      nombre: nombre ?? this.nombre,
       grupo: grupo ?? this.grupo,
       idUser: idUser ?? this.idUser,
       fecha: fecha ?? this.fecha,
@@ -1211,6 +1234,14 @@ class $RecomendadosTable extends Recomendados
   GeneratedTextColumn get id => _id ??= _constructId();
   GeneratedTextColumn _constructId() {
     return GeneratedTextColumn('id', $tableName, false, minTextLength: 1);
+  }
+
+  final VerificationMeta _nombreMeta = const VerificationMeta('nombre');
+  GeneratedTextColumn _nombre;
+  @override
+  GeneratedTextColumn get nombre => _nombre ??= _constructNombre();
+  GeneratedTextColumn _constructNombre() {
+    return GeneratedTextColumn('nombre', $tableName, false, minTextLength: 1);
   }
 
   final VerificationMeta _grupoMeta = const VerificationMeta('grupo');
@@ -1243,7 +1274,7 @@ class $RecomendadosTable extends Recomendados
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, grupo, idUser, fecha];
+  List<GeneratedColumn> get $columns => [id, nombre, grupo, idUser, fecha];
   @override
   $RecomendadosTable get asDslTable => this;
   @override
@@ -1258,6 +1289,12 @@ class $RecomendadosTable extends Recomendados
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
     } else if (isInserting) {
       context.missing(_idMeta);
+    }
+    if (d.nombre.present) {
+      context.handle(
+          _nombreMeta, nombre.isAcceptableValue(d.nombre.value, _nombreMeta));
+    } else if (isInserting) {
+      context.missing(_nombreMeta);
     }
     if (d.grupo.present) {
       context.handle(
@@ -1281,7 +1318,7 @@ class $RecomendadosTable extends Recomendados
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id, idUser};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Recomendado map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1293,6 +1330,9 @@ class $RecomendadosTable extends Recomendados
     final map = <String, Variable>{};
     if (d.id.present) {
       map['id'] = Variable<String, StringType>(d.id.value);
+    }
+    if (d.nombre.present) {
+      map['nombre'] = Variable<String, StringType>(d.nombre.value);
     }
     if (d.grupo.present) {
       map['grupo'] = Variable<String, StringType>(d.grupo.value);

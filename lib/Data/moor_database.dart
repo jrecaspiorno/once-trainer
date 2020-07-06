@@ -14,10 +14,11 @@ class Usuario extends Table {
 }
 class Recomendados extends Table{
   TextColumn get id => text().withLength(min: 1)();
+  TextColumn get nombre => text().withLength(min: 1)();
   TextColumn get grupo => text().withLength(min: 1)();
   TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
   DateTimeColumn get fecha => dateTime()();
-  Set<Column> get primaryKey => {id, idUser};
+  Set<Column> get primaryKey => {id};
 }
 
 class Restricciones extends Table {
@@ -25,7 +26,7 @@ class Restricciones extends Table {
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
   TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
   BoolColumn get activo => boolean().withDefault(Constant(false))();
-  
+
 }
 
 class Historials extends Table {
@@ -45,11 +46,11 @@ class Historials extends Table {
 
 @UseMoor(
     tables: [Usuario, Restricciones, Historials, Recomendados],
-  daos: [UsuarioDAO, RestriccionesDAO, HistorialDAO, RecomendadosDAO])
-  class AppDatabase extends _$AppDatabase {
+    daos: [UsuarioDAO, RestriccionesDAO, HistorialDAO, RecomendadosDAO])
+class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super(FlutterQueryExecutor.inDatabaseFolder(
-  path: 'OnceTrainerDB.sqlite', logStatements: true));
+      path: 'OnceTrainerDB.sqlite', logStatements: true));
   @override
   int get schemaVersion => 1;
 }
@@ -70,7 +71,7 @@ class UsuarioDAO extends DatabaseAccessor<AppDatabase> with _$UsuarioDAOMixin {
   Future<UsuarioData> getUser(String id) => (select(usuario)..where((t) => t.id.equals(id))).getSingle();
   Future updateEdad(String id, DateTime edad) => (update(usuario)..where((t) => t.id.like(id))).write(UsuarioData(edad: edad));
   Future insertBackIdIntoUser(String bid, String uid) => (update(usuario)..where((t) => t.id.like(uid))).write(UsuarioData(backupid: bid));
- 
+
 }
 
 @UseDao(tables: [Restricciones, Usuario])
@@ -83,19 +84,19 @@ class RestriccionesDAO extends DatabaseAccessor<AppDatabase>
   }
   Stream<List<RestWithUser>> watchRestfromUser() {
     return (select(restricciones)
-          ..orderBy([
+      ..orderBy([
             (t) => OrderingTerm(expression: t.tipo, mode: OrderingMode.desc),
-          ]))
+      ]))
         .join([
-          leftOuterJoin(usuario, usuario.id.equalsExp(restricciones.idUser)),
-        ])
+      leftOuterJoin(usuario, usuario.id.equalsExp(restricciones.idUser)),
+    ])
         .watch()
         .map((rows) => rows.map((row) {
-              return RestWithUser(
-                rest: row.readTable(restricciones),
-                user: row.readTable(usuario),
-              );
-            }).toList());
+      return RestWithUser(
+        rest: row.readTable(restricciones),
+        user: row.readTable(usuario),
+      );
+    }).toList());
   }
   Future<List<Restriccione>> getRestfromUser(String id){
     return (select(restricciones)..where((t) => t.idUser.equals(id))).get();
@@ -142,10 +143,10 @@ class RecomendadosDAO extends DatabaseAccessor<AppDatabase>
   Future <List<Recomendado>> getallRecFromUser(String id)=> (select(recomendados)..where((t) => t.idUser.equals(id))).get();
   Future <List<Recomendado>> getallRec()=> select(recomendados).get();
   Future deleteAll() => delete(recomendados).go();
-  Future<List<Recomendado>> getRecsbyid(String id) =>  (select(recomendados)..where((tbl) => tbl.id.equals(id))).get();
+  bool getRecsbyid(String id) =>  (select(recomendados)..where((tbl) => tbl.id.equals(id))).get() != null;
   Future deleteRecomendado(Insertable<Recomendado> rec) => delete(recomendados).delete(rec);
   Future <List<Recomendado>> getNRecomendado() => (select(recomendados)..orderBy([(t) => OrderingTerm(expression: t.fecha, mode: OrderingMode.desc)])..limit(5)).get();
-  
+
 }
 
 class RestWithUser {

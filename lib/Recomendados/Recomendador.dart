@@ -17,7 +17,6 @@ import 'dart:math';
 class RecomendadorView extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
 
-
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
@@ -41,53 +40,37 @@ class RecomendadorView extends StatelessWidget {
         var ej = FactoriaEj.GenerateEj(file);
         ejercicios.add(ej.grupoprincipal, ej);
       }
-      if(!_prefs.containsKey('hayCambio')) _prefs.setBool('hayCambio', false);
+      if (!_prefs.containsKey('hayCambio')) _prefs.setBool('hayCambio', false);
       if (!_prefs.getBool('hayCambio')) {
-        ejercicios.asMap().forEach((key, value) async{
-          
+
+        ejercicios.forEachKey((key, value) async {
           int r = value.length;
           var rng = Random();
           int pos;
           List<Ejercicio> l = value.toList();
           bool ok = false;
-          while(!ok){
+          while (!ok) {
             pos = rng.nextInt(r);
-            List<Recomendado> rec = await database.recomendadosDAO.getRecsbyid(l[pos].name);
-            int v = 0;
-            if(rec.isNotEmpty){
-              for(Recomendado recomendado in rec){
-                
+            ok = database.recomendadosDAO
+                .getRecsbyid(l[pos].name + state.getId());
 
-                if(recomendado.idUser == state.getId()){
-                  ok = true;
-                  break;
-                }
-                if(v == rec.length) break;
-                v++;
-              }
-            }
-            //Recomendado re = Recomendado(id:, grupo:l[pos].grupoprincipal , idUser:  state.getId(), fecha: )
-            //if(!database.recomendadosDAO.isInRecom(re))
-            
           }
-          
+
           ejerciciosf.add(l[pos]);
           names.add(l[pos].name);
         });
-         _prefs.setBool('hayCambio', true);
+        _prefs.setBool('hayCambio', true);
         _prefs.setStringList("recomendados", names);
-      }
-      else{
+      } else {
         List<Ejercicio> val = ejercicios.values.toList();
         names = _prefs.getStringList('recomendados');
         names.forEach((element) {
-          for (Ejercicio ej in val){
-            if(ej.name == element){
+          for (Ejercicio ej in val) {
+            if (ej.name == element) {
               ejerciciosf.add(ej);
               break;
             }
           }
-          
         });
       }
       return ejerciciosf;
@@ -161,15 +144,16 @@ class RecomendadorView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12)),
                           autofocus: true,
                           onPressed: () async {
-                            SharedPreferences _prefs = await SharedPreferences.getInstance();
+                            SharedPreferences _prefs =
+                                await SharedPreferences.getInstance();
                             ejercicios.forEach((element) {
                               Recomendado rec = Recomendado(
-                                  id: element.name,
+                                  id: element.name+ state.getId(),
                                   grupo: element.grupoprincipal,
                                   idUser: state.getId(),
-                                  fecha: DateTime.now());
+                                  fecha: DateTime.now(),
+                                  nombre: element.name);
                               database.recomendadosDAO.insertRecomendado(rec);
-                              
                             });
                             _prefs.setBool('hayCambio', false);
                           },
