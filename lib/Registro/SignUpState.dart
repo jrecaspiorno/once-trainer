@@ -17,7 +17,7 @@ class LoginState with ChangeNotifier {
   bool _fecha_introducida = false;
   bool _logedIn = false;
   bool _loading = true;
-  bool _alertaActivada = false;
+  bool _correctRestore = false;
   String _id = "";
   FirebaseUser _user;
   bool isLoading() => _loading;
@@ -26,7 +26,6 @@ class LoginState with ChangeNotifier {
   String getidToken()=> _idToken;
   FirebaseUser currentUser() => _user;
   bool getFecha() => _fecha_introducida;
-  bool getNoDateAlert() => _alertaActivada;
   String getId() => _id;
   Map<String, String> getHeader() => header;
   LoginState() {
@@ -35,6 +34,14 @@ class LoginState with ChangeNotifier {
 
   void setDate(DateTime date) => _date = date;
   void setLogedIn(){
+    _logedIn = true;
+    _loading = false;
+    _fecha_introducida = true;
+    _correctRestore = true;
+    _prefs.setBool('completeLogin', true);
+    notifyListeners();
+  }
+  void setLogedInNoRestore(){
     _logedIn = true;
     _loading = false;
     _fecha_introducida = true;
@@ -65,7 +72,6 @@ class LoginState with ChangeNotifier {
         edad: _date,
         photoUrl: _user.photoUrl,
         email: _user.email);
-    _alertaActivada = false;
     database.usuarioDAO.insertUser(usuario);
     _prefs.setBool('completeLogin', true);
     
@@ -90,7 +96,7 @@ class LoginState with ChangeNotifier {
     if (_user != null) {
       
       _prefs.setBool('isLoggedIn', true);
-      Backup b = Backup(header: header, id: _id, database:database , context: context);
+      Backup b = Backup(header: header, id: _id, database:database , state: this);
       
       var z = await database.usuarioDAO.getUser(_id);
       

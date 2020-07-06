@@ -20,11 +20,13 @@ class Backup {
   String id;
   AppDatabase database;
   final String fileName = "OnceTrainerBackup.txt";
-  BuildContext context;
-  Backup({@required this.header, @required this.id, @required this.database, this.context});
+  LoginState state;
+
+  Backup(
+      {@required this.header, @required this.id, @required this.database, this.state});
 
   Future<bool> getDataFronDrive() async {
-    var state = Provider.of<LoginState>(context, listen: false);
+
     final location = await getTemporaryDirectory();
     final loc = p.join(location.path, fileName);
     final client = http.Client();
@@ -34,7 +36,7 @@ class Backup {
     var fileL = await api.files.list(q: "name = '$fileName'");
     var file = fileL.files;
     var ok = file.isNotEmpty;
-    if (file.isNotEmpty ) {
+    if (file.isNotEmpty) {
       String id = file[0].id;
       drive.Media response = await api.files
           .get(id, downloadOptions: drive.DownloadOptions.FullMedia);
@@ -45,38 +47,103 @@ class Backup {
         print("Data Recived: ${data.length}");
         dataStore.insertAll(dataStore.length, data);
       }, onDone: () async {
-        File file = File(loc);
-        print(loc);
-        file.writeAsBytes(dataStore);
-        String content = await file.readAsString();
-        print(content);
-        var data = json.decode(content);
-        UsuarioData u = UsuarioData.fromJson(data["1"]);
-        List<dynamic> aux = data["2"];
-        List<Restriccione> rs = [];
-        if(aux != null)
-          aux.forEach((element) {
-            Restriccione r = Restriccione.fromJson(element);
-            rs.add(r);
-          });
-        
-        List<Historial> hist = [];
-        aux = data["3"];
-        if(aux != null)
-          aux.forEach((element) {Historial h = Historial.fromJson(element); hist.add(h);});
-        await database.usuarioDAO.insertUser(u);
-        if (rs.isNotEmpty) await database.restriccionesDAO.insertAllRes(rs);
-        if (hist.isNotEmpty) await database.historialDAO.insertAllHist(hist);
-        state.setLogedIn();
+        try {
+          File file = File(loc);
+          print(loc);
+          file.writeAsBytes(dataStore);
+          String content = await file.readAsString();
+          print(content);
+          var data = json.decode(content);
+          UsuarioData u = UsuarioData.fromJson(data["1"]);
+          List<dynamic> aux = data["2"];
+          List<Restriccione> rs = [];
+          if (aux != null)
+            aux.forEach((element) {
+              Restriccione r = Restriccione.fromJson(element);
+              rs.add(r);
+            });
+
+          List<Historial> hist = [];
+          aux = data["3"];
+          if (aux != null)
+            aux.forEach((element) {
+              Historial h = Historial.fromJson(element);
+              hist.add(h);
+            });
+          await database.usuarioDAO.insertUser(u);
+          if (rs.isNotEmpty) await database.restriccionesDAO.insertAllRes(rs);
+          if (hist.isNotEmpty) await database.historialDAO.insertAllHist(hist);
+
+          state.setLogedIn();
+        } catch (e) {
+          state.setLogedInNoRestore();
+        }
         return true;
       });
       print(response.toString());
-      
     }
-    
+
     return false;
   }
 
+
+   Future restoreData() async {
+
+    final location = await getTemporaryDirectory();
+    final loc = p.join(location.path, fileName);
+    final client = http.Client();
+    var authClient = GoogleHttpClient(header, client);
+    var api = drive.DriveApi(authClient);
+    var fileL = await api.files.list(q: "name = '$fileName'");
+    var file = fileL.files;
+    if (file.isNotEmpty) {
+      String id = file[0].id;
+      drive.Media response = await api.files
+          .get(id, downloadOptions: drive.DownloadOptions.FullMedia);
+      List<int> dataStore = [];
+      state.setLoading();
+      response.stream.asBroadcastStream().listen((data) {
+        print("Data Recived: ${data.length}");
+        dataStore.insertAll(dataStore.length, data);
+      }, onDone: () async {
+        try {
+          File file = File(loc);
+          print(loc);
+          file.writeAsBytes(dataStore);
+          String content = await file.readAsString();
+          print(content);
+          var data = json.decode(content);
+          UsuarioData u = UsuarioData.fromJson(data["1"]);
+          List<dynamic> aux = data["2"];
+          List<Restriccione> rs = [];
+          if (aux != null)
+            aux.forEach((element) {
+              Restriccione r = Restriccione.fromJson(element);
+              rs.add(r);
+            });
+
+          List<Historial> hist = [];
+          aux = data["3"];
+          if (aux != null)
+            aux.forEach((element) {
+              Historial h = Historial.fromJson(element);
+              hist.add(h);
+            });
+          database.usuarioDAO.deleteAllUsers();
+          database.restriccionesDAO.deleteAllRes();
+          database.historialDAO.deleteHist();
+          await database.usuarioDAO.insertUser(u);
+          if (rs.isNotEmpty) await database.restriccionesDAO.insertAllRes(rs);
+          if (hist.isNotEmpty) await database.historialDAO.insertAllHist(hist);
+        } catch (e) {
+          throw e;
+        }
+      });
+      print(response.toString());
+    }
+
+
+  }
   Future<bool> uploadDataToDrive() async {
     final location = await getApplicationDocumentsDirectory();
     final dbFolder = await getDatabasesPath();
@@ -89,15 +156,16 @@ class Backup {
 
     UsuarioData user = await database.usuarioDAO.getUser(id);
     List<Restriccione> rests =
-        await database.restriccionesDAO.getRestfromUser(id);
+    await database.restriccionesDAO.getRestfromUser(id);
     List<Historial> hist = await database.historialDAO.getHistfromUser(id);
 
-    DatabasetoJson data = DatabasetoJson(user: user, rests: rests, hist: hist);
+    DatabasetoJson data = DatabasetoJson(
+        user: user, rests: rests, hist: hist);
     final loc = p.join(location.path, fileName);
     File jsonFile = File(loc);
     var da = data.jsonfromdatabase();
     var s = json.encode(da);
-   
+
     jsonFile.createSync();
     jsonFile.writeAsStringSync(s);
     var fileL = await api.files.list(q: "name = '$fileName'");
@@ -105,25 +173,28 @@ class Backup {
     var response;
     if (user.backupid == null && files.isEmpty) {
       response = await api.files.create(
-        drive.File()..name = fileName,
+        drive.File()
+          ..name = fileName,
         uploadMedia: drive.Media(jsonFile.openRead(), jsonFile.lengthSync()),
       );
       database.usuarioDAO.insertBackIdIntoUser(response.id, id);
     } else {
       var id = user.backupid == null ? files[0].id : user.backupid;
-        response = await api.files.update(
-        drive.File()..name = fileName,
+      response = await api.files.update(
+        drive.File()
+          ..name = fileName,
         id,
         uploadMedia: drive.Media(jsonFile.openRead(), jsonFile.lengthSync()),
       );
-      
+
       print(response.toJson());
     }
-    if(response != null ) return true;
-    else return false;
+    if (response != null)
+      return true;
+    else
+      return false;
   }
 }
-
 class DatabasetoJson {
   UsuarioData user;
   List<Restriccione> rests;
@@ -141,7 +212,7 @@ class DatabasetoJson {
     List<dynamic> histl = List();
     Map<String, dynamic> mast = Map();
     mast.addAll(userm);
-    
+
     if (rests.length != 0) {
       rests.forEach((element) => restm.add(element.toJson()));
       Map<String, dynamic> restmd = {"2": restm};

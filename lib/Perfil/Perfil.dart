@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutterapp/DriveBackup/Backup.dart';
+import 'package:flutterapp/DriveBackup/BackupView.dart';
+import 'package:flutterapp/DriveBackup/RestoreView.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
@@ -17,40 +17,8 @@ class MyProfile extends StatefulWidget {
 class _MyProfileState extends State<MyProfile> {
   final NavigationService _navigationService = locator<NavigationService>();
 
-  Widget botonBackup(BuildContext context) {
-    var state = Provider.of<LoginState>(context, listen: false);
-    final database = Provider.of<AppDatabase>(context);
-    Backup backup = Backup(
-        header: state.getHeader(), id: state.getId(), database: database);
-    // Alerts alertOK = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> MaterialPageRoute(builder: (context) => Menu()), title: "Backup", message: "El bakcup ha sido realizado correctamente");
-    // Alerts alertKO = Alerts(context: context, firstButtonText: "Ok", fun1: ()=> Navigator.pop(context), title: "Backup Error", message: "Ha habido un error realizando el backup");
-    Alerts alerta = Alerts(
-        context: context,
-        firstButtonText: "Cancelar",
-        secondButtonText: "Ok",
-        fun1: () => _navigationService.goBack(),
-        fun2: () {
-          backup.uploadDataToDrive();
-          _navigationService.goBack();
-        },
-        title: "Backup",
-        message: "¿Desea realizar un backup?");
 
-    return Center(
-      child: SizedBox(
-        width: 330,
-        child: RaisedButton(
-          child: Text('Backup', style: TextStyle(fontSize: 30)),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          onPressed: () => alerta.showAlertDialog2(),
-          color: Colors.indigo,
-          textColor: Colors.white,
-          padding: EdgeInsets.all(24.0),
-        ),
-      ),
-    );
-  }
+
 
   Widget logoutButton() {
     return Column(
@@ -75,9 +43,7 @@ class _MyProfileState extends State<MyProfile> {
     );
   }
 
-  Future<List<UsuarioData>> getData(UsuarioDAO usuarioDAO) async {
-    return usuarioDAO.getUsers();
-  }
+
 
   Stream<UsuarioData> watchCurrentsUser(UsuarioDAO usuarioDAO, String id) {
     return usuarioDAO.watchUser(id);
@@ -115,7 +81,11 @@ class _MyProfileState extends State<MyProfile> {
                     padding: EdgeInsets.all(20),
                   ),
                   MyButtonType(),
-                  botonBackup(context),
+                  BackupButton(),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                  ),
+                  RestoreButton(),
                   Padding(
                     padding: EdgeInsets.all(20),
                   ),
@@ -133,13 +103,6 @@ class _MyProfileState extends State<MyProfile> {
             }
           },
         ),
-//            ListView(children: [
-//            const SizedBox(height: 20),
-//            MyData(usuarioData: ),
-//            MyButtonType(
-//
-//            ),
-//          ])
       
     );
   }
