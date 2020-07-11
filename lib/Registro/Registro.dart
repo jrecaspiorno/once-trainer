@@ -56,7 +56,11 @@ class LoginPage extends StatelessWidget {
               ),
               onPressed: () async {
                 var state = context.read<LoginState>();
-                state.login(database, context);
+                try {
+                  state.login(database, context);
+                }catch(e){
+
+                }
               },
             ),
           ),

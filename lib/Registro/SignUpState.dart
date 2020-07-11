@@ -85,9 +85,10 @@ class LoginState with ChangeNotifier {
     _prefs.setBool('completeLogin', false);
     _loading = true;
     notifyListeners();
+    try {
+      _user = await _loginGoogle();
 
-    _user = await _loginGoogle();
-    
+
     _id = _user.uid;
     //_date = await _getBDay();
 
@@ -119,6 +120,13 @@ class LoginState with ChangeNotifier {
       _logedIn = false;
       notifyListeners();
     }
+  }catch(e){
+      _loading = false;
+      notifyListeners();
+      throw(e);
+      //login(database, context);
+      //print(e);
+    }
   }
 
   void logout() {
@@ -140,7 +148,7 @@ class LoginState with ChangeNotifier {
   Future<FirebaseUser> _handleSignIn(GoogleSignInAccount account) async {
     //account = await _googleSingIn.signIn();
     
-    var hs = await account.authHeaders;
+    //var hs = await account.authHeaders;
     //var h = hs.values.first;
     //_prefs.setString('Header', h);
     final GoogleSignInAuthentication googleAuth = await account.authentication;
