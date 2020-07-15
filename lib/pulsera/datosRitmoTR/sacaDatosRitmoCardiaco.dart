@@ -42,8 +42,8 @@ bool getAuxExceso(){
     DateTime endDate = DateTime.now();
     //DateTime startDate = endDate.subtract(Duration(seconds: 3));
     DateTime startDate = endDate.subtract(
-        //Duration(seconds: 3));
-        Duration(days: 300)); // TODO: Cambiar a segundos
+        Duration(seconds: 3));
+        //Duration(days: 300)); // TODO: Cambiar a segundos
     //Future.delayed(Duration(seconds: 1), () async{});
 
     Future.delayed(Duration(seconds: 2), () async {
