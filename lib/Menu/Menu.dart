@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/Menu/Variables.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
-import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
+import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:moor_db_viewer/moor_db_viewer.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
   @override
@@ -15,6 +18,13 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  _prepareVariables() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (!preferences.containsKey('SelectDiff'))
+      preferences.setBool('SelectDiff', true);
+    selDiffActivo = preferences.getBool('SelectDiff');
+  }
+
   final NavigationService _navigationService = locator<NavigationService>();
   Future<bool> _onBackPressed(BuildContext context) {
     Alerts alert = Alerts(
@@ -30,6 +40,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
+    _prepareVariables();
     final uDao = context.watch<AppDatabase>().usuarioDAO;
     var state = Provider.of<LoginState>(context, listen: false);
     String id = state.getId();
@@ -48,16 +59,31 @@ class _MenuState extends State<Menu> {
   }
 
   Widget menuView(BuildContext context) {
+    final database = context.watch<AppDatabase>();
     return Center(
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.all(30),
         children: <Widget>[
-          _buildButton('Recomendaciones',route.RecomendaosPage),
+          _buildButton('Recomendaciones', route.RecomendaosPage),
           _buildButton('Lista Ejercicios', route.ListaEjerciciosPage),
-          _buildButton('Perfil',  route.PerfilPage),
+          _buildButton('Perfil', route.PerfilPage),
           _buildButton('Recomendador', route.RecomdadorPage),
-          
+          SizedBox(
+            width: 300,
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => MoorDbViewer(database)));
+              },
+              color: Colors.indigo,
+              textColor: Colors.white,
+              padding: EdgeInsets.all(24.0),
+              child: Text('Database', style: TextStyle(fontSize: 30)),
+            ),
+          )
         ],
       ),
     );

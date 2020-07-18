@@ -1,26 +1,29 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutterapp/Recomendados/BodyParts.dart';
+import 'package:flutterapp/NavigationTools/locator.dart';
+import 'package:flutterapp/NavigationTools/navigator_service.dart';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/Registro/SignUpState.dart';
-import 'package:provider/provider.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
+import 'package:provider/provider.dart';
+import 'package:quiver/collection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart' as xml;
-import 'package:quiver/collection.dart';
-import 'dart:convert';
-import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
-import 'package:flutterapp/NavigationTools/navigator_service.dart';
-import 'package:flutterapp/NavigationTools/locator.dart';
-import 'dart:math';
 
 class RecomendadorView extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
+  List<Ejercicio> ejerciciosf = List();
 
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
     var state = context.watch<LoginState>();
+
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       await database.recomendadosDAO.deleteAll();
       SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -30,7 +33,7 @@ class RecomendadorView extends StatelessWidget {
       List<String> xmls = manifesMap.keys
           .where((key) => key.contains('todos_ejercicios'))
           .toList();
-      List<Ejercicio> ejerciciosf = List();
+
       List<String> names = List();
       var ejercicios = Multimap<String, Ejercicio>();
       for (int i = 0; i < xmls.length; ++i) {
@@ -42,18 +45,21 @@ class RecomendadorView extends StatelessWidget {
       }
       if (!_prefs.containsKey('hayCambio')) _prefs.setBool('hayCambio', false);
       if (!_prefs.getBool('hayCambio')) {
-
         ejercicios.forEachKey((key, value) async {
           int r = value.length;
           var rng = Random();
           int pos;
           List<Ejercicio> l = value.toList();
           bool ok = false;
+          String aux = "";
           while (!ok) {
             pos = rng.nextInt(r);
-            ok = database.recomendadosDAO
-                .getRecsbyid(l[pos].name + state.getId());
-
+            aux = await database.recomendadosDAO
+                .getRecbyPrimaryKey(l[pos].name, state.getId());
+            sleep(Duration(milliseconds: 10));
+            aux;
+            ok = aux != l[pos].name;
+            //ok = aux.first;
           }
 
           ejerciciosf.add(l[pos]);
@@ -148,7 +154,6 @@ class RecomendadorView extends StatelessWidget {
                                 await SharedPreferences.getInstance();
                             ejercicios.forEach((element) {
                               Recomendado rec = Recomendado(
-                                  id: element.name+ state.getId(),
                                   grupo: element.grupoprincipal,
                                   idUser: state.getId(),
                                   fecha: DateTime.now(),
