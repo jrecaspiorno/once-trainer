@@ -129,10 +129,25 @@ class RecomendadorView extends StatelessWidget {
       return ejerciciosf;
     }
 
+    bool show = true;
+    bool notNull(Object o) => o != null;
+    SizedBox mySizedBox() {
+      if (show) {
+        show = false;
+        return SizedBox(height: 40);
+      } else
+        return null;
+    }
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Recomendador'),
+        backgroundColor: Colors.indigo,
+      ),
       body: FutureBuilder(
           future: ejs(),
           builder: (_, data) {
+            show = true;
             List<Ejercicio> ejercicios = data.data;
             if (ejercicios != null) {
               return Column(
@@ -144,15 +159,13 @@ class RecomendadorView extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: 30),
                         );
-
                         return Flex(
                           mainAxisSize: MainAxisSize.min,
                           direction: Axis.vertical,
                           textDirection: TextDirection.ltr,
                           verticalDirection: VerticalDirection.down,
                           children: [
-                            SizedBox(height: 40),
-
+                            mySizedBox(),
                             SizedBox(
                               width: 270,
                               child: RaisedButton(
@@ -172,9 +185,10 @@ class RecomendadorView extends StatelessWidget {
                                 ),
                               ),
                             ),
-
-                            //const SizedBox(height: 20),
-                          ],
+                            SizedBox(
+                              height: 40,
+                            ),
+                          ].where(notNull).toList(),
                         );
                       },
                     ),

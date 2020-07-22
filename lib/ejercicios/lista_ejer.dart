@@ -1,15 +1,12 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
-import 'package:path/path.dart';
 import 'package:xml/xml.dart' as xml;
-import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
-import 'package:path_provider/path_provider.dart';
-import 'dart:convert';
 
 class MyList extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -72,6 +69,16 @@ class MyList extends StatelessWidget {
       return ejercicios;
     }
 
+    bool show = true;
+    bool notNull(Object o) => o != null;
+    SizedBox mySizedBox() {
+      if (show) {
+        show = false;
+        return SizedBox(height: 40);
+      } else
+        return null;
+    }
+
     return Scaffold(
       // Widget con app prediseñada, esquema
       appBar: AppBar(
@@ -86,6 +93,7 @@ class MyList extends StatelessWidget {
         child: FutureBuilder(
             future: getEjercicios(context),
             builder: (context, data) {
+              show = true;
               if (data.hasData) {
                 List<Ejercicio> ejercicios = data.data;
                 return ListView.builder(
@@ -101,7 +109,7 @@ class MyList extends StatelessWidget {
                       textDirection: TextDirection.ltr,
                       verticalDirection: VerticalDirection.down,
                       children: [
-                        SizedBox(height: 40),
+                        mySizedBox(),
                         SizedBox(
                           width: 270,
                           child: RaisedButton(
@@ -120,9 +128,8 @@ class MyList extends StatelessWidget {
                             ),
                           ),
                         ),
-
-                        //const SizedBox(height: 20),
-                      ],
+                        const SizedBox(height: 40),
+                      ].where(notNull).toList(),
                     );
                   },
                 );
