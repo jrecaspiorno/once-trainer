@@ -41,9 +41,16 @@ dependencies:
   get_it: ^4.0.2
   moor_db_viewer: ^2.0.3
   connectivity: ^0.4.9
+  hive: ^1.4.1+1
+  hive_flutter: ^0.3.0+2
+
+  analyzer_plugin: ^0.2.4
+dependency_overrides:
+  dartx: ^0.3.0
 dev_dependencies:
   moor_generator: ^3.2.0
   build_runner: ^1.10.0
+  hive_generator: ^0.7.0+2
   flutter_test:
     sdk: flutter
   
