@@ -64,50 +64,51 @@ class RecomendadorView extends StatelessWidget {
 
     Future<List<Ejercicio>> ejs() async {
       await init();
+      int vueltas = 0;
       double media = 0;
       List<Ejercicio> ejerciciosf = List();
       var l = recomListBox.values;
-      int i = 0;
       if (!_prefs.containsKey('hayCambio')) _prefs.setBool('hayCambio', false);
       if (!_prefs.getBool('hayCambio')) {
         l.forEach((element) {
           media += element.hechosTotales;
         });
         media /= l.length;
-        l.forEach((element) {
-          int resta = element.hechosTotales - 3;
-          if (media >= (resta)) {
-            var rng = Random();
-            var listAux = element.ejercicios;
-            int auxhechosLista = element.hechosLista;
-            int auxhechosTotal = element.hechosTotales;
-            if (listAux.length == auxhechosLista) auxhechosLista = 0;
-            int pos = rng.nextInt(listAux.length - auxhechosLista);
-            var name = listAux[pos];
-            Ejercicio ej;
+        while (vueltas < l.length) {
+          int i = 0;
+          l.forEach((element) {
+            int resta = element.hechosTotales - 3;
+            if (media >= (resta) && vueltas < l.length) {
+              vueltas++;
+              var rng = Random();
+              var listAux = element.ejercicios;
+              int auxhechosLista = element.hechosLista;
+              if (listAux.length == auxhechosLista) auxhechosLista = 0;
+              int pos = rng.nextInt(listAux.length - auxhechosLista);
+              var name = listAux[pos];
+              Ejercicio ej;
 
-            var x = ejercicios.asMap()[element.tipo].toList();
-            int j = 0;
-            while (j < x.length && ej == null) {
-              if (x[j].name == name) {
-                ej = x[j];
+              var x = ejercicios.asMap()[element.tipo].toList();
+              int j = 0;
+              while (j < x.length && ej == null) {
+                if (x[j].name == name) {
+                  ej = x[j];
+                }
+                ++j;
               }
-              ++j;
+              listAux.removeAt(pos);
+              listAux.add(name);
+              auxhechosLista++;
+              ejerciciosf.add(ej);
+              names.add(ej.name);
+              recomListBox.putAt(
+                  i,
+                  RecomList(element.tipo, listAux, auxhechosLista,
+                      element.hechosTotales));
             }
-            listAux.removeAt(pos);
-            listAux.add(name);
-            auxhechosLista++;
-            //TODO quitar hechos totales
-            auxhechosTotal++;
-            ejerciciosf.add(ej);
-            names.add(ej.name);
-            recomListBox.putAt(
-                i,
-                RecomList(
-                    element.tipo, listAux, auxhechosLista, auxhechosTotal));
-          }
-          ++i;
-        });
+            ++i;
+          });
+        }
         _prefs.setBool('hayCambio', true);
         _prefs.setStringList("recomendados", names);
       } else {
@@ -197,6 +198,7 @@ class RecomendadorView extends StatelessWidget {
                           autofocus: true,
                           onPressed: () async {
                             _prefs.setBool('hayCambio', false);
+                            recomListBox.close();
                             _navigationService.goBack();
                           },
                           color: Colors.indigo,

@@ -6,6 +6,7 @@ import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class MyProfile extends StatefulWidget {
@@ -32,6 +33,7 @@ class _MyProfileState extends State<MyProfile> {
             padding: EdgeInsets.all(17.0),
             onPressed: () {
               context.read<LoginState>().logout();
+              Hive.deleteBoxFromDisk('recomlists');
               _navigationService.removeUntilAndPush(route.MainPage);
             },
           ),
