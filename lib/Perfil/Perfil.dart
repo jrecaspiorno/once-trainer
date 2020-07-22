@@ -4,10 +4,10 @@ import 'package:flutterapp/DriveBackup/BackupView.dart';
 import 'package:flutterapp/DriveBackup/RestoreView.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
-import 'package:flutterapp/Registro/SignUpState.dart';
-import 'package:provider/provider.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
-
+import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 
 class MyProfile extends StatefulWidget {
   @override
@@ -16,9 +16,6 @@ class MyProfile extends StatefulWidget {
 
 class _MyProfileState extends State<MyProfile> {
   final NavigationService _navigationService = locator<NavigationService>();
-
-
-
 
   Widget logoutButton() {
     return Column(
@@ -34,16 +31,16 @@ class _MyProfileState extends State<MyProfile> {
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
             padding: EdgeInsets.all(17.0),
-            onPressed: () {                
-                context.read<LoginState>().logout();
-                _navigationService.removeUntilAndPush(route.MainPage);            },
+            onPressed: () {
+              context.read<LoginState>().logout();
+              Hive.deleteBoxFromDisk('recomlists');
+              _navigationService.removeUntilAndPush(route.MainPage);
+            },
           ),
         )
       ],
     );
   }
-
-
 
   Stream<UsuarioData> watchCurrentsUser(UsuarioDAO usuarioDAO, String id) {
     return usuarioDAO.watchUser(id);
@@ -56,54 +53,52 @@ class _MyProfileState extends State<MyProfile> {
     var state = context.watch<LoginState>();
     String id = state.getId();
     return Scaffold(
-        // Widget con app prediseñada, esquema
-        appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              _navigationService.goBack();
-            },
-          ),
-          title: Text('Perfil'),
-          backgroundColor: Colors.indigo,
-        ),
-        body: StreamBuilder(
-          stream: watchCurrentsUser(database.usuarioDAO, id),
-          builder: (context, data) {
-            if (data.hasData) {
-              UsuarioData mainUser = data.data;
-              return ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(25),
-                  ),
-                  MyData(usuarioData: mainUser),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                  ),
-                  MyButtonType(),
-                  BackupButton(),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                  ),
-                  RestoreButton(),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                  ),
-                  logoutButton(),
-                  
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                  ),
-                ],
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+      // Widget con app prediseñada, esquema
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            _navigationService.goBack();
           },
         ),
-      
+        title: Text('Perfil'),
+        backgroundColor: Colors.indigo,
+      ),
+      body: StreamBuilder(
+        stream: watchCurrentsUser(database.usuarioDAO, id),
+        builder: (context, data) {
+          if (data.hasData) {
+            UsuarioData mainUser = data.data;
+            return ListView(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(25),
+                ),
+                MyData(usuarioData: mainUser),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                ),
+                MyButtonType(),
+                BackupButton(),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                ),
+                RestoreButton(),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                ),
+                logoutButton(),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                ),
+              ],
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }
@@ -111,7 +106,7 @@ class _MyProfileState extends State<MyProfile> {
 class MyButtonType extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
 
-  Flex _buildButton( String label, String route, Object args) {
+  Flex _buildButton(String label, String route, Object args) {
     return Flex(
       direction: Axis.vertical,
       // mainAxisSize: MainAxisSize.min,
@@ -149,8 +144,7 @@ class MyButtonType extends StatelessWidget {
           const SizedBox(height: 20),
           _buildButton(
               'Historial Actividades', route.HistorialActividadesPage, null),
-          _buildButton(
-              'Historial Clínico', route.HistorialClinicoPage, null),
+          _buildButton('Historial Clínico', route.HistorialClinicoPage, null),
           _buildButton('Dolencias', route.DolenciasPage, id),
           _buildButton('Editar F.Nacimiento', route.EditarFechaPage, id)
         ],

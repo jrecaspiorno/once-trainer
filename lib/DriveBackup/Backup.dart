@@ -2,16 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-
+import 'package:flutterapp/Data/moor_database.dart';
+import 'package:flutterapp/DriveBackup/GoogleHttpClient.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutterapp/DriveBackup/GoogleHttpClient.dart';
 
 import '../Registro/SignUpState.dart';
 
@@ -23,31 +20,33 @@ class Backup {
   LoginState state;
 
   Backup(
-      {@required this.header, @required this.id, @required this.database, this.state});
+      {@required this.header,
+      @required this.id,
+      @required this.database,
+      this.state});
 
   Future<bool> getDataFronDrive() async {
+    try {
+      final location = await getTemporaryDirectory();
+      final loc = p.join(location.path, fileName);
+      final client = http.Client();
+      //Map<String, dynamic> h = json.decode(header);
+      var authClient = GoogleHttpClient(header, client);
+      var api = drive.DriveApi(authClient);
+      var fileL = await api.files.list(q: "name = '$fileName'");
+      var file = fileL.files;
+      var ok = file.isNotEmpty;
+      if (file.isNotEmpty) {
+        String id = file[0].id;
+        drive.Media response = await api.files
+            .get(id, downloadOptions: drive.DownloadOptions.FullMedia);
 
-    final location = await getTemporaryDirectory();
-    final loc = p.join(location.path, fileName);
-    final client = http.Client();
-    //Map<String, dynamic> h = json.decode(header);
-    var authClient = GoogleHttpClient(header, client);
-    var api = drive.DriveApi(authClient);
-    var fileL = await api.files.list(q: "name = '$fileName'");
-    var file = fileL.files;
-    var ok = file.isNotEmpty;
-    if (file.isNotEmpty) {
-      String id = file[0].id;
-      drive.Media response = await api.files
-          .get(id, downloadOptions: drive.DownloadOptions.FullMedia);
-
-      List<int> dataStore = [];
-      state.setLoading();
-      response.stream.asBroadcastStream().listen((data) {
-        print("Data Recived: ${data.length}");
-        dataStore.insertAll(dataStore.length, data);
-      }, onDone: () async {
-        try {
+        List<int> dataStore = [];
+        state.setLoading();
+        response.stream.asBroadcastStream().listen((data) {
+          print("Data Recived: ${data.length}");
+          dataStore.insertAll(dataStore.length, data);
+        }, onDone: () async {
           File file = File(loc);
           print(loc);
           file.writeAsBytes(dataStore);
@@ -59,7 +58,9 @@ class Backup {
           List<Restriccione> rs = [];
           if (aux != null)
             aux.forEach((element) {
-              Restriccione r = Restriccione.fromJson(element);
+              Restriccione aux = Restriccione.fromJson(element);
+              Restriccione r = Restriccione(
+                  tipo: aux.tipo, idUser: aux.idUser, activo: aux.activo);
               rs.add(r);
             });
 
@@ -67,7 +68,14 @@ class Backup {
           aux = data["3"];
           if (aux != null)
             aux.forEach((element) {
-              Historial h = Historial.fromJson(element);
+              Historial aux = Historial.fromJson(element);
+              Historial h = Historial(
+                  dificultad: aux.dificultad,
+                  ejercicio: aux.ejercicio,
+                  tipo: aux.tipo,
+                  fecha: aux.fecha,
+                  idUser: aux.idUser,
+                  activo: aux.activo);
               hist.add(h);
             });
           await database.usuarioDAO.insertUser(u);
@@ -75,20 +83,19 @@ class Backup {
           if (hist.isNotEmpty) await database.historialDAO.insertAllHist(hist);
 
           state.setLogedIn();
-        } catch (e) {
-          state.setLogedInNoRestore();
-        }
-        return true;
-      });
-      print(response.toString());
-    }
 
+          return true;
+        });
+
+        print(response.toString());
+      }
+    } catch (e) {
+      state.setLogedInNoRestore();
+    }
     return false;
   }
 
-
-   Future restoreData() async {
-
+  Future restoreData() async {
     final location = await getTemporaryDirectory();
     final loc = p.join(location.path, fileName);
     final client = http.Client();
@@ -141,9 +148,8 @@ class Backup {
       });
       print(response.toString());
     }
-
-
   }
+
   Future<bool> uploadDataToDrive() async {
     final location = await getApplicationDocumentsDirectory();
     final dbFolder = await getDatabasesPath();
@@ -156,11 +162,10 @@ class Backup {
 
     UsuarioData user = await database.usuarioDAO.getUser(id);
     List<Restriccione> rests =
-    await database.restriccionesDAO.getRestfromUser(id);
+        await database.restriccionesDAO.getRestfromUser(id);
     List<Historial> hist = await database.historialDAO.getHistfromUser(id);
 
-    DatabasetoJson data = DatabasetoJson(
-        user: user, rests: rests, hist: hist);
+    DatabasetoJson data = DatabasetoJson(user: user, rests: rests, hist: hist);
     final loc = p.join(location.path, fileName);
     File jsonFile = File(loc);
     var da = data.jsonfromdatabase();
@@ -173,16 +178,14 @@ class Backup {
     var response;
     if (user.backupid == null && files.isEmpty) {
       response = await api.files.create(
-        drive.File()
-          ..name = fileName,
+        drive.File()..name = fileName,
         uploadMedia: drive.Media(jsonFile.openRead(), jsonFile.lengthSync()),
       );
       database.usuarioDAO.insertBackIdIntoUser(response.id, id);
     } else {
       var id = user.backupid == null ? files[0].id : user.backupid;
       response = await api.files.update(
-        drive.File()
-          ..name = fileName,
+        drive.File()..name = fileName,
         id,
         uploadMedia: drive.Media(jsonFile.openRead(), jsonFile.lengthSync()),
       );
@@ -195,6 +198,7 @@ class Backup {
       return false;
   }
 }
+
 class DatabasetoJson {
   UsuarioData user;
   List<Restriccione> rests;

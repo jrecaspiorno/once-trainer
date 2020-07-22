@@ -30,7 +30,6 @@ class MyRecomList extends StatelessWidget {
 
   Column _viewSelecDiff(Ejercicio ejercicio, int diff, String text) {
     Ejercicio ej = ejercicio;
-    
 
     return Column(
       children: [
@@ -46,9 +45,10 @@ class MyRecomList extends StatelessWidget {
             color: Colors.indigo,
             onPressed: () {
               ej.setDiff(diff);
-              _navigationService.replaceView(route.EjercicioPage,arguments: ej);
+              _navigationService.replaceView(route.EjercicioPage,
+                  arguments: ej);
             }),
-        Padding(padding: EdgeInsets.all(15))     
+        Padding(padding: EdgeInsets.all(15))
       ],
     );
   }
@@ -56,7 +56,7 @@ class MyRecomList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
-    
+
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
       final manifestContent =
           await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
@@ -67,8 +67,7 @@ class MyRecomList extends StatelessWidget {
       List<Ejercicio> ejercicios = List();
       List<Restriccione> tags = await database.restriccionesDAO.resActivas();
       for (int i = 0; i < xmls.length; ++i) {
-        String xmlS = await DefaultAssetBundle.of(context)
-            .loadString(xmls[i]);
+        String xmlS = await DefaultAssetBundle.of(context).loadString(xmls[i]);
         var file = xml.parse(xmlS);
         Ejercicio ej = FactoriaEj.GenerateEj(file);
         bool ok = true;
@@ -87,6 +86,16 @@ class MyRecomList extends StatelessWidget {
       return ejercicios;
     }
 
+    bool show = true;
+    bool notNull(Object o) => o != null;
+    SizedBox mySizedBox() {
+      if (show) {
+        show = false;
+        return SizedBox(height: 40);
+      } else
+        return null;
+    }
+
     return Scaffold(
       // Widget con app prediseñada, esquema
       appBar: AppBar(
@@ -101,6 +110,7 @@ class MyRecomList extends StatelessWidget {
         child: FutureBuilder(
             future: getEjercicios(context),
             builder: (context, data) {
+              show = true;
               if (data.hasData) {
                 List<Ejercicio> ejercicios = data.data;
                 return ListView.builder(
@@ -115,14 +125,16 @@ class MyRecomList extends StatelessWidget {
                       textDirection: TextDirection.ltr,
                       verticalDirection: VerticalDirection.down,
                       children: [
-                        SizedBox(height: 40),
+                        mySizedBox(),
+
                         SizedBox(
                           width: 270,
                           child: RaisedButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
                             autofocus: true,
-                            onPressed: () =>_onEjercicioSelected(ejercicios[index], context),
+                            onPressed: () => _onEjercicioSelected(
+                                ejercicios[index], context),
                             color: Colors.indigo,
                             textColor: Colors.white,
                             padding: EdgeInsets.all(24.0),
@@ -133,8 +145,9 @@ class MyRecomList extends StatelessWidget {
                             ),
                           ),
                         ),
+                        SizedBox(height: 40),
                         //const SizedBox(height: 20),
-                      ],
+                      ].where(notNull).toList(),
                     );
                   },
                 );

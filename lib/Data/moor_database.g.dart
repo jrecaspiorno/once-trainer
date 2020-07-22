@@ -40,6 +40,47 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}backupid']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<String>(id);
+    }
+    if (!nullToAbsent || nombre != null) {
+      map['nombre'] = Variable<String>(nombre);
+    }
+    if (!nullToAbsent || edad != null) {
+      map['edad'] = Variable<DateTime>(edad);
+    }
+    if (!nullToAbsent || photoUrl != null) {
+      map['photo_url'] = Variable<String>(photoUrl);
+    }
+    if (!nullToAbsent || email != null) {
+      map['email'] = Variable<String>(email);
+    }
+    if (!nullToAbsent || backupid != null) {
+      map['backupid'] = Variable<String>(backupid);
+    }
+    return map;
+  }
+
+  UsuarioCompanion toCompanion(bool nullToAbsent) {
+    return UsuarioCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      nombre:
+          nombre == null && nullToAbsent ? const Value.absent() : Value(nombre),
+      edad: edad == null && nullToAbsent ? const Value.absent() : Value(edad),
+      photoUrl: photoUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoUrl),
+      email:
+          email == null && nullToAbsent ? const Value.absent() : Value(email),
+      backupid: backupid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(backupid),
+    );
+  }
+
   factory UsuarioData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -63,24 +104,6 @@ class UsuarioData extends DataClass implements Insertable<UsuarioData> {
       'email': serializer.toJson<String>(email),
       'backupid': serializer.toJson<String>(backupid),
     };
-  }
-
-  @override
-  UsuarioCompanion createCompanion(bool nullToAbsent) {
-    return UsuarioCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      nombre:
-          nombre == null && nullToAbsent ? const Value.absent() : Value(nombre),
-      edad: edad == null && nullToAbsent ? const Value.absent() : Value(edad),
-      photoUrl: photoUrl == null && nullToAbsent
-          ? const Value.absent()
-          : Value(photoUrl),
-      email:
-          email == null && nullToAbsent ? const Value.absent() : Value(email),
-      backupid: backupid == null && nullToAbsent
-          ? const Value.absent()
-          : Value(backupid),
-    );
   }
 
   UsuarioData copyWith(
@@ -159,6 +182,24 @@ class UsuarioCompanion extends UpdateCompanion<UsuarioData> {
         edad = Value(edad),
         photoUrl = Value(photoUrl),
         email = Value(email);
+  static Insertable<UsuarioData> custom({
+    Expression<String> id,
+    Expression<String> nombre,
+    Expression<DateTime> edad,
+    Expression<String> photoUrl,
+    Expression<String> email,
+    Expression<String> backupid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (nombre != null) 'nombre': nombre,
+      if (edad != null) 'edad': edad,
+      if (photoUrl != null) 'photo_url': photoUrl,
+      if (email != null) 'email': email,
+      if (backupid != null) 'backupid': backupid,
+    });
+  }
+
   UsuarioCompanion copyWith(
       {Value<String> id,
       Value<String> nombre,
@@ -174,6 +215,43 @@ class UsuarioCompanion extends UpdateCompanion<UsuarioData> {
       email: email ?? this.email,
       backupid: backupid ?? this.backupid,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (nombre.present) {
+      map['nombre'] = Variable<String>(nombre.value);
+    }
+    if (edad.present) {
+      map['edad'] = Variable<DateTime>(edad.value);
+    }
+    if (photoUrl.present) {
+      map['photo_url'] = Variable<String>(photoUrl.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (backupid.present) {
+      map['backupid'] = Variable<String>(backupid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UsuarioCompanion(')
+          ..write('id: $id, ')
+          ..write('nombre: $nombre, ')
+          ..write('edad: $edad, ')
+          ..write('photoUrl: $photoUrl, ')
+          ..write('email: $email, ')
+          ..write('backupid: $backupid')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -244,41 +322,42 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
   @override
   final String actualTableName = 'usuario';
   @override
-  VerificationContext validateIntegrity(UsuarioCompanion d,
+  VerificationContext validateIntegrity(Insertable<UsuarioData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     } else if (isInserting) {
       context.missing(_idMeta);
     }
-    if (d.nombre.present) {
-      context.handle(
-          _nombreMeta, nombre.isAcceptableValue(d.nombre.value, _nombreMeta));
+    if (data.containsKey('nombre')) {
+      context.handle(_nombreMeta,
+          nombre.isAcceptableOrUnknown(data['nombre'], _nombreMeta));
     } else if (isInserting) {
       context.missing(_nombreMeta);
     }
-    if (d.edad.present) {
+    if (data.containsKey('edad')) {
       context.handle(
-          _edadMeta, edad.isAcceptableValue(d.edad.value, _edadMeta));
+          _edadMeta, edad.isAcceptableOrUnknown(data['edad'], _edadMeta));
     } else if (isInserting) {
       context.missing(_edadMeta);
     }
-    if (d.photoUrl.present) {
+    if (data.containsKey('photo_url')) {
       context.handle(_photoUrlMeta,
-          photoUrl.isAcceptableValue(d.photoUrl.value, _photoUrlMeta));
+          photoUrl.isAcceptableOrUnknown(data['photo_url'], _photoUrlMeta));
     } else if (isInserting) {
       context.missing(_photoUrlMeta);
     }
-    if (d.email.present) {
+    if (data.containsKey('email')) {
       context.handle(
-          _emailMeta, email.isAcceptableValue(d.email.value, _emailMeta));
+          _emailMeta, email.isAcceptableOrUnknown(data['email'], _emailMeta));
     } else if (isInserting) {
       context.missing(_emailMeta);
     }
-    if (d.backupid.present) {
+    if (data.containsKey('backupid')) {
       context.handle(_backupidMeta,
-          backupid.isAcceptableValue(d.backupid.value, _backupidMeta));
+          backupid.isAcceptableOrUnknown(data['backupid'], _backupidMeta));
     }
     return context;
   }
@@ -289,30 +368,6 @@ class $UsuarioTable extends Usuario with TableInfo<$UsuarioTable, UsuarioData> {
   UsuarioData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return UsuarioData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(UsuarioCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<String, StringType>(d.id.value);
-    }
-    if (d.nombre.present) {
-      map['nombre'] = Variable<String, StringType>(d.nombre.value);
-    }
-    if (d.edad.present) {
-      map['edad'] = Variable<DateTime, DateTimeType>(d.edad.value);
-    }
-    if (d.photoUrl.present) {
-      map['photo_url'] = Variable<String, StringType>(d.photoUrl.value);
-    }
-    if (d.email.present) {
-      map['email'] = Variable<String, StringType>(d.email.value);
-    }
-    if (d.backupid.present) {
-      map['backupid'] = Variable<String, StringType>(d.backupid.value);
-    }
-    return map;
   }
 
   @override
@@ -346,6 +401,35 @@ class Restriccione extends DataClass implements Insertable<Restriccione> {
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}activo']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || tipo != null) {
+      map['tipo'] = Variable<String>(tipo);
+    }
+    if (!nullToAbsent || idUser != null) {
+      map['id_user'] = Variable<String>(idUser);
+    }
+    if (!nullToAbsent || activo != null) {
+      map['activo'] = Variable<bool>(activo);
+    }
+    return map;
+  }
+
+  RestriccionesCompanion toCompanion(bool nullToAbsent) {
+    return RestriccionesCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      tipo: tipo == null && nullToAbsent ? const Value.absent() : Value(tipo),
+      idUser:
+          idUser == null && nullToAbsent ? const Value.absent() : Value(idUser),
+      activo:
+          activo == null && nullToAbsent ? const Value.absent() : Value(activo),
+    );
+  }
+
   factory Restriccione.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -365,18 +449,6 @@ class Restriccione extends DataClass implements Insertable<Restriccione> {
       'idUser': serializer.toJson<String>(idUser),
       'activo': serializer.toJson<bool>(activo),
     };
-  }
-
-  @override
-  RestriccionesCompanion createCompanion(bool nullToAbsent) {
-    return RestriccionesCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      tipo: tipo == null && nullToAbsent ? const Value.absent() : Value(tipo),
-      idUser:
-          idUser == null && nullToAbsent ? const Value.absent() : Value(idUser),
-      activo:
-          activo == null && nullToAbsent ? const Value.absent() : Value(activo),
-    );
   }
 
   Restriccione copyWith({int id, String tipo, String idUser, bool activo}) =>
@@ -428,6 +500,20 @@ class RestriccionesCompanion extends UpdateCompanion<Restriccione> {
     this.activo = const Value.absent(),
   })  : tipo = Value(tipo),
         idUser = Value(idUser);
+  static Insertable<Restriccione> custom({
+    Expression<int> id,
+    Expression<String> tipo,
+    Expression<String> idUser,
+    Expression<bool> activo,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (tipo != null) 'tipo': tipo,
+      if (idUser != null) 'id_user': idUser,
+      if (activo != null) 'activo': activo,
+    });
+  }
+
   RestriccionesCompanion copyWith(
       {Value<int> id,
       Value<String> tipo,
@@ -439,6 +525,35 @@ class RestriccionesCompanion extends UpdateCompanion<Restriccione> {
       idUser: idUser ?? this.idUser,
       activo: activo ?? this.activo,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (tipo.present) {
+      map['tipo'] = Variable<String>(tipo.value);
+    }
+    if (idUser.present) {
+      map['id_user'] = Variable<String>(idUser.value);
+    }
+    if (activo.present) {
+      map['activo'] = Variable<bool>(activo.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RestriccionesCompanion(')
+          ..write('id: $id, ')
+          ..write('tipo: $tipo, ')
+          ..write('idUser: $idUser, ')
+          ..write('activo: $activo')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -492,27 +607,28 @@ class $RestriccionesTable extends Restricciones
   @override
   final String actualTableName = 'restricciones';
   @override
-  VerificationContext validateIntegrity(RestriccionesCompanion d,
+  VerificationContext validateIntegrity(Insertable<Restriccione> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.tipo.present) {
+    if (data.containsKey('tipo')) {
       context.handle(
-          _tipoMeta, tipo.isAcceptableValue(d.tipo.value, _tipoMeta));
+          _tipoMeta, tipo.isAcceptableOrUnknown(data['tipo'], _tipoMeta));
     } else if (isInserting) {
       context.missing(_tipoMeta);
     }
-    if (d.idUser.present) {
-      context.handle(
-          _idUserMeta, idUser.isAcceptableValue(d.idUser.value, _idUserMeta));
+    if (data.containsKey('id_user')) {
+      context.handle(_idUserMeta,
+          idUser.isAcceptableOrUnknown(data['id_user'], _idUserMeta));
     } else if (isInserting) {
       context.missing(_idUserMeta);
     }
-    if (d.activo.present) {
-      context.handle(
-          _activoMeta, activo.isAcceptableValue(d.activo.value, _activoMeta));
+    if (data.containsKey('activo')) {
+      context.handle(_activoMeta,
+          activo.isAcceptableOrUnknown(data['activo'], _activoMeta));
     }
     return context;
   }
@@ -523,24 +639,6 @@ class $RestriccionesTable extends Restricciones
   Restriccione map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Restriccione.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(RestriccionesCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.tipo.present) {
-      map['tipo'] = Variable<String, StringType>(d.tipo.value);
-    }
-    if (d.idUser.present) {
-      map['id_user'] = Variable<String, StringType>(d.idUser.value);
-    }
-    if (d.activo.present) {
-      map['activo'] = Variable<bool, BoolType>(d.activo.value);
-    }
-    return map;
   }
 
   @override
@@ -602,6 +700,75 @@ class Historial extends DataClass implements Insertable<Historial> {
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}activo']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || dificultad != null) {
+      map['dificultad'] = Variable<int>(dificultad);
+    }
+    if (!nullToAbsent || ejercicio != null) {
+      map['ejercicio'] = Variable<String>(ejercicio);
+    }
+    if (!nullToAbsent || tipo != null) {
+      map['tipo'] = Variable<String>(tipo);
+    }
+    if (!nullToAbsent || fecha != null) {
+      map['fecha'] = Variable<DateTime>(fecha);
+    }
+    if (!nullToAbsent || calorias != null) {
+      map['calorias'] = Variable<int>(calorias);
+    }
+    if (!nullToAbsent || duracion != null) {
+      map['duracion'] = Variable<String>(duracion);
+    }
+    if (!nullToAbsent || repeticiones != null) {
+      map['repeticiones'] = Variable<int>(repeticiones);
+    }
+    if (!nullToAbsent || series != null) {
+      map['series'] = Variable<int>(series);
+    }
+    if (!nullToAbsent || idUser != null) {
+      map['id_user'] = Variable<String>(idUser);
+    }
+    if (!nullToAbsent || activo != null) {
+      map['activo'] = Variable<bool>(activo);
+    }
+    return map;
+  }
+
+  HistorialsCompanion toCompanion(bool nullToAbsent) {
+    return HistorialsCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      dificultad: dificultad == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dificultad),
+      ejercicio: ejercicio == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ejercicio),
+      tipo: tipo == null && nullToAbsent ? const Value.absent() : Value(tipo),
+      fecha:
+          fecha == null && nullToAbsent ? const Value.absent() : Value(fecha),
+      calorias: calorias == null && nullToAbsent
+          ? const Value.absent()
+          : Value(calorias),
+      duracion: duracion == null && nullToAbsent
+          ? const Value.absent()
+          : Value(duracion),
+      repeticiones: repeticiones == null && nullToAbsent
+          ? const Value.absent()
+          : Value(repeticiones),
+      series:
+          series == null && nullToAbsent ? const Value.absent() : Value(series),
+      idUser:
+          idUser == null && nullToAbsent ? const Value.absent() : Value(idUser),
+      activo:
+          activo == null && nullToAbsent ? const Value.absent() : Value(activo),
+    );
+  }
+
   factory Historial.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -635,37 +802,6 @@ class Historial extends DataClass implements Insertable<Historial> {
       'idUser': serializer.toJson<String>(idUser),
       'activo': serializer.toJson<bool>(activo),
     };
-  }
-
-  @override
-  HistorialsCompanion createCompanion(bool nullToAbsent) {
-    return HistorialsCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      dificultad: dificultad == null && nullToAbsent
-          ? const Value.absent()
-          : Value(dificultad),
-      ejercicio: ejercicio == null && nullToAbsent
-          ? const Value.absent()
-          : Value(ejercicio),
-      tipo: tipo == null && nullToAbsent ? const Value.absent() : Value(tipo),
-      fecha:
-          fecha == null && nullToAbsent ? const Value.absent() : Value(fecha),
-      calorias: calorias == null && nullToAbsent
-          ? const Value.absent()
-          : Value(calorias),
-      duracion: duracion == null && nullToAbsent
-          ? const Value.absent()
-          : Value(duracion),
-      repeticiones: repeticiones == null && nullToAbsent
-          ? const Value.absent()
-          : Value(repeticiones),
-      series:
-          series == null && nullToAbsent ? const Value.absent() : Value(series),
-      idUser:
-          idUser == null && nullToAbsent ? const Value.absent() : Value(idUser),
-      activo:
-          activo == null && nullToAbsent ? const Value.absent() : Value(activo),
-    );
   }
 
   Historial copyWith(
@@ -791,6 +927,34 @@ class HistorialsCompanion extends UpdateCompanion<Historial> {
         tipo = Value(tipo),
         fecha = Value(fecha),
         idUser = Value(idUser);
+  static Insertable<Historial> custom({
+    Expression<int> id,
+    Expression<int> dificultad,
+    Expression<String> ejercicio,
+    Expression<String> tipo,
+    Expression<DateTime> fecha,
+    Expression<int> calorias,
+    Expression<String> duracion,
+    Expression<int> repeticiones,
+    Expression<int> series,
+    Expression<String> idUser,
+    Expression<bool> activo,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (dificultad != null) 'dificultad': dificultad,
+      if (ejercicio != null) 'ejercicio': ejercicio,
+      if (tipo != null) 'tipo': tipo,
+      if (fecha != null) 'fecha': fecha,
+      if (calorias != null) 'calorias': calorias,
+      if (duracion != null) 'duracion': duracion,
+      if (repeticiones != null) 'repeticiones': repeticiones,
+      if (series != null) 'series': series,
+      if (idUser != null) 'id_user': idUser,
+      if (activo != null) 'activo': activo,
+    });
+  }
+
   HistorialsCompanion copyWith(
       {Value<int> id,
       Value<int> dificultad,
@@ -816,6 +980,63 @@ class HistorialsCompanion extends UpdateCompanion<Historial> {
       idUser: idUser ?? this.idUser,
       activo: activo ?? this.activo,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (dificultad.present) {
+      map['dificultad'] = Variable<int>(dificultad.value);
+    }
+    if (ejercicio.present) {
+      map['ejercicio'] = Variable<String>(ejercicio.value);
+    }
+    if (tipo.present) {
+      map['tipo'] = Variable<String>(tipo.value);
+    }
+    if (fecha.present) {
+      map['fecha'] = Variable<DateTime>(fecha.value);
+    }
+    if (calorias.present) {
+      map['calorias'] = Variable<int>(calorias.value);
+    }
+    if (duracion.present) {
+      map['duracion'] = Variable<String>(duracion.value);
+    }
+    if (repeticiones.present) {
+      map['repeticiones'] = Variable<int>(repeticiones.value);
+    }
+    if (series.present) {
+      map['series'] = Variable<int>(series.value);
+    }
+    if (idUser.present) {
+      map['id_user'] = Variable<String>(idUser.value);
+    }
+    if (activo.present) {
+      map['activo'] = Variable<bool>(activo.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HistorialsCompanion(')
+          ..write('id: $id, ')
+          ..write('dificultad: $dificultad, ')
+          ..write('ejercicio: $ejercicio, ')
+          ..write('tipo: $tipo, ')
+          ..write('fecha: $fecha, ')
+          ..write('calorias: $calorias, ')
+          ..write('duracion: $duracion, ')
+          ..write('repeticiones: $repeticiones, ')
+          ..write('series: $series, ')
+          ..write('idUser: $idUser, ')
+          ..write('activo: $activo')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -937,7 +1158,7 @@ class $HistorialsTable extends Historials
   GeneratedBoolColumn get activo => _activo ??= _constructActivo();
   GeneratedBoolColumn _constructActivo() {
     return GeneratedBoolColumn('activo', $tableName, false,
-        defaultValue: Constant(false));
+        defaultValue: Constant(true));
   }
 
   @override
@@ -961,63 +1182,66 @@ class $HistorialsTable extends Historials
   @override
   final String actualTableName = 'historials';
   @override
-  VerificationContext validateIntegrity(HistorialsCompanion d,
+  VerificationContext validateIntegrity(Insertable<Historial> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.dificultad.present) {
-      context.handle(_dificultadMeta,
-          dificultad.isAcceptableValue(d.dificultad.value, _dificultadMeta));
+    if (data.containsKey('dificultad')) {
+      context.handle(
+          _dificultadMeta,
+          dificultad.isAcceptableOrUnknown(
+              data['dificultad'], _dificultadMeta));
     } else if (isInserting) {
       context.missing(_dificultadMeta);
     }
-    if (d.ejercicio.present) {
+    if (data.containsKey('ejercicio')) {
       context.handle(_ejercicioMeta,
-          ejercicio.isAcceptableValue(d.ejercicio.value, _ejercicioMeta));
+          ejercicio.isAcceptableOrUnknown(data['ejercicio'], _ejercicioMeta));
     } else if (isInserting) {
       context.missing(_ejercicioMeta);
     }
-    if (d.tipo.present) {
+    if (data.containsKey('tipo')) {
       context.handle(
-          _tipoMeta, tipo.isAcceptableValue(d.tipo.value, _tipoMeta));
+          _tipoMeta, tipo.isAcceptableOrUnknown(data['tipo'], _tipoMeta));
     } else if (isInserting) {
       context.missing(_tipoMeta);
     }
-    if (d.fecha.present) {
+    if (data.containsKey('fecha')) {
       context.handle(
-          _fechaMeta, fecha.isAcceptableValue(d.fecha.value, _fechaMeta));
+          _fechaMeta, fecha.isAcceptableOrUnknown(data['fecha'], _fechaMeta));
     } else if (isInserting) {
       context.missing(_fechaMeta);
     }
-    if (d.calorias.present) {
+    if (data.containsKey('calorias')) {
       context.handle(_caloriasMeta,
-          calorias.isAcceptableValue(d.calorias.value, _caloriasMeta));
+          calorias.isAcceptableOrUnknown(data['calorias'], _caloriasMeta));
     }
-    if (d.duracion.present) {
+    if (data.containsKey('duracion')) {
       context.handle(_duracionMeta,
-          duracion.isAcceptableValue(d.duracion.value, _duracionMeta));
+          duracion.isAcceptableOrUnknown(data['duracion'], _duracionMeta));
     }
-    if (d.repeticiones.present) {
+    if (data.containsKey('repeticiones')) {
       context.handle(
           _repeticionesMeta,
-          repeticiones.isAcceptableValue(
-              d.repeticiones.value, _repeticionesMeta));
+          repeticiones.isAcceptableOrUnknown(
+              data['repeticiones'], _repeticionesMeta));
     }
-    if (d.series.present) {
-      context.handle(
-          _seriesMeta, series.isAcceptableValue(d.series.value, _seriesMeta));
+    if (data.containsKey('series')) {
+      context.handle(_seriesMeta,
+          series.isAcceptableOrUnknown(data['series'], _seriesMeta));
     }
-    if (d.idUser.present) {
-      context.handle(
-          _idUserMeta, idUser.isAcceptableValue(d.idUser.value, _idUserMeta));
+    if (data.containsKey('id_user')) {
+      context.handle(_idUserMeta,
+          idUser.isAcceptableOrUnknown(data['id_user'], _idUserMeta));
     } else if (isInserting) {
       context.missing(_idUserMeta);
     }
-    if (d.activo.present) {
-      context.handle(
-          _activoMeta, activo.isAcceptableValue(d.activo.value, _activoMeta));
+    if (data.containsKey('activo')) {
+      context.handle(_activoMeta,
+          activo.isAcceptableOrUnknown(data['activo'], _activoMeta));
     }
     return context;
   }
@@ -1031,59 +1255,18 @@ class $HistorialsTable extends Historials
   }
 
   @override
-  Map<String, Variable> entityToSql(HistorialsCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.dificultad.present) {
-      map['dificultad'] = Variable<int, IntType>(d.dificultad.value);
-    }
-    if (d.ejercicio.present) {
-      map['ejercicio'] = Variable<String, StringType>(d.ejercicio.value);
-    }
-    if (d.tipo.present) {
-      map['tipo'] = Variable<String, StringType>(d.tipo.value);
-    }
-    if (d.fecha.present) {
-      map['fecha'] = Variable<DateTime, DateTimeType>(d.fecha.value);
-    }
-    if (d.calorias.present) {
-      map['calorias'] = Variable<int, IntType>(d.calorias.value);
-    }
-    if (d.duracion.present) {
-      map['duracion'] = Variable<String, StringType>(d.duracion.value);
-    }
-    if (d.repeticiones.present) {
-      map['repeticiones'] = Variable<int, IntType>(d.repeticiones.value);
-    }
-    if (d.series.present) {
-      map['series'] = Variable<int, IntType>(d.series.value);
-    }
-    if (d.idUser.present) {
-      map['id_user'] = Variable<String, StringType>(d.idUser.value);
-    }
-    if (d.activo.present) {
-      map['activo'] = Variable<bool, BoolType>(d.activo.value);
-    }
-    return map;
-  }
-
-  @override
   $HistorialsTable createAlias(String alias) {
     return $HistorialsTable(_db, alias);
   }
 }
 
 class Recomendado extends DataClass implements Insertable<Recomendado> {
-  final String id;
   final String nombre;
   final String grupo;
   final String idUser;
   final DateTime fecha;
   Recomendado(
-      {@required this.id,
-      @required this.nombre,
+      {@required this.nombre,
       @required this.grupo,
       @required this.idUser,
       @required this.fecha});
@@ -1093,7 +1276,6 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
     final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Recomendado(
-      id: stringType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       nombre:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}nombre']),
       grupo:
@@ -1104,33 +1286,26 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}fecha']),
     );
   }
-  factory Recomendado.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return Recomendado(
-      id: serializer.fromJson<String>(json['id']),
-      nombre: serializer.fromJson<String>(json['nombre']),
-      grupo: serializer.fromJson<String>(json['grupo']),
-      idUser: serializer.fromJson<String>(json['idUser']),
-      fecha: serializer.fromJson<DateTime>(json['fecha']),
-    );
-  }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'nombre': serializer.toJson<String>(nombre),
-      'grupo': serializer.toJson<String>(grupo),
-      'idUser': serializer.toJson<String>(idUser),
-      'fecha': serializer.toJson<DateTime>(fecha),
-    };
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || nombre != null) {
+      map['nombre'] = Variable<String>(nombre);
+    }
+    if (!nullToAbsent || grupo != null) {
+      map['grupo'] = Variable<String>(grupo);
+    }
+    if (!nullToAbsent || idUser != null) {
+      map['id_user'] = Variable<String>(idUser);
+    }
+    if (!nullToAbsent || fecha != null) {
+      map['fecha'] = Variable<DateTime>(fecha);
+    }
+    return map;
   }
 
-  @override
-  RecomendadosCompanion createCompanion(bool nullToAbsent) {
+  RecomendadosCompanion toCompanion(bool nullToAbsent) {
     return RecomendadosCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       nombre:
           nombre == null && nullToAbsent ? const Value.absent() : Value(nombre),
       grupo:
@@ -1142,14 +1317,30 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
     );
   }
 
+  factory Recomendado.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return Recomendado(
+      nombre: serializer.fromJson<String>(json['nombre']),
+      grupo: serializer.fromJson<String>(json['grupo']),
+      idUser: serializer.fromJson<String>(json['idUser']),
+      fecha: serializer.fromJson<DateTime>(json['fecha']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'nombre': serializer.toJson<String>(nombre),
+      'grupo': serializer.toJson<String>(grupo),
+      'idUser': serializer.toJson<String>(idUser),
+      'fecha': serializer.toJson<DateTime>(fecha),
+    };
+  }
+
   Recomendado copyWith(
-          {String id,
-          String nombre,
-          String grupo,
-          String idUser,
-          DateTime fecha}) =>
+          {String nombre, String grupo, String idUser, DateTime fecha}) =>
       Recomendado(
-        id: id ?? this.id,
         nombre: nombre ?? this.nombre,
         grupo: grupo ?? this.grupo,
         idUser: idUser ?? this.idUser,
@@ -1158,7 +1349,6 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
   @override
   String toString() {
     return (StringBuffer('Recomendado(')
-          ..write('id: $id, ')
           ..write('nombre: $nombre, ')
           ..write('grupo: $grupo, ')
           ..write('idUser: $idUser, ')
@@ -1168,15 +1358,12 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(nombre.hashCode,
-          $mrjc(grupo.hashCode, $mrjc(idUser.hashCode, fecha.hashCode)))));
+  int get hashCode => $mrjf($mrjc(nombre.hashCode,
+      $mrjc(grupo.hashCode, $mrjc(idUser.hashCode, fecha.hashCode))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Recomendado &&
-          other.id == this.id &&
           other.nombre == this.nombre &&
           other.grupo == this.grupo &&
           other.idUser == this.idUser &&
@@ -1184,42 +1371,79 @@ class Recomendado extends DataClass implements Insertable<Recomendado> {
 }
 
 class RecomendadosCompanion extends UpdateCompanion<Recomendado> {
-  final Value<String> id;
   final Value<String> nombre;
   final Value<String> grupo;
   final Value<String> idUser;
   final Value<DateTime> fecha;
   const RecomendadosCompanion({
-    this.id = const Value.absent(),
     this.nombre = const Value.absent(),
     this.grupo = const Value.absent(),
     this.idUser = const Value.absent(),
     this.fecha = const Value.absent(),
   });
   RecomendadosCompanion.insert({
-    @required String id,
     @required String nombre,
     @required String grupo,
     @required String idUser,
     @required DateTime fecha,
-  })  : id = Value(id),
-        nombre = Value(nombre),
+  })  : nombre = Value(nombre),
         grupo = Value(grupo),
         idUser = Value(idUser),
         fecha = Value(fecha);
+  static Insertable<Recomendado> custom({
+    Expression<String> nombre,
+    Expression<String> grupo,
+    Expression<String> idUser,
+    Expression<DateTime> fecha,
+  }) {
+    return RawValuesInsertable({
+      if (nombre != null) 'nombre': nombre,
+      if (grupo != null) 'grupo': grupo,
+      if (idUser != null) 'id_user': idUser,
+      if (fecha != null) 'fecha': fecha,
+    });
+  }
+
   RecomendadosCompanion copyWith(
-      {Value<String> id,
-      Value<String> nombre,
+      {Value<String> nombre,
       Value<String> grupo,
       Value<String> idUser,
       Value<DateTime> fecha}) {
     return RecomendadosCompanion(
-      id: id ?? this.id,
       nombre: nombre ?? this.nombre,
       grupo: grupo ?? this.grupo,
       idUser: idUser ?? this.idUser,
       fecha: fecha ?? this.fecha,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (nombre.present) {
+      map['nombre'] = Variable<String>(nombre.value);
+    }
+    if (grupo.present) {
+      map['grupo'] = Variable<String>(grupo.value);
+    }
+    if (idUser.present) {
+      map['id_user'] = Variable<String>(idUser.value);
+    }
+    if (fecha.present) {
+      map['fecha'] = Variable<DateTime>(fecha.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RecomendadosCompanion(')
+          ..write('nombre: $nombre, ')
+          ..write('grupo: $grupo, ')
+          ..write('idUser: $idUser, ')
+          ..write('fecha: $fecha')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -1228,14 +1452,6 @@ class $RecomendadosTable extends Recomendados
   final GeneratedDatabase _db;
   final String _alias;
   $RecomendadosTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedTextColumn _id;
-  @override
-  GeneratedTextColumn get id => _id ??= _constructId();
-  GeneratedTextColumn _constructId() {
-    return GeneratedTextColumn('id', $tableName, false, minTextLength: 1);
-  }
-
   final VerificationMeta _nombreMeta = const VerificationMeta('nombre');
   GeneratedTextColumn _nombre;
   @override
@@ -1274,7 +1490,7 @@ class $RecomendadosTable extends Recomendados
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, nombre, grupo, idUser, fecha];
+  List<GeneratedColumn> get $columns => [nombre, grupo, idUser, fecha];
   @override
   $RecomendadosTable get asDslTable => this;
   @override
@@ -1282,35 +1498,31 @@ class $RecomendadosTable extends Recomendados
   @override
   final String actualTableName = 'recomendados';
   @override
-  VerificationContext validateIntegrity(RecomendadosCompanion d,
+  VerificationContext validateIntegrity(Insertable<Recomendado> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
-    }
-    if (d.nombre.present) {
-      context.handle(
-          _nombreMeta, nombre.isAcceptableValue(d.nombre.value, _nombreMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('nombre')) {
+      context.handle(_nombreMeta,
+          nombre.isAcceptableOrUnknown(data['nombre'], _nombreMeta));
     } else if (isInserting) {
       context.missing(_nombreMeta);
     }
-    if (d.grupo.present) {
+    if (data.containsKey('grupo')) {
       context.handle(
-          _grupoMeta, grupo.isAcceptableValue(d.grupo.value, _grupoMeta));
+          _grupoMeta, grupo.isAcceptableOrUnknown(data['grupo'], _grupoMeta));
     } else if (isInserting) {
       context.missing(_grupoMeta);
     }
-    if (d.idUser.present) {
-      context.handle(
-          _idUserMeta, idUser.isAcceptableValue(d.idUser.value, _idUserMeta));
+    if (data.containsKey('id_user')) {
+      context.handle(_idUserMeta,
+          idUser.isAcceptableOrUnknown(data['id_user'], _idUserMeta));
     } else if (isInserting) {
       context.missing(_idUserMeta);
     }
-    if (d.fecha.present) {
+    if (data.containsKey('fecha')) {
       context.handle(
-          _fechaMeta, fecha.isAcceptableValue(d.fecha.value, _fechaMeta));
+          _fechaMeta, fecha.isAcceptableOrUnknown(data['fecha'], _fechaMeta));
     } else if (isInserting) {
       context.missing(_fechaMeta);
     }
@@ -1318,32 +1530,11 @@ class $RecomendadosTable extends Recomendados
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {nombre, idUser};
   @override
   Recomendado map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Recomendado.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(RecomendadosCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<String, StringType>(d.id.value);
-    }
-    if (d.nombre.present) {
-      map['nombre'] = Variable<String, StringType>(d.nombre.value);
-    }
-    if (d.grupo.present) {
-      map['grupo'] = Variable<String, StringType>(d.grupo.value);
-    }
-    if (d.idUser.present) {
-      map['id_user'] = Variable<String, StringType>(d.idUser.value);
-    }
-    if (d.fecha.present) {
-      map['fecha'] = Variable<DateTime, DateTimeType>(d.fecha.value);
-    }
-    return map;
   }
 
   @override
@@ -1387,17 +1578,56 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 // **************************************************************************
 
 mixin _$UsuarioDAOMixin on DatabaseAccessor<AppDatabase> {
-  $UsuarioTable get usuario => db.usuario;
+  $UsuarioTable get usuario => attachedDatabase.usuario;
 }
 mixin _$RestriccionesDAOMixin on DatabaseAccessor<AppDatabase> {
-  $RestriccionesTable get restricciones => db.restricciones;
-  $UsuarioTable get usuario => db.usuario;
+  $RestriccionesTable get restricciones => attachedDatabase.restricciones;
+  $UsuarioTable get usuario => attachedDatabase.usuario;
 }
 mixin _$HistorialDAOMixin on DatabaseAccessor<AppDatabase> {
-  $HistorialsTable get historials => db.historials;
-  $UsuarioTable get usuario => db.usuario;
+  $HistorialsTable get historials => attachedDatabase.historials;
+  $UsuarioTable get usuario => attachedDatabase.usuario;
 }
 mixin _$RecomendadosDAOMixin on DatabaseAccessor<AppDatabase> {
-  $RecomendadosTable get recomendados => db.recomendados;
-  $UsuarioTable get usuario => db.usuario;
+  $RecomendadosTable get recomendados => attachedDatabase.recomendados;
+  $UsuarioTable get usuario => attachedDatabase.usuario;
+  Selectable<Recomendado> select5mostRecent() {
+    return customSelect(
+        'SELECT * FROM recomendados ORDER BY fecha DESC LIMIT 5;',
+        variables: [],
+        readsFrom: {recomendados}).map(recomendados.mapFromRow);
+  }
+
+  Future<int> delete5mostRecent(String idUser) {
+    return customUpdate(
+      'delete from recomendados where nombre in (select nombre from recomendados where id_user= :idUser order by fecha limit 5 ) ;',
+      variables: [Variable.withString(idUser)],
+      updates: {recomendados},
+      updateKind: UpdateKind.delete,
+    );
+  }
+
+  Selectable<String> getRecbyPrimaryKey(String nombre, String idUser) {
+    return customSelect(
+        'select nombre from recomendados where nombre= :nombre and id_user= :idUser',
+        variables: [
+          Variable.withString(nombre),
+          Variable.withString(idUser)
+        ],
+        readsFrom: {
+          recomendados
+        }).map((QueryRow row) => row.readString('nombre'));
+  }
+
+  Selectable<String> getMostRecentByGroup(String idUser, String grupo) {
+    return customSelect(
+        'select nombre from recomendados where id_user= :idUser and grupo= :grupo order by fecha limit 1',
+        variables: [
+          Variable.withString(idUser),
+          Variable.withString(grupo)
+        ],
+        readsFrom: {
+          recomendados
+        }).map((QueryRow row) => row.readString('nombre'));
+  }
 }
