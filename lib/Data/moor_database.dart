@@ -155,6 +155,8 @@ class HistorialDAO extends DatabaseAccessor<AppDatabase>
       'delete from recomendados where nombre in (select nombre from recomendados where id_user= :idUser order by fecha limit 5 ) ;',
   'getRecbyPrimaryKey':
       'select nombre from recomendados where nombre= :nombre and id_user= :idUser ',
+  'getMostRecentByGroup':
+      ' select nombre from recomendados where id_user= :idUser and grupo= :grupo order by fecha limit 1',
 })
 class RecomendadosDAO extends DatabaseAccessor<AppDatabase>
     with _$RecomendadosDAOMixin {
@@ -170,6 +172,10 @@ class RecomendadosDAO extends DatabaseAccessor<AppDatabase>
 
   Future deleteRecomendado(Insertable<Recomendado> rec) =>
       delete(recomendados).delete(rec);
+  Future deleteRecomByNombre(String nombre, String idUser) =>
+      ((delete(recomendados)..where((tbl) => tbl.idUser.equals(idUser)))
+            ..where((tbl) => tbl.nombre.equals(nombre)))
+          .go();
 }
 
 class RestWithUser {

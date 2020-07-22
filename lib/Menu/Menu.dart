@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutterapp/Menu/Variables.dart';
+import 'package:flutterapp/Menu/prueba.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
@@ -22,7 +22,6 @@ class _MenuState extends State<Menu> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     if (!preferences.containsKey('SelectDiff'))
       preferences.setBool('SelectDiff', true);
-    selDiffActivo = preferences.getBool('SelectDiff');
   }
 
   final NavigationService _navigationService = locator<NavigationService>();
@@ -82,6 +81,21 @@ class _MenuState extends State<Menu> {
               textColor: Colors.white,
               padding: EdgeInsets.all(24.0),
               child: Text('Database', style: TextStyle(fontSize: 30)),
+            ),
+          ),
+          SizedBox(
+            width: 300,
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => miPruebaConsultas()));
+              },
+              color: Colors.indigo,
+              textColor: Colors.white,
+              padding: EdgeInsets.all(24.0),
+              child: Text('Prueba', style: TextStyle(fontSize: 30)),
             ),
           )
         ],

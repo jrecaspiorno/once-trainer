@@ -1607,7 +1607,7 @@ mixin _$RecomendadosDAOMixin on DatabaseAccessor<AppDatabase> {
     );
   }
 
-  Future<String> getRecbyPrimaryKey(String nombre, String idUser) {
+  Selectable<String> getRecbyPrimaryKey(String nombre, String idUser) {
     return customSelect(
         'select nombre from recomendados where nombre= :nombre and id_user= :idUser',
         variables: [
@@ -1616,6 +1616,18 @@ mixin _$RecomendadosDAOMixin on DatabaseAccessor<AppDatabase> {
         ],
         readsFrom: {
           recomendados
-        }).map((QueryRow row) => row.readString('nombre')).getSingle();
+        }).map((QueryRow row) => row.readString('nombre'));
+  }
+
+  Selectable<String> getMostRecentByGroup(String idUser, String grupo) {
+    return customSelect(
+        'select nombre from recomendados where id_user= :idUser and grupo= :grupo order by fecha limit 1',
+        variables: [
+          Variable.withString(idUser),
+          Variable.withString(grupo)
+        ],
+        readsFrom: {
+          recomendados
+        }).map((QueryRow row) => row.readString('nombre'));
   }
 }
