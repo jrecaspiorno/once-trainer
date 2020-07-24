@@ -13,15 +13,6 @@ class Usuario extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-class Recomendados extends Table {
-  //TextColumn get id => text().withLength(min: 1)();
-  TextColumn get nombre => text().withLength(min: 1)();
-  TextColumn get grupo => text().withLength(min: 1)();
-  TextColumn get idUser => text().customConstraint('REFERENCES Usuario(id)')();
-  DateTimeColumn get fecha => dateTime()();
-  Set<Column> get primaryKey => {nombre, idUser};
-}
-
 class Restricciones extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get tipo => text().withLength(min: 1, max: 50)();
@@ -44,8 +35,8 @@ class Historials extends Table {
 }
 
 @UseMoor(
-    tables: [Usuario, Restricciones, Historials, Recomendados],
-    daos: [UsuarioDAO, RestriccionesDAO, HistorialDAO, RecomendadosDAO])
+    tables: [Usuario, Restricciones, Historials],
+    daos: [UsuarioDAO, RestriccionesDAO, HistorialDAO])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super(FlutterQueryExecutor.inDatabaseFolder(
@@ -143,39 +134,6 @@ class HistorialDAO extends DatabaseAccessor<AppDatabase>
   Future<List<Historial>> getHistfromUser(String id) {
     return (select(historials)..where((t) => t.idUser.equals(id))).get();
   }
-}
-
-@UseDao(tables: [
-  Recomendados,
-  Usuario
-], queries: {
-  'select5mostRecent':
-      'SELECT * FROM recomendados ORDER BY fecha DESC LIMIT 5; ',
-  'delete5mostRecent':
-      'delete from recomendados where nombre in (select nombre from recomendados where id_user= :idUser order by fecha limit 5 ) ;',
-  'getRecbyPrimaryKey':
-      'select nombre from recomendados where nombre= :nombre and id_user= :idUser ',
-  'getMostRecentByGroup':
-      ' select nombre from recomendados where id_user= :idUser and grupo= :grupo order by fecha limit 1',
-})
-class RecomendadosDAO extends DatabaseAccessor<AppDatabase>
-    with _$RecomendadosDAOMixin {
-  final AppDatabase db;
-  RecomendadosDAO(this.db) : super(db);
-
-  Future insertRecomendado(Insertable<Recomendado> rec) =>
-      into(recomendados).insert(rec);
-  Future<List<Recomendado>> getallRecFromUser(String id) =>
-      (select(recomendados)..where((t) => t.idUser.equals(id))).get();
-  Future<List<Recomendado>> getallRec() => select(recomendados).get();
-  Future deleteAll() => delete(recomendados).go();
-
-  Future deleteRecomendado(Insertable<Recomendado> rec) =>
-      delete(recomendados).delete(rec);
-  Future deleteRecomByNombre(String nombre, String idUser) =>
-      ((delete(recomendados)..where((tbl) => tbl.idUser.equals(idUser)))
-            ..where((tbl) => tbl.nombre.equals(nombre)))
-          .go();
 }
 
 class RestWithUser {

@@ -85,7 +85,7 @@ class Backup {
           state.setLogedIn();
 
           return true;
-        });
+        }, onError: (e) => throw Exception);
 
         print(response.toString());
       }
@@ -145,9 +145,10 @@ class Backup {
         } catch (e) {
           throw e;
         }
-      });
+      }, onError: (e) => throw Exception);
       print(response.toString());
-    }
+    } else
+      throw Exception;
   }
 
   Future<bool> uploadDataToDrive() async {

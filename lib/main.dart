@@ -2,7 +2,6 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutterapp/Data/HiveData/Recomendador/recomendaciones.dart';
 import 'package:flutterapp/Data/HiveData/RecomendadorList/RecomList.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/NavigationTools/RouteManager.dart';
@@ -20,7 +19,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
-  Hive.registerAdapter(RecomendacioneAdapter());
   Hive.registerAdapter(RecomListAdapter());
   developer.log('log me', name: 'once_trainer');
   setup();

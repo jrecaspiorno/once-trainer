@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutterapp/DriveBackup/BackupView.dart';
-import 'package:flutterapp/DriveBackup/RestoreView.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
@@ -25,9 +23,9 @@ class _MyProfileState extends State<MyProfile> {
           child: RaisedButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            color: Colors.red,
+            color: Colors.pink,
             child: Text(
-              'LogOut',
+              'Desconectarse',
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
             padding: EdgeInsets.all(17.0),
@@ -78,14 +76,6 @@ class _MyProfileState extends State<MyProfile> {
                   padding: EdgeInsets.all(20),
                 ),
                 MyButtonType(),
-                BackupButton(),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                ),
-                RestoreButton(),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                ),
                 logoutButton(),
                 Padding(
                   padding: EdgeInsets.all(20),
@@ -145,8 +135,7 @@ class MyButtonType extends StatelessWidget {
           _buildButton(
               'Historial Actividades', route.HistorialActividadesPage, null),
           _buildButton('Historial Clínico', route.HistorialClinicoPage, null),
-          _buildButton('Dolencias', route.DolenciasPage, id),
-          _buildButton('Editar F.Nacimiento', route.EditarFechaPage, id)
+          _buildButton('Ajustes', route.AjustesPage, null)
         ],
       ),
     );

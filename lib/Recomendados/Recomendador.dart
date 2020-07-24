@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Data/HiveData/Recomendador/recomendaciones.dart';
 import 'package:flutterapp/Data/HiveData/RecomendadorList/RecomList.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
@@ -28,18 +27,17 @@ class RecomendadorView extends StatelessWidget {
     Multimap<String, String> auxmap = Multimap<String, String>();
     var ejercicios = Multimap<String, Ejercicio>();
     List<String> names = List();
-    Box recomBox;
+    List<Restriccione> tags;
     Box recomListBox;
-    Recomendacione z;
     SharedPreferences _prefs;
 
     Future init() async {
-      recomBox = await Hive.openBox('recomendaciones');
       recomListBox = await Hive.openBox('recomlists');
       _prefs = await SharedPreferences.getInstance();
       final manifestContent =
           await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
       final Map<String, dynamic> manifesMap = json.decode(manifestContent);
+      tags = await database.restriccionesDAO.resActivas();
       List<String> xmls = manifesMap.keys
           .where((key) => key.contains('todos_ejercicios'))
           .toList();
@@ -79,7 +77,6 @@ class RecomendadorView extends StatelessWidget {
           l.forEach((element) {
             int resta = element.hechosTotales - 3;
             if (media >= (resta) && vueltas < l.length) {
-              vueltas++;
               var rng = Random();
               var listAux = element.ejercicios;
               int auxhechosLista = element.hechosLista;
@@ -96,11 +93,24 @@ class RecomendadorView extends StatelessWidget {
                 }
                 ++j;
               }
+              j = 0;
+              bool ok = true;
+              while (ok && j < tags.length) {
+                int k = 0;
+                while (ok && k < ej.tags.length) {
+                  if (tags[j].tipo == ej.tags[k]) ok = false;
+                  ++k;
+                }
+                ++j;
+              }
               listAux.removeAt(pos);
               listAux.add(name);
               auxhechosLista++;
-              ejerciciosf.add(ej);
-              names.add(ej.name);
+              if (ok) {
+                vueltas++;
+                ejerciciosf.add(ej);
+                names.add(ej.name);
+              }
               recomListBox.putAt(
                   i,
                   RecomList(element.tipo, listAux, auxhechosLista,
@@ -196,33 +206,26 @@ class RecomendadorView extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 3),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
-                    height: 150,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: SizedBox(
-                        width: 270,
-                        height: 10,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
-                          autofocus: true,
-                          onPressed: () async {
-                            _prefs.setBool('hayCambio', false);
-                            recomListBox.close();
-                            _navigationService.goBack();
-                          },
-                          color: Colors.indigo,
-                          textColor: Colors.white,
-                          padding: EdgeInsets.all(24.0),
-                          child: Text(
-                            'Sesion Completada',
-                            style: TextStyle(fontSize: 30),
-                            textAlign: TextAlign.center,
-                          ),
+                      color: Colors.pink,
+                      border: Border.all(color: Colors.black, width: 6),
+                    ),
+                    height: 80,
+                    child: SizedBox.expand(
+                      child: RaisedButton(
+                        autofocus: true,
+
+                        onPressed: () async {
+                          _prefs.setBool('hayCambio', false);
+                          recomListBox.close();
+                          _navigationService.goBack();
+                        },
+                        color: Colors.pink,
+                        textColor: Colors.white,
+                        //padding: EdgeInsets.all(24.0),
+                        child: Text(
+                          'Sesion Completada',
+                          style: TextStyle(fontSize: 30),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
