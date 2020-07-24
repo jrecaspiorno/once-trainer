@@ -26,27 +26,27 @@ class Backup {
       this.state});
 
   Future<bool> getDataFronDrive() async {
-    try {
-      final location = await getTemporaryDirectory();
-      final loc = p.join(location.path, fileName);
-      final client = http.Client();
-      //Map<String, dynamic> h = json.decode(header);
-      var authClient = GoogleHttpClient(header, client);
-      var api = drive.DriveApi(authClient);
-      var fileL = await api.files.list(q: "name = '$fileName'");
-      var file = fileL.files;
-      var ok = file.isNotEmpty;
-      if (file.isNotEmpty) {
-        String id = file[0].id;
-        drive.Media response = await api.files
-            .get(id, downloadOptions: drive.DownloadOptions.FullMedia);
+    final location = await getTemporaryDirectory();
+    final loc = p.join(location.path, fileName);
+    final client = http.Client();
+    //Map<String, dynamic> h = json.decode(header);
+    var authClient = GoogleHttpClient(header, client);
+    var api = drive.DriveApi(authClient);
+    var fileL = await api.files.list(q: "name = '$fileName'");
+    var file = fileL.files;
+    var ok = file.isNotEmpty;
+    if (file.isNotEmpty) {
+      String id = file[0].id;
+      drive.Media response = await api.files
+          .get(id, downloadOptions: drive.DownloadOptions.FullMedia);
 
-        List<int> dataStore = [];
-        state.setLoading();
-        response.stream.asBroadcastStream().listen((data) {
-          print("Data Recived: ${data.length}");
-          dataStore.insertAll(dataStore.length, data);
-        }, onDone: () async {
+      List<int> dataStore = [];
+      state.setLoading();
+      response.stream.asBroadcastStream().listen((data) {
+        print("Data Recived: ${data.length}");
+        dataStore.insertAll(dataStore.length, data);
+      }, onDone: () async {
+        try {
           File file = File(loc);
           print(loc);
           file.writeAsBytes(dataStore);
@@ -85,13 +85,15 @@ class Backup {
           state.setLogedIn();
 
           return true;
-        }, onError: (e) => throw Exception);
+        } catch (e) {
+          state.setLogedInNoRestore();
+          return false;
+        }
+      }, onError: (e) => throw Exception);
 
-        print(response.toString());
-      }
-    } catch (e) {
-      state.setLogedInNoRestore();
+      print(response.toString());
     }
+
     return false;
   }
 
