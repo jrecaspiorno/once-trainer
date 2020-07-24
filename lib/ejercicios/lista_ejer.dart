@@ -20,9 +20,9 @@ class MyList extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                  _viewSelecDiff(ejercicio, -1, 'Facil'),
+                  _viewSelecDiff(ejercicio, -1, 'Fácil'),
                   _viewSelecDiff(ejercicio, 0, 'Normal'),
-                  _viewSelecDiff(ejercicio, 1, 'Dificil'),
+                  _viewSelecDiff(ejercicio, 1, 'Difícil'),
                 ]))));
   }
 
