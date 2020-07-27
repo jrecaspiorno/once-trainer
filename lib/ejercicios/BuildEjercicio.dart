@@ -9,7 +9,6 @@ import 'package:flutterapp/Data/HiveData/RecomendadorList/RecomList.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
-import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
@@ -25,7 +24,8 @@ import 'EjerciciosState.dart';
 
 class BuildEjercicio extends StatefulWidget {
   Ejercicio ejercicio;
-  BuildEjercicio({@required this.ejercicio});
+  String route;
+  BuildEjercicio({@required this.ejercicio, @required this.route});
   @override
   _BuildEjercicioState createState() => _BuildEjercicioState();
 }
@@ -162,7 +162,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       r2 = recomListBox.values;
     } catch (e) {} finally {
       _navigationService.goBack();
-      _navigationService.replaceView(route.ListaEjerciciosPage);
+      _navigationService.replaceView(widget.route);
     }
   }
 

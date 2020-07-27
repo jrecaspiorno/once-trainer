@@ -125,9 +125,12 @@ class MyList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(12)),
                             autofocus: true,
                             onPressed: () {
+                              List<dynamic> arg = List();
                               ejercicios[index].setDiff(diff);
+                              arg.add(ejercicios[index]);
+                              arg.add('/Lista Ejercicios');
                               _navigationService.navigateTo(route.EjercicioPage,
-                                  arguments: ejercicios[index]);
+                                  arguments: arg);
                             },
                             color: Colors.indigo,
                             textColor: Colors.white,

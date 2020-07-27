@@ -60,10 +60,14 @@ class RouteGenerator {
       case routes.HistorialClinicoPage:
         return MaterialPageRoute(builder: (_) => MyHistorial());
       case routes.EjercicioPage:
-        return MaterialPageRoute(
-            builder: (_) => BuildEjercicio(
-                  ejercicio: args,
-                ));
+        {
+          var a = args as List<dynamic>;
+          return MaterialPageRoute(
+              builder: (_) => BuildEjercicio(
+                    ejercicio: a.first,
+                    route: a.last,
+                  ));
+        }
       case routes.SacaDatosPage:
         return MaterialPageRoute(builder: (_) => MySaca(args));
       case routes.ActividadPage:
