@@ -184,6 +184,7 @@ class Backup {
         drive.File()..name = fileName,
         uploadMedia: drive.Media(jsonFile.openRead(), jsonFile.lengthSync()),
       );
+
       database.usuarioDAO.insertBackIdIntoUser(response.id, id);
     } else {
       var id = user.backupid == null ? files[0].id : user.backupid;

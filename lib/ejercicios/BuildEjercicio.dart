@@ -9,6 +9,7 @@ import 'package:flutterapp/Data/HiveData/RecomendadorList/RecomList.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
+import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:flutterapp/ejercicios/AppRepCount.dart';
 import 'package:flutterapp/ejercicios/AppTimer.dart';
@@ -161,6 +162,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       r2 = recomListBox.values;
     } catch (e) {} finally {
       _navigationService.goBack();
+      _navigationService.replaceView(route.ListaEjerciciosPage);
     }
   }
 
@@ -293,8 +295,9 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                       borderRadius: BorderRadius.circular(12)),
                   autofocus: true,
                   color: Colors.pink,
-                  onPressed: () =>
-                      addEjercicio(context, ejstatus, widget.ejercicio, true),
+                  onPressed: () {
+                    addEjercicio(context, ejstatus, widget.ejercicio, true);
+                  },
                   padding: EdgeInsets.all(15.0),
                   child: Text(
                     "Hecho Entero",

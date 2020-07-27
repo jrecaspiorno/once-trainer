@@ -5,6 +5,7 @@ import 'package:flutterapp/Historial/HistorialBuild.dart';
 import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as routes;
 import 'package:flutterapp/Perfil/Ajustes.dart';
+import 'package:flutterapp/Perfil/Dificultad.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
 import 'package:flutterapp/Perfil/EditarPerfil.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
@@ -76,6 +77,8 @@ class RouteGenerator {
         }
       case routes.AjustesPage:
         return MaterialPageRoute(builder: (_) => Ajustes());
+      case routes.DificultadPage:
+        return MaterialPageRoute(builder: (_) => Dificultad());
     }
   }
 }
