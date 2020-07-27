@@ -1,14 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
-import 'package:flutterapp/Menu/prueba.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/Registro/SignUpState.dart';
-import 'package:moor_db_viewer/moor_db_viewer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,46 +58,25 @@ class _MenuState extends State<Menu> {
 
   Widget menuView(BuildContext context) {
     final database = context.watch<AppDatabase>();
-    return Center(
-      child: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(30),
-        children: <Widget>[
-          _buildButton('Recomendaciones', route.RecomendaosPage),
-          _buildButton('Lista Ejercicios', route.ListaEjerciciosPage),
-          _buildButton('Perfil', route.PerfilPage),
-          _buildButton('Recomendador', route.RecomdadorPage),
-          SizedBox(
-            width: 300,
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => MoorDbViewer(database)));
-              },
-              color: Colors.indigo,
-              textColor: Colors.white,
-              padding: EdgeInsets.all(24.0),
-              child: Text('Database', style: TextStyle(fontSize: 30)),
-            ),
-          ),
-          SizedBox(
-            width: 300,
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => miPruebaConsultas()));
-              },
-              color: Colors.indigo,
-              textColor: Colors.white,
-              padding: EdgeInsets.all(24.0),
-              child: Text('Prueba', style: TextStyle(fontSize: 30)),
-            ),
-          )
-        ],
+    return Container(
+      alignment: Alignment.center,
+
+      //height: double.infinity,
+      child: Center(
+        heightFactor: double.infinity,
+        child: Flex(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //shrinkWrap: true,
+          //padding: EdgeInsets.all(30),
+          //padding: EdgeInsets.all(30),
+          direction: Axis.vertical,
+          children: <Widget>[
+            //_buildButton('Recomendaciones', route.RecomendaosPage),
+            _buildButton('Recomendador', route.RecomdadorPage),
+            _buildButton('Lista Ejercicios', route.ListaEjerciciosPage),
+            _buildButton('Perfil', route.PerfilPage),
+          ],
+        ),
       ),
     );
   }
@@ -115,7 +93,6 @@ class _MenuState extends State<Menu> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () {
-              //Navigator.of(context).pushNamed(route);
               _navigationService.navigateTo(route);
             },
             color: Colors.indigo,

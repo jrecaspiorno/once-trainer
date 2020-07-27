@@ -4,13 +4,11 @@
     <series>3</series>
     <reps>20</reps>
     <description>
-        Sube y baja escaleras, al comienzo ayudándote de la barandilla. Si te sientes con confianza puedes soltar la barandilla o incluso subir las escaleras de dos en dos peldaños.
+Sube y baja escaleras, al comienzo ayudándote de la barandilla. Si te sientes con confianza puedes soltar la barandilla o incluso subir las escaleras de dos en dos peldaños.
     </description>
     <calories>650</calories>
     <principal>Piernas</principal>
-    <muscles>
-        <tag>Sodilla</tag>
-        <tag>Tobillo</tag>
-        <tag>Cadera</tag>
-    </muscles>
+    <tag>Rodilla</tag>
+    <tag>Tobillo</tag>
+    <tag>Cadera</tag>
 </data>

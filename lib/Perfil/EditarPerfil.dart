@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
+import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
-import 'package:flutterapp/Perfil/Perfil.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutterapp/Data/moor_database.dart';
 
 class EditProfile extends StatefulWidget {
   EditProfile({@required this.id});
@@ -94,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
             state.setDate(_dateTime);
             print(state.getFNacimiento());
             debugPrint(state.getFecha().toString());
-             _navigationService.goBack();
+            _navigationService.goBack();
           } else {
             Alerts alert = Alerts(
               context: context,
@@ -135,10 +133,10 @@ class _EditProfileState extends State<EditProfile> {
       appBar: AppBar(
         leading: BackButton(
           onPressed: () {
-             _navigationService.goBack();
+            _navigationService.goBack();
           },
         ),
-        title: Text('Cambio de F. Nacimiento'),
+        title: Text('Cambio de Fecha de Nacimiento'),
         backgroundColor: Colors.indigo,
       ),
       body: Center(

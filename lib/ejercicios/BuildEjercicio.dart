@@ -273,7 +273,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   autofocus: true,
-                  color: Colors.indigo,
+                  color: Colors.pink,
                   onPressed: () => addEjercicioBase(context, ejstatus),
                   padding: EdgeInsets.all(15.0),
                   child: Text(
@@ -292,7 +292,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   autofocus: true,
-                  color: Colors.indigo,
+                  color: Colors.pink,
                   onPressed: () =>
                       addEjercicio(context, ejstatus, widget.ejercicio, true),
                   padding: EdgeInsets.all(15.0),
