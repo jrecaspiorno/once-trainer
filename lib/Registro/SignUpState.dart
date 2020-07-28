@@ -19,6 +19,7 @@ class LoginState with ChangeNotifier {
   bool _fecha_introducida = false;
   bool _logedIn = false;
   bool _loading = true;
+  bool _connected = false;
   bool _correctRestore = false;
   String _id = "";
   FirebaseUser _user;
@@ -169,17 +170,11 @@ class LoginState with ChangeNotifier {
   void loginState() async {
     _prefs = await SharedPreferences.getInstance();
     if (_prefs.containsKey('isLoggedIn') && _prefs.getBool('completeLogin')) {
-      //header = _prefs.getString('Header');
-
       await _googleSingIn.signInSilently();
       _googleAcc = _googleSingIn.currentUser;
-
-      header = await _googleAcc.authHeaders;
+      if (_googleAcc != null) header = await _googleAcc.authHeaders;
 
       _user = await _auth.currentUser();
-
-      //header = await _googleSingIn.currentUser.authHeaders;
-
       _logedIn = _user != null;
       _id = _user.uid;
       _loading = false;

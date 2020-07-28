@@ -65,12 +65,8 @@ class _MenuState extends State<Menu> {
         heightFactor: double.infinity,
         child: Flex(
           mainAxisAlignment: MainAxisAlignment.center,
-          //shrinkWrap: true,
-          //padding: EdgeInsets.all(30),
-          //padding: EdgeInsets.all(30),
           direction: Axis.vertical,
           children: <Widget>[
-            //_buildButton('Recomendaciones', route.RecomendaosPage),
             _buildButton('Recomendador', route.RecomdadorPage),
             _buildButton('Lista Ejercicios', route.ListaEjerciciosPage),
             _buildButton('Perfil', route.PerfilPage),
