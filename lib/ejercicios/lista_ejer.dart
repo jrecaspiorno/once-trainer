@@ -6,54 +6,22 @@ import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart' as xml;
 
 class MyList extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
-
-  void _onEjercicioSelected(Ejercicio ejercicio, BuildContext context) {
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        context: context,
-        builder: (_) => Container(
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                  _viewSelecDiff(ejercicio, -1, 'Fácil'),
-                  _viewSelecDiff(ejercicio, 0, 'Normal'),
-                  _viewSelecDiff(ejercicio, 1, 'Difícil'),
-                ]))));
-  }
-
-  Column _viewSelecDiff(Ejercicio ejercicio, int diff, String text) {
-    Ejercicio ej = ejercicio;
-
-    return Column(
-      children: [
-        RaisedButton(
-            padding: EdgeInsets.all(15),
-            child: Text(
-              text,
-              style: TextStyle(fontSize: 30, color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            color: Colors.indigo,
-            onPressed: () {
-              ej.setDiff(diff);
-              _navigationService.replaceView(route.EjercicioPage,
-                  arguments: ej);
-            }),
-        Padding(padding: EdgeInsets.all(15))
-      ],
-    );
+  SharedPreferences _prefs;
+  int diff;
+  _init() async {
+    _prefs = await SharedPreferences.getInstance();
+    diff = _prefs.getInt('Diff');
   }
 
   @override
   Widget build(BuildContext context) {
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
+      await _init();
       final manifestContent =
           await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
       final Map<String, dynamic> manifesMap = json.decode(manifestContent);
@@ -116,8 +84,14 @@ class MyList extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
                             autofocus: true,
-                            onPressed: () => _onEjercicioSelected(
-                                ejercicios[index], context),
+                            onPressed: () {
+                              List<dynamic> arg = List();
+                              ejercicios[index].setDiff(diff);
+                              arg.add(ejercicios[index]);
+                              arg.add('/Lista Ejercicios');
+                              _navigationService.navigateTo(route.EjercicioPage,
+                                  arguments: arg);
+                            },
                             color: Colors.indigo,
                             textColor: Colors.white,
                             padding: EdgeInsets.all(24.0),

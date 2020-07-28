@@ -15,6 +15,7 @@ import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
+import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,8 @@ import 'EjerciciosState.dart';
 
 class BuildEjercicio extends StatefulWidget {
   Ejercicio ejercicio;
-  BuildEjercicio({@required this.ejercicio});
+  String route;
+  BuildEjercicio({@required this.ejercicio, @required this.route});
   @override
   _BuildEjercicioState createState() => _BuildEjercicioState();
 }
@@ -161,6 +163,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       r2 = recomListBox.values;
     } catch (e) {} finally {
       _navigationService.goBack();
+      _navigationService.replaceView(widget.route);
     }
   }
 
@@ -221,6 +224,18 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
     var ejstatus = context.watch<EjercicioState>();
     ejstatus.setEjercicio(ej);
 
+    Alerts alert = Alerts(
+        context: context,
+        firstButtonText: "Cancelar",
+        secondButtonText: "Terminar",
+        thirdButtonText: "Añadir",
+        fun1: () => Navigator.pop(context, false),
+        fun2: () => addEjercicioBase(context, ejstatus),
+        fun3: () =>  addEjercicio(context, ejstatus, widget.ejercicio, true),
+        title: "Ejercicio terminado",
+        message: "Ejercico terminado, desea añadir los datos del ejercicio o terminarlo"
+    );
+
     return WillPopScope(
       onWillPop: () {
         print(
@@ -274,7 +289,8 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                       borderRadius: BorderRadius.circular(12)),
                   autofocus: true,
                   color: Colors.pink,
-                  onPressed: () => addEjercicioBase(context, ejstatus),
+                  onPressed: () => alert.showAlertDialog3(),
+                      //addEjercicioBase(context, ejstatus),
                   padding: EdgeInsets.all(15.0),
                   child: Text(
                     "Hecho",
@@ -287,23 +303,6 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(16.0),
-                ),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  autofocus: true,
-                  color: Colors.pink,
-                  onPressed: () =>
-                      addEjercicio(context, ejstatus, widget.ejercicio, true),
-                  padding: EdgeInsets.all(15.0),
-                  child: Text(
-                    "Hecho Entero",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ),
               ],
             ),

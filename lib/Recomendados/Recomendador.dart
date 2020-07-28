@@ -182,9 +182,16 @@ class RecomendadorView extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12)),
                                 autofocus: true,
-                                onPressed: () => _navigationService.replaceView(
-                                    route.EjercicioPage,
-                                    arguments: ejercicios[index]),
+                                onPressed: () {
+                                  List<dynamic> arg = List();
+                                  ejercicios[index]
+                                      .setDiff(_prefs.getInt('Diff'));
+                                  arg.add(ejercicios[index]);
+                                  arg.add('/Recomendador');
+                                  return _navigationService.navigateTo(
+                                      route.EjercicioPage,
+                                      arguments: arg);
+                                },
                                 color: Colors.indigo,
                                 textColor: Colors.white,
                                 padding: EdgeInsets.all(24.0),
@@ -223,7 +230,7 @@ class RecomendadorView extends StatelessWidget {
                         textColor: Colors.white,
                         //padding: EdgeInsets.all(24.0),
                         child: Text(
-                          'Sesion Completada',
+                          'Sesión Completada',
                           style: TextStyle(fontSize: 30),
                           textAlign: TextAlign.center,
                         ),

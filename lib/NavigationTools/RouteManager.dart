@@ -5,6 +5,7 @@ import 'package:flutterapp/Historial/HistorialBuild.dart';
 import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as routes;
 import 'package:flutterapp/Perfil/Ajustes.dart';
+import 'package:flutterapp/Perfil/Dificultad.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
 import 'package:flutterapp/Perfil/EditarPerfil.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
@@ -59,10 +60,14 @@ class RouteGenerator {
       case routes.HistorialClinicoPage:
         return MaterialPageRoute(builder: (_) => MyHistorial());
       case routes.EjercicioPage:
-        return MaterialPageRoute(
-            builder: (_) => BuildEjercicio(
-                  ejercicio: args,
-                ));
+        {
+          var a = args as List<dynamic>;
+          return MaterialPageRoute(
+              builder: (_) => BuildEjercicio(
+                    ejercicio: a.first,
+                    route: a.last,
+                  ));
+        }
       case routes.SacaDatosPage:
         return MaterialPageRoute(builder: (_) => MySaca(args));
       case routes.ActividadPage:
@@ -76,6 +81,8 @@ class RouteGenerator {
         }
       case routes.AjustesPage:
         return MaterialPageRoute(builder: (_) => Ajustes());
+      case routes.DificultadPage:
+        return MaterialPageRoute(builder: (_) => Dificultad());
     }
   }
 }
