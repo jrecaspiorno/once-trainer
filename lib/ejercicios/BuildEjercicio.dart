@@ -15,7 +15,6 @@ import 'package:flutterapp/ejercicios/AppTimer.dart';
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/EjercicioRepeticiones.dart';
 import 'package:flutterapp/ejercicios/EjercicioTiempo.dart';
-import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/pulsera/datosRitmoTR/sacaDatosRitmoCardiaco.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -67,29 +66,6 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         }
       }
     });
-  }
-
-  void botonHecho(BuildContext context, EjercicioState ejstate) {
-    Alerts alerta = Alerts(
-      context: context,
-      title: "Ejercicio Completado",
-      message: "¿Que datos deseas usar?",
-      firstButtonText: "Datos del Ejercicio",
-      secondButtonText: "Datos del Usuario",
-      thirdButtonText: "cancelar",
-      fun1: () {
-        addEjercicio(context, ejstate, widget.ejercicio, true);
-
-        _navigationService.goBack();
-      },
-      fun2: () {
-        addEjercicioBase(context, ejstate);
-        _navigationService.goBack();
-      },
-      fun3: () => _navigationService.goBack(),
-    );
-    alerta.showAlertDialog3();
-    return;
   }
 
   addEjercicioBase(BuildContext context, EjercicioState ejstate) {
@@ -229,12 +205,18 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
         firstButtonText: "Cancelar",
         secondButtonText: "Terminar",
         thirdButtonText: "Añadir",
-        fun1: () => Navigator.pop(context, false),
-        fun2: () => addEjercicioBase(context, ejstatus),
-        fun3: () =>  addEjercicio(context, ejstatus, widget.ejercicio, true),
+        fun1: () => _navigationService.goBack(),
+        fun2: () {
+          _navigationService.goBack();
+          addEjercicioBase(context, ejstatus);
+        },
+        fun3: () {
+          _navigationService.goBack();
+          addEjercicio(context, ejstatus, widget.ejercicio, true);
+        },
         title: "Ejercicio terminado",
-        message: "Ejercico terminado, desea añadir los datos del ejercicio o terminarlo"
-    );
+        message:
+            "Ejercico terminado, ¿desea añadir los datos del ejercicio o terminarlo?");
 
     return WillPopScope(
       onWillPop: () {
@@ -290,7 +272,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
                   autofocus: true,
                   color: Colors.pink,
                   onPressed: () => alert.showAlertDialog3(),
-                      //addEjercicioBase(context, ejstatus),
+                  //addEjercicioBase(context, ejstatus),
                   padding: EdgeInsets.all(15.0),
                   child: Text(
                     "Hecho",
