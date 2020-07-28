@@ -29,9 +29,11 @@ class _AppTimerState extends State<AppTimer> {
 
   AudioCache _audioCache;
 
-  void initState(){
+  void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
   void startStopwatch() {
@@ -47,9 +49,7 @@ class _AppTimerState extends State<AppTimer> {
       if (mounted) {
         setState(() {
           if (time4Timer < 1 || checktimer == false) {
-            
             if (time4Timer < 1) {
-              
               _audioCache.play("beep-09.mp3");
               stopispressed = true;
               resetispressd = false;
@@ -59,11 +59,10 @@ class _AppTimerState extends State<AppTimer> {
             checktimer = true;
           } else {
             time4Timer = time4Timer - 1;
-            
           }
           stoptimedisplay = timetoString(time4Timer);
-          int ti = stringtoTime(   defaultTime);
-          int r = ti - time4Timer ;
+          int ti = stringtoTime(defaultTime);
+          int r = ti - time4Timer;
           ejstate.setTiempo(timetoString(r));
         });
       }
@@ -88,7 +87,7 @@ class _AppTimerState extends State<AppTimer> {
       checktimer = false;
     });
     debugPrint(defaultTime);
-    
+
     stoptimedisplay = defaultTime;
     ejstate.setTiempo(defaultTime);
     debugPrint(stoptimedisplay);
@@ -108,11 +107,19 @@ class _AppTimerState extends State<AppTimer> {
         sec.toString().padLeft(2, "0"));
   }
 
-      
+  String labelStopwatch() {
+    var separar = stoptimedisplay.split(":");
+    String primeraParte;
 
+    if (separar.first[0] == '0')
+      primeraParte = separar.first[1];
+    else
+      primeraParte = separar.first;
+    String segundaParte = separar.last;
+    return primeraParte + "minutos y " + segundaParte + "segundos";
+  }
 
   Widget stopwatch(String time) {
-    
     if (primera) {
       primera = false;
       stoptimedisplay = time;
@@ -123,11 +130,15 @@ class _AppTimerState extends State<AppTimer> {
         children: <Widget>[
           Container(
             alignment: Alignment.center,
-            child: Text(
-              stoptimedisplay,
-              style: TextStyle(
-                fontSize: 70,
-                fontWeight: FontWeight.w900,
+            child: Semantics(
+              excludeSemantics: true,
+              label: labelStopwatch(),
+              child: Text(
+                stoptimedisplay,
+                style: TextStyle(
+                  fontSize: 70,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
           ),
@@ -145,14 +156,14 @@ class _AppTimerState extends State<AppTimer> {
                       onPressed: startispressed ? startStopwatch : null,
                       color: Colors.indigo,
                       padding: EdgeInsets.symmetric(
-                        horizontal: 35,
+                        horizontal: 20,
                         vertical: 15,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
                       child: Text(
-                        "Start",
+                        "Empezar",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -164,14 +175,14 @@ class _AppTimerState extends State<AppTimer> {
                       onPressed: stopispressed ? null : stopStopwatch,
                       color: Colors.indigo,
                       padding: EdgeInsets.symmetric(
-                        horizontal: 35,
+                        horizontal: 20,
                         vertical: 15,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
                       child: Text(
-                        "Stop",
+                        "Parar",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -183,14 +194,14 @@ class _AppTimerState extends State<AppTimer> {
                       onPressed: resetispressd ? null : resetStopwatch,
                       color: Colors.indigo,
                       padding: EdgeInsets.symmetric(
-                        horizontal: 35,
+                        horizontal: 20,
                         vertical: 15,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
                       child: Text(
-                        "Reset",
+                        "Reiniciar",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -213,10 +224,12 @@ class _AppTimerState extends State<AppTimer> {
     ejstate = context.watch<EjercicioState>();
 
     return WillPopScope(
-      onWillPop: () { 
-        print('Backbutton pressed (device or appbar button), do whatever you want.');
-        Navigator.pop(context, false);
-        return Future.value(false); },
-    child: stopwatch(widget.time));
+        onWillPop: () {
+          print(
+              'Backbutton pressed (device or appbar button), do whatever you want.');
+          Navigator.pop(context, false);
+          return Future.value(false);
+        },
+        child: stopwatch(widget.time));
   }
 }

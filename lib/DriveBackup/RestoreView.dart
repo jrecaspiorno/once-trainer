@@ -33,7 +33,7 @@ class RestoreButton extends StatelessWidget {
                 firstButtonText: "Ok",
                 context: context,
                 message: "Datos recuperados con exito",
-                title: "Recuperacion Correcta",
+                title: "Recuperación Correcta",
                 fun1: () => _navigationService.goBack());
             a.showAlertDialog();
           }, onError: (e) {

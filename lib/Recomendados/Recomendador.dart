@@ -230,7 +230,7 @@ class RecomendadorView extends StatelessWidget {
                         textColor: Colors.white,
                         //padding: EdgeInsets.all(24.0),
                         child: Text(
-                          'Sesion Completada',
+                          'Sesión Completada',
                           style: TextStyle(fontSize: 30),
                           textAlign: TextAlign.center,
                         ),

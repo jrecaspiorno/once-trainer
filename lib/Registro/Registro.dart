@@ -15,9 +15,9 @@ class LoginPage extends StatelessWidget {
         secondButtonText: "Si",
         fun1: () => Navigator.pop(context, false),
         fun2: () => SystemNavigator.pop(),
-        title: "Quieres salir de la aplicacion?",
+        title: "¿Quieres salir de la aplicación?",
         message: "");
-        return alert.showAlertDialog2();
+    return alert.showAlertDialog2();
   }
 
   @override
@@ -58,9 +58,7 @@ class LoginPage extends StatelessWidget {
                 var state = context.read<LoginState>();
                 try {
                   state.login(database, context);
-                }catch(e){
-
-                }
+                } catch (e) {}
               },
             ),
           ),

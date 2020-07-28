@@ -18,46 +18,6 @@ class MyList extends StatelessWidget {
     diff = _prefs.getInt('Diff');
   }
 
-  void _onEjercicioSelected(Ejercicio ejercicio, BuildContext context) {
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        context: context,
-        builder: (_) => Container(
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                  _viewSelecDiff(ejercicio, -1, 'Fácil'),
-                  _viewSelecDiff(ejercicio, 0, 'Normal'),
-                  _viewSelecDiff(ejercicio, 1, 'Difícil'),
-                ]))));
-  }
-
-  Column _viewSelecDiff(Ejercicio ejercicio, int diff, String text) {
-    Ejercicio ej = ejercicio;
-
-    return Column(
-      children: [
-        RaisedButton(
-            padding: EdgeInsets.all(15),
-            child: Text(
-              text,
-              style: TextStyle(fontSize: 30, color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            color: Colors.indigo,
-            onPressed: () {
-              ej.setDiff(diff);
-              _navigationService.replaceView(route.EjercicioPage,
-                  arguments: ej);
-            }),
-        Padding(padding: EdgeInsets.all(15))
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
