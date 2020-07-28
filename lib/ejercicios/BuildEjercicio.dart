@@ -23,10 +23,10 @@ import 'package:provider/provider.dart';
 import 'EjercicioRepeticiones.dart';
 import 'EjerciciosState.dart';
 
-
 class BuildEjercicio extends StatefulWidget {
   Ejercicio ejercicio;
-  BuildEjercicio({@required this.ejercicio});
+  String route;
+  BuildEjercicio({@required this.ejercicio, @required this.route});
   @override
   _BuildEjercicioState createState() => _BuildEjercicioState();
 }
@@ -163,6 +163,7 @@ class _BuildEjercicioState extends State<BuildEjercicio> {
       r2 = recomListBox.values;
     } catch (e) {} finally {
       _navigationService.goBack();
+      _navigationService.replaceView(widget.route);
     }
   }
 

@@ -6,10 +6,17 @@ import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/ejercicios/Ejercicio.dart';
 import 'package:flutterapp/ejercicios/FactoriaEj.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart' as xml;
 
 class MyList extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
+  SharedPreferences _prefs;
+  int diff;
+  _init() async {
+    _prefs = await SharedPreferences.getInstance();
+    diff = _prefs.getInt('Diff');
+  }
 
   void _onEjercicioSelected(Ejercicio ejercicio, BuildContext context) {
     showModalBottomSheet(
@@ -54,6 +61,7 @@ class MyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<List<Ejercicio>> getEjercicios(BuildContext context) async {
+      await _init();
       final manifestContent =
           await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
       final Map<String, dynamic> manifesMap = json.decode(manifestContent);
@@ -116,8 +124,14 @@ class MyList extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
                             autofocus: true,
-                            onPressed: () => _onEjercicioSelected(
-                                ejercicios[index], context),
+                            onPressed: () {
+                              List<dynamic> arg = List();
+                              ejercicios[index].setDiff(diff);
+                              arg.add(ejercicios[index]);
+                              arg.add('/Lista Ejercicios');
+                              _navigationService.navigateTo(route.EjercicioPage,
+                                  arguments: arg);
+                            },
                             color: Colors.indigo,
                             textColor: Colors.white,
                             padding: EdgeInsets.all(24.0),

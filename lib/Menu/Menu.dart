@@ -19,8 +19,7 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   _prepareVariables() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (!preferences.containsKey('SelectDiff'))
-      preferences.setBool('SelectDiff', true);
+    if (!preferences.containsKey('Diff')) preferences.setInt('Diff', 0);
   }
 
   final NavigationService _navigationService = locator<NavigationService>();

@@ -21,9 +21,9 @@ class Ajustes extends StatelessWidget {
         title: Text('Ajustes'),
         backgroundColor: Colors.indigo,
       ),
-      body: Flex(
-        mainAxisAlignment: MainAxisAlignment.center,
-        direction: Axis.vertical,
+      body: ListView(
+//        mainAxisAlignment: MainAxisAlignment.center,
+//        direction: Axis.vertical,
         children: <Widget>[
           MyButtonType(),
           BackupButton(),
@@ -31,6 +31,9 @@ class Ajustes extends StatelessWidget {
             padding: EdgeInsets.all(24.0),
           ),
           RestoreButton(),
+          Padding(
+            padding: EdgeInsets.all(24.0),
+          ),
         ],
       ),
     );
@@ -73,12 +76,11 @@ class MyButtonType extends StatelessWidget {
     String id = state.getId();
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const SizedBox(height: 20),
-          _buildButton('Dolencias', route.DolenciasPage, state.getId()),
-          _buildButton(
-              'Fecha Nacimiento', route.EditarFechaPage, state.getId()),
+          _buildButton('Dolencias', route.DolenciasPage, id),
+          _buildButton('Fecha Nacimiento', route.EditarFechaPage, id),
+          _buildButton('Dificultad', route.DificultadPage, null)
         ],
       ),
     );
