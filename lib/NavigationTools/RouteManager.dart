@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterapp/Ayuda/ayuda.dart';
 import 'package:flutterapp/Historial/EntradaBuild.dart';
 import 'package:flutterapp/Historial/HistorialBuild.dart';
 import 'package:flutterapp/Menu/Menu.dart';
@@ -83,6 +84,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Ajustes());
       case routes.DificultadPage:
         return MaterialPageRoute(builder: (_) => Dificultad());
+
+      case routes.AyudaPage:
+        return MaterialPageRoute(builder: (_) => MyHelp());
     }
   }
 }

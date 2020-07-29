@@ -70,10 +70,10 @@ class _MenuState extends State<Menu> {
           //padding: EdgeInsets.all(30),
           direction: Axis.vertical,
           children: <Widget>[
-            //_buildButton('Recomendaciones', route.RecomendaosPage),
             _buildButton('Recomendador', route.RecomdadorPage),
             _buildButton('Lista Ejercicios', route.ListaEjerciciosPage),
             _buildButton('Perfil', route.PerfilPage),
+            _buildButton('Ayuda', route.AyudaPage),
           ],
         ),
       ),

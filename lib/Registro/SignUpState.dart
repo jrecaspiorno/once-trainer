@@ -174,7 +174,7 @@ class LoginState with ChangeNotifier {
       await _googleSingIn.signInSilently();
       _googleAcc = _googleSingIn.currentUser;
 
-      header = await _googleAcc.authHeaders;
+      if (_googleAcc != null) header = await _googleAcc.authHeaders;
 
       _user = await _auth.currentUser();
 
