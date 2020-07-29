@@ -70,6 +70,7 @@ class _MenuState extends State<Menu> {
             _buildButton('Recomendador', route.RecomdadorPage),
             _buildButton('Lista Ejercicios', route.ListaEjerciciosPage),
             _buildButton('Perfil', route.PerfilPage),
+            _buildButton('Ayuda', route.AyudaPage),
           ],
         ),
       ),

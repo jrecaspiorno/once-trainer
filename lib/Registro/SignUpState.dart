@@ -19,7 +19,6 @@ class LoginState with ChangeNotifier {
   bool _fecha_introducida = false;
   bool _logedIn = false;
   bool _loading = true;
-  bool _connected = false;
   bool _correctRestore = false;
   String _id = "";
   FirebaseUser _user;
@@ -172,6 +171,7 @@ class LoginState with ChangeNotifier {
     if (_prefs.containsKey('isLoggedIn') && _prefs.getBool('completeLogin')) {
       await _googleSingIn.signInSilently();
       _googleAcc = _googleSingIn.currentUser;
+
       if (_googleAcc != null) header = await _googleAcc.authHeaders;
 
       _user = await _auth.currentUser();
