@@ -65,9 +65,6 @@ class _MenuState extends State<Menu> {
         heightFactor: double.infinity,
         child: Flex(
           mainAxisAlignment: MainAxisAlignment.center,
-          //shrinkWrap: true,
-          //padding: EdgeInsets.all(30),
-          //padding: EdgeInsets.all(30),
           direction: Axis.vertical,
           children: <Widget>[
             _buildButton('Recomendador', route.RecomdadorPage),

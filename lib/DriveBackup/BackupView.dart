@@ -28,27 +28,24 @@ class BackupButton extends StatelessWidget {
         secondButtonText: "Ok",
         fun1: () => _navigationService.goBack(),
         fun2: () {
-          try {
-            _navigationService.goBack();
-            backup.uploadDataToDrive().then((_) {
-              Alerts a = Alerts(
-                  firstButtonText: "Ok",
-                  context: context,
-                  message: "Copia de seguridad realizada con exito",
-                  title: "Exito",
-                  fun1: () => _navigationService.goBack());
-              a.showAlertDialog();
-            });
-          } catch (e) {
-            _navigationService.goBack();
+          _navigationService.goBack();
+          backup.uploadDataToDrive().then((_) {
             Alerts a = Alerts(
                 firstButtonText: "Ok",
                 context: context,
-                message: "Copia de seguridad no realizada con exito",
+                message: "Copia de seguridad realizada con éxito",
+                title: "Éxito",
+                fun1: () => _navigationService.goBack());
+            a.showAlertDialog();
+          }, onError: (e) {
+            Alerts a = Alerts(
+                firstButtonText: "Ok",
+                context: context,
+                message: "Copia de seguridad no realizada con éxito",
                 title: "Error",
                 fun1: () => _navigationService.goBack());
             a.showAlertDialog();
-          }
+          });
         },
         title: "Copia de Seguridad",
         message: "¿Desea realizar una copia de seguridad?");
