@@ -17,7 +17,6 @@ import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
 import 'package:flutterapp/ejercicios/lista_ejer.dart';
 import 'package:flutterapp/pulsera/datosHistorial/sacaImprimeSemana.dart';
-import 'package:flutterapp/recomendados.dart';
 import 'package:provider/provider.dart';
 
 class RouteGenerator {
@@ -34,8 +33,6 @@ class RouteGenerator {
             return state.getFecha() ? DatePicker() : LoginPage();
           }
         });
-      case routes.RecomendaosPage:
-        return MaterialPageRoute(builder: (_) => MyRecomList());
       case routes.RecomdadorPage:
         return MaterialPageRoute(builder: (_) => RecomendadorView());
       case routes.ListaEjerciciosPage:
