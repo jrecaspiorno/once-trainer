@@ -54,7 +54,7 @@ class RestoreButton extends StatelessWidget {
       child: SizedBox(
         width: 330,
         child: RaisedButton(
-          child: Text('Recuperar Datos', style: TextStyle(fontSize: 30)),
+          child: Text('Recuperar Datos', style: TextStyle(fontSize: 30), textAlign: TextAlign.center,),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           onPressed: () => alerta.showAlertDialog2(),

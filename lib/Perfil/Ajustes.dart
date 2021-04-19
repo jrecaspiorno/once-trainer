@@ -8,34 +8,52 @@ import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Ajustes extends StatelessWidget {
+  SharedPreferences _prefs;
+  Future<SharedPreferences> _getLogInType() async {
+    return SharedPreferences.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final database = Provider.of<AppDatabase>(context);
-
-    var state = context.watch<LoginState>();
-    String id = state.getId();
     return Scaffold(
       appBar: AppBar(
         title: Text('Ajustes'),
         backgroundColor: Colors.indigo,
       ),
-      body: ListView(
-//        mainAxisAlignment: MainAxisAlignment.center,
+      body: FutureBuilder(
+          future: _getLogInType(),
+          builder: (context, prefs) {
+            if (prefs.hasData) {
+              return Center(
+                child: ListView(
+                  shrinkWrap: true,
 //        direction: Axis.vertical,
-        children: <Widget>[
-          MyButtonType(),
-          BackupButton(),
-          Padding(
-            padding: EdgeInsets.all(24.0),
-          ),
-          RestoreButton(),
-          Padding(
-            padding: EdgeInsets.all(24.0),
-          ),
-        ],
-      ),
+                  children: <Widget>[
+                    MyButtonType(),
+                    if (prefs.data.getString('logType') == 'google')
+                      BackupButton(),
+                    if (prefs.data.getString('logType') == 'google')
+                      Padding(
+                        padding: EdgeInsets.all(24.0),
+                      ),
+                    if (prefs.data.getString('logType') == 'google')
+                      RestoreButton(),
+                    if (prefs.data.getString('logType') == 'google')
+                      Padding(
+                        padding: EdgeInsets.all(24.0),
+                      ),
+                  ],
+                ),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
   }
 }
@@ -62,7 +80,13 @@ class MyButtonType extends StatelessWidget {
             color: Colors.indigo,
             textColor: Colors.white,
             padding: EdgeInsets.all(24.0),
-            child: Text(label, style: TextStyle(fontSize: 30)),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 30,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         const SizedBox(height: 40),

@@ -90,7 +90,7 @@ class _RepCountState extends State<Repcount> {
                     )
                   ),
                 ),
-                 Text('$sercount', style:  TextStyle(fontSize: 60.0)),
+                 Text('$sercount', semanticsLabel: '$sercount series' ,style:  TextStyle(fontSize: 60.0)),
                 Semantics(
                   button: true,
                   excludeSemantics: true,
@@ -126,7 +126,7 @@ class _RepCountState extends State<Repcount> {
                       )
                   ),
                 ),
-                 Text('$repcount', style:  TextStyle(fontSize: 60.0)),
+                 Text('$repcount', semanticsLabel: '$repcount repeticiones', style:  TextStyle(fontSize: 60.0)),
                 Semantics(
                   label: "repetición realizada",
                   excludeSemantics: true,

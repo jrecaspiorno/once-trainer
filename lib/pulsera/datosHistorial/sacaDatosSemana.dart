@@ -41,6 +41,7 @@ Future <List<HealthDataPoint>> MySacaDatosSemana(String tipo) async{
               _healthDataList.addAll(healthData);
 
           } catch (exception) {
+            print("hola desde dentro");
             print(exception.toString());
           }
         //}
@@ -52,7 +53,6 @@ Future <List<HealthDataPoint>> MySacaDatosSemana(String tipo) async{
       else {
         print('Not authorized');
       }
-      print("hola desde dentro");
       print(_healthDataList);
 
       return _healthDataList;

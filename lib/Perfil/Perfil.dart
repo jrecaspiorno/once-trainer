@@ -4,6 +4,7 @@ import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
 import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
@@ -115,7 +116,7 @@ class MyButtonType extends StatelessWidget {
             color: Colors.indigo,
             textColor: Colors.white,
             padding: EdgeInsets.all(24.0),
-            child: Text(label, style: TextStyle(fontSize: 30)),
+            child: Text(label, style: TextStyle(fontSize: 30), textAlign: TextAlign.center,),
           ),
         ),
         const SizedBox(height: 40),
@@ -156,6 +157,7 @@ class MyData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isLocal = usuarioData.photoUrl.split("/")[0];
     return Center(
       widthFactor: 15,
       child: Row(
@@ -163,10 +165,10 @@ class MyData extends StatelessWidget {
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.network(
+            child: (isLocal != "images") ? Image.network(
               usuarioData.photoUrl,
               width: 50,
-            ),
+            ) : Image.asset(usuarioData.photoUrl, width: 50,),
           ),
           Padding(
             padding: EdgeInsets.all(10),
@@ -178,6 +180,9 @@ class MyData extends StatelessWidget {
                 fontSize: 25,
               ),
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
           ),
           Flexible(
             child: Text(

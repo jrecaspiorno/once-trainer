@@ -1,4 +1,4 @@
-package com.example.flutterapp
+package es.ucm.fitnessonce
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

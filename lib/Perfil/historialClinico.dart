@@ -16,7 +16,7 @@ class MyHistorial extends StatelessWidget {
         leading: BackButton(
           onPressed: _navigationService.goBack,
         ),
-        title: Text("Historial Clinico"),
+        title: Text("Historial Clínico"),
         backgroundColor: Colors.indigo,
       ),
       body: MenuView(context),
@@ -37,7 +37,7 @@ class MyHistorial extends StatelessWidget {
         children: <Widget>[
           _buildButton('Peso', "WEIGHT"),
           _buildButton('Ritmo Cardiaco', "HEART_RATE"),
-          _buildButton('Energia Quemada', "ACTIVE_ENERGY_BURNED"),
+          _buildButton('Energía Quemada', "ACTIVE_ENERGY_BURNED"),
           //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
         ],
       )),
@@ -58,7 +58,7 @@ class MyHistorial extends StatelessWidget {
             color: Colors.indigo,
             textColor: Colors.white,
             padding: EdgeInsets.all(24.0),
-            child: Text(label, style: TextStyle(fontSize: 30)),
+            child: Text(label, style: TextStyle(fontSize: 30), textAlign: TextAlign.center,),
           ),
         ),
         const SizedBox(height: 40),

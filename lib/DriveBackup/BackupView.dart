@@ -54,7 +54,7 @@ class BackupButton extends StatelessWidget {
       child: SizedBox(
         width: 330,
         child: RaisedButton(
-          child: Text('Copia de Seguridad', style: TextStyle(fontSize: 30)),
+          child: Text('Copia de Seguridad', style: TextStyle(fontSize: 30), textAlign: TextAlign.center,),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           onPressed: () => alerta.showAlertDialog2(),

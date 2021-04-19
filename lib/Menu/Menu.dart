@@ -67,17 +67,17 @@ class _MenuState extends State<Menu> {
           mainAxisAlignment: MainAxisAlignment.center,
           direction: Axis.vertical,
           children: <Widget>[
-            _buildButton('Recomendador', route.RecomdadorPage),
-            _buildButton('Lista Ejercicios', route.ListaEjerciciosPage),
-            _buildButton('Perfil', route.PerfilPage),
-            _buildButton('Ayuda', route.AyudaPage),
+            _buildButton('Recomendador', route.RecomdadorPage, Colors.indigo ),
+            _buildButton('Lista Ejercicios', route.ListaEjerciciosPage, Colors.indigo),
+            _buildButton('Perfil', route.PerfilPage, Colors.deepPurple),
+            _buildButton('Ayuda', route.AyudaPage, Colors.green),
           ],
         ),
       ),
     );
   }
 
-  Flex _buildButton(String label, String route) {
+  Flex _buildButton(String label, String route, Color color) {
     return Flex(
       direction: Axis.vertical,
 
@@ -91,7 +91,7 @@ class _MenuState extends State<Menu> {
             onPressed: () {
               _navigationService.navigateTo(route);
             },
-            color: Colors.indigo,
+            color: color,
             textColor: Colors.white,
             padding: EdgeInsets.all(24.0),
             child: Text(label, style: TextStyle(fontSize: 30)),

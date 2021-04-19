@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 import '../SignUpState.dart';
 
 class DatePicker extends StatefulWidget {
+  final TextInputType keyboardType;
+
+  const DatePicker({Key key, this.keyboardType}) : super(key: key);
   @override
   _DatePickerState createState() => _DatePickerState();
 }
@@ -72,6 +75,7 @@ class _DatePickerState extends State<DatePicker> {
         ),
         onPressed: () {
           showDatePicker(
+
                   builder: (context, child) => Theme(
                         child: child,
                         data: ThemeData.light().copyWith(
@@ -83,6 +87,7 @@ class _DatePickerState extends State<DatePicker> {
                               textTheme: ButtonTextTheme.primary),
                         ),
                       ),
+
                   initialEntryMode: DatePickerEntryMode.input,
                   helpText: "Introduzca su fecha de nacimiento",
                   fieldLabelText: "Fecha",
