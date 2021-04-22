@@ -58,7 +58,7 @@ class BackupButton extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           onPressed: () => alerta.showAlertDialog2(),
-          color: Colors.indigo,
+          color: Colors.deepPurple,
           textColor: Colors.white,
           padding: EdgeInsets.all(24.0),
         ),

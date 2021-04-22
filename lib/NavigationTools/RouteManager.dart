@@ -8,6 +8,7 @@ import 'package:flutterapp/NavigationTools/routes_path.dart' as routes;
 import 'package:flutterapp/Perfil/Ajustes.dart';
 import 'package:flutterapp/Perfil/Dificultad.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
+import 'package:flutterapp/Perfil/EditarNombre.dart';
 import 'package:flutterapp/Perfil/EditarPerfil.dart';
 import 'package:flutterapp/Perfil/Perfil.dart';
 import 'package:flutterapp/Perfil/historialClinico.dart';
@@ -84,6 +85,8 @@ class RouteGenerator {
 
       case routes.AyudaPage:
         return MaterialPageRoute(builder: (_) => MyHelp());
+      case routes.EditarNombrePage:
+        return MaterialPageRoute(builder: (_) => EditName( id: args,));
     }
   }
 }

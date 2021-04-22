@@ -12,7 +12,7 @@ class MyHelp extends StatelessWidget {
           onPressed: _navigationService.goBack,
         ),
         title: Text("Manual"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.green,
       ),
 
       body: Container(

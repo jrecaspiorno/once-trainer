@@ -39,7 +39,7 @@ class BuildHistEntry extends StatelessWidget {
   Historial entry;
   HistorialDAO dao;
   TextStyle t1 = TextStyle(
-    color: Colors.indigo,
+    color: Colors.deepPurple,
     fontSize: 30,
   );
   TextStyle t2 = TextStyle(
@@ -80,7 +80,7 @@ class BuildHistEntry extends StatelessWidget {
           onPressed: _navigationService.goBack,
         ),
         title: Text(entry.ejercicio),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.deepPurple,
       ),
       body: Center(
         child:

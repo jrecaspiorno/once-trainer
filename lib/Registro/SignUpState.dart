@@ -27,18 +27,20 @@ class LoginState with ChangeNotifier {
   bool _correctRestore = false;
   String _id = "";
   User _user;
+  String _name;
   bool isLoading() => _loading;
   DateTime _date;
   bool isLogedIn() => _logedIn;
   String getidToken() => _idToken;
   User currentUser() => _user;
   bool getFecha() => _fecha_introducida;
+  String getName() => _name;
   String getId() => _id;
   Map<String, String> getHeader() => header;
   LoginState() {
     loginState();
   }
-
+  void setName(String name) => _name = name;
   void setDate(DateTime date) => _date = date;
   void setLogedIn() {
     _logedIn = true;
@@ -68,7 +70,8 @@ class LoginState with ChangeNotifier {
     notifyListeners();
   }
 
-  void insertarFecha(DateTime dateTime) async {
+  void insertarFecha(DateTime dateTime, [String name]) async {
+    if(name != null) _name = name;
     _fecha_introducida = true;
     _date = dateTime;
     notifyListeners();
@@ -77,10 +80,10 @@ class LoginState with ChangeNotifier {
   void insert(AppDatabase database) async {
     UsuarioData usuario = UsuarioData(
         id: _id,
-        nombre: _user.displayName,
+        nombre: _name,
         edad: _date,
         photoUrl: _user.photoURL != null ? _user.photoURL : "images/avatar.jpg",
-        email: _user.email);
+        email: _user.email !=  null ? _user.email : "NoEmail");
     database.usuarioDAO.insertUser(usuario);
     _prefs.setBool('completeLogin', true);
     if(_prefs.getString('logType') == 'apple'){
@@ -98,11 +101,9 @@ class LoginState with ChangeNotifier {
     notifyListeners();
     try {
       _user = await _signInWithApple();
-
+      _name = _user.displayName;
       _id = _user.uid;
-      //_date = await _getBDay();
-      _prefs.setString('appleUser', _user.uid);
-      print("Birthday from " + _user.displayName + " " + _date.toString());
+      _prefs.setString('appleUser', _id);
       _loading = false;
       if (_user != null) {
         _prefs.setBool('isLoggedIn', true);
@@ -148,6 +149,7 @@ class LoginState with ChangeNotifier {
     notifyListeners();
     try {
       _user = await _loginGoogle();
+      _name = _user.displayName;
 
       _id = _user.uid;
       //_date = await _getBDay();

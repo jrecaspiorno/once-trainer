@@ -11,5 +11,5 @@ const String SacaDatosPage = "/SacaDatos";
 const String RecomdadorPage = "/Recomendador";
 const String AjustesPage = "/Ajustes";
 const String DificultadPage = "/Dificultad";
-
+const String EditarNombrePage = "/Editar Nombre";
 const String AyudaPage = "/Ayuda";

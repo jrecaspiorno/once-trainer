@@ -33,7 +33,7 @@ class Dificultad extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        color: Colors.indigo,
+        color: Colors.deepPurple,
         padding: EdgeInsets.all(15.0),
       ),
     );
@@ -45,7 +45,7 @@ class Dificultad extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dificultad'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.deepPurple,
       ),
       body: Container(
         child: Center(

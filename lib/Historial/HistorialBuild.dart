@@ -43,7 +43,7 @@ class _MyHistoryState extends State<MyHistory> {
               onPressed: _navigationService.goBack,
             ),
             title: Text('Tu historial'),
-            backgroundColor: Colors.indigo,
+            backgroundColor: Colors.deepPurple,
           ),
           extendBodyBehindAppBar: false,
           body: Container(
@@ -80,7 +80,7 @@ class _MyHistoryState extends State<MyHistory> {
                                       route.ActividadPage,
                                       arguments: l);
                                 },
-                                color: Colors.indigo,
+                                color: Colors.deepPurple,
                                 textColor: Colors.white,
                                 padding: EdgeInsets.all(24.0),
                                 child: Text(

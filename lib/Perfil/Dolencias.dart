@@ -48,7 +48,7 @@ class _StateDolencias extends State<Dolencias> {
               Navigator.pop(context);
             }),
             title: Text("Dolencias"),
-            backgroundColor: Colors.indigo,
+            backgroundColor: Colors.deepPurple,
           ),
           body: FutureBuilder(
               future: getRestricciones(context),

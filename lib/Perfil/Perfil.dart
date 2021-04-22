@@ -60,7 +60,7 @@ class _MyProfileState extends State<MyProfile> {
           },
         ),
         title: Text('Perfil'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.deepPurple,
       ),
       body: StreamBuilder(
         stream: watchCurrentsUser(database.usuarioDAO, id),
@@ -113,10 +113,14 @@ class MyButtonType extends StatelessWidget {
               else
                 _navigationService.navigateTo(route);
             },
-            color: Colors.indigo,
+            color: Colors.deepPurple,
             textColor: Colors.white,
             padding: EdgeInsets.all(24.0),
-            child: Text(label, style: TextStyle(fontSize: 30), textAlign: TextAlign.center,),
+            child: Text(
+              label,
+              style: TextStyle(fontSize: 30),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         const SizedBox(height: 40),
@@ -126,8 +130,7 @@ class MyButtonType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = context.watch<LoginState>();
-    String id = state.getId();
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -165,10 +168,15 @@ class MyData extends StatelessWidget {
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: (isLocal != "images") ? Image.network(
-              usuarioData.photoUrl,
-              width: 50,
-            ) : Image.asset(usuarioData.photoUrl, width: 50,),
+            child: (isLocal != "images")
+                ? Image.network(
+                    usuarioData.photoUrl,
+                    width: 50,
+                  )
+                : Image.asset(
+                    usuarioData.photoUrl,
+                    width: 50,
+                  ),
           ),
           Padding(
             padding: EdgeInsets.all(10),

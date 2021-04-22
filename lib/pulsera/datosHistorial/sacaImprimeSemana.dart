@@ -307,7 +307,7 @@ class _MySacaImprime extends State<MySaca> {
           },
         ),
         title: Text("${mytipoEsp}"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.deepPurple,
       ),
       body: _healthDataList.isEmpty
           ? Center(

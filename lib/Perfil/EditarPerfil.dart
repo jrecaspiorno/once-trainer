@@ -28,7 +28,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget dateSel() {
     return RaisedButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      color: Colors.indigo,
+      color: Colors.deepPurple,
       padding: EdgeInsets.all(13.0),
       autofocus: true,
       child: Text(
@@ -44,10 +44,10 @@ class _EditProfileState extends State<EditProfile> {
                 builder: (context, child) => Theme(
                       child: child,
                       data: ThemeData.light().copyWith(
-                        primaryColor: Colors.indigo,
-                        accentColor: Colors.indigo,
+                        primaryColor: Colors.deepPurple,
+                        accentColor: Colors.deepPurple,
                         colorScheme:
-                            ColorScheme.light(primary: const Color(0xFF3F51B5)),
+                            ColorScheme.light(primary: Colors.deepPurple),
                         buttonTheme:
                             ButtonThemeData(textTheme: ButtonTextTheme.primary),
                       ),
@@ -74,7 +74,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget cambiarF(UsuarioDAO dao) {
     return RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-        color: Colors.indigo,
+        color: Colors.deepPurple,
         padding: EdgeInsets.all(13.0),
         autofocus: true,
         child: Text(
@@ -112,7 +112,7 @@ class _EditProfileState extends State<EditProfile> {
         _dateTime == null
             ? 'Todavía no has eligido fecha'
             : dateTimeToString(_dateTime),
-        style: TextStyle(fontSize: 30, color: Colors.indigo),
+        style: TextStyle(fontSize: 30, color: Colors.deepPurple),
         textAlign: TextAlign.center,
       ),
     );
@@ -128,7 +128,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
-    //setDate(database.usuarioDAO);
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -137,7 +137,7 @@ class _EditProfileState extends State<EditProfile> {
           },
         ),
         title: Text('Cambio de Fecha de Nacimiento'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.deepPurple,
       ),
       body: Center(
         child: ListView(

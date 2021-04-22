@@ -64,6 +64,7 @@ class UsuarioDAO extends DatabaseAccessor<AppDatabase> with _$UsuarioDAOMixin {
   Future updateEdad(String id, DateTime edad) =>
       (update(usuario)..where((t) => t.id.like(id)))
           .write(UsuarioData(edad: edad));
+  Future updateNombre(String id, String name) => (update(usuario)..where((t) => t.id.like(id))).write(UsuarioData(nombre: name));
   Future insertBackIdIntoUser(String bid, String uid) =>
       (update(usuario)..where((t) => t.id.like(uid)))
           .write(UsuarioData(backupid: bid));

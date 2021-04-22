@@ -17,7 +17,7 @@ class MyHistorial extends StatelessWidget {
           onPressed: _navigationService.goBack,
         ),
         title: Text("Historial Clínico"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.deepPurple,
       ),
       body: MenuView(context),
     );
@@ -55,7 +55,7 @@ class MyHistorial extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () => _navigationService.navigateTo(route.SacaDatosPage,
                 arguments: tipo),
-            color: Colors.indigo,
+            color: Colors.deepPurple,
             textColor: Colors.white,
             padding: EdgeInsets.all(24.0),
             child: Text(label, style: TextStyle(fontSize: 30), textAlign: TextAlign.center,),

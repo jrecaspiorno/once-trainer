@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/DriveBackup/BackupView.dart';
 import 'package:flutterapp/DriveBackup/RestoreView.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
@@ -21,7 +20,7 @@ class Ajustes extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Ajustes'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.deepPurple,
       ),
       body: FutureBuilder(
           future: _getLogInType(),
@@ -77,7 +76,7 @@ class MyButtonType extends StatelessWidget {
               else
                 _navigationService.navigateTo(route);
             },
-            color: Colors.indigo,
+            color: Colors.deepPurple,
             textColor: Colors.white,
             padding: EdgeInsets.all(24.0),
             child: Text(
@@ -104,7 +103,9 @@ class MyButtonType extends StatelessWidget {
           const SizedBox(height: 20),
           _buildButton('Dolencias', route.DolenciasPage, id),
           _buildButton('Fecha Nacimiento', route.EditarFechaPage, id),
-          _buildButton('Dificultad', route.DificultadPage, null)
+          _buildButton('Cambiar nombre', route.EditarNombrePage, id),
+          _buildButton('Dificultad', route.DificultadPage, null),
+
         ],
       ),
     );
