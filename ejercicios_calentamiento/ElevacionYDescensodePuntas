@@ -1,0 +1,12 @@
+<data>
+    <id>2</id>
+    <name>
+        Elevación y Descenso de Puntas
+    </name>
+    <type>rep</type>
+    <series>1</series>
+    <reps>10</reps>
+    <description>En posición básica, elevar y descender puntas del suelo, (apoyo en los talones).</description>
+    <principal>Tobillo</principal>
+    <tag>Tobillo</tag>
+</data>

@@ -12,4 +12,7 @@ const String RecomdadorPage = "/Recomendador";
 const String AjustesPage = "/Ajustes";
 const String DificultadPage = "/Dificultad";
 const String EditarNombrePage = "/Editar Nombre";
+const String CalentamientoPage = "/Calentamiento";
+const String EjsCalentamientoPage = "/EjsCalentamiento";
 const String AyudaPage = "/Ayuda";
+

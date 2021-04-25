@@ -69,8 +69,10 @@ class _MenuState extends State<Menu> {
           children: <Widget>[
             _buildButton('Recomendador', route.RecomdadorPage, Colors.indigo ),
             _buildButton('Lista Ejercicios', route.ListaEjerciciosPage, Colors.indigo),
+            _buildButton('Calentamiento', route.CalentamientoPage, Colors.indigo),
             _buildButton('Perfil', route.PerfilPage, Colors.deepPurple),
             _buildButton('Ayuda', route.AyudaPage, Colors.green),
+
           ],
         ),
       ),

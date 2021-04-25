@@ -1,0 +1,12 @@
+<data>
+    <id>10</id>
+    <name>
+        Giros de Cabeza
+    </name>
+    <type>rep</type>
+    <series>1</series>
+    <reps>10</reps>
+    <description>En posición básica, realizar giro lateral de la cabeza a la dcha e izq. Mantener el giro 2 segundos y antes de cambiar al lado contrario parar en el centro otros 2 segundos.</description>
+    <principal>Cuello</principal>
+    <tag>Cuello</tag>
+</data>
