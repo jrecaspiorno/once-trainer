@@ -1,8 +1,6 @@
 <data>
     <id>1</id>
-    <name>
-        Elevación y descenso de Talones
-    </name>
+    <name>Elevación y descenso de Talones</name>
     <type>rep</type>
     <series>1</series>
     <reps>10</reps>

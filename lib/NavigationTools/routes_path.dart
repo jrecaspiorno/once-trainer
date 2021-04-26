@@ -14,5 +14,7 @@ const String DificultadPage = "/Dificultad";
 const String EditarNombrePage = "/Editar Nombre";
 const String CalentamientoPage = "/Calentamiento";
 const String EjsCalentamientoPage = "/EjsCalentamiento";
+const String EjCalentaminetoBuildPage = "/EjCalentamientoBuild";
 const String AyudaPage = "/Ayuda";
+
 

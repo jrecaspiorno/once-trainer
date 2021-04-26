@@ -25,7 +25,7 @@ class WarmUpHome extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.all(15),
-                  child: Text("Posición Básica", style: TextStyle(
+                  child: Text("Posición Básica", textAlign: TextAlign.center ,style: TextStyle(
                     fontSize: 45,
                     fontWeight: FontWeight.bold,
                   ),),

@@ -4,7 +4,10 @@ class FactoriaCalentamiento {
 
   static EjCalentamiento GenerateEjC(var file) {
     var ej;
-    int id = file.findAllElements("id").first.text;
+    int id = int.parse(file
+        .findAllElements("id")
+        .first
+        .text);
     String name = file
         .findAllElements('name')
         .first
