@@ -52,6 +52,8 @@ class _MyAppState extends State<MyApp> {
   @override // Sobrescribir para indicar que creamos nuestro widget
   Widget build(BuildContext context) {
     return  MaterialApp(
+
+
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

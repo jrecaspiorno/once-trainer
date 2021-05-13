@@ -137,7 +137,7 @@ class _RepCountState extends State<Repcount> {
                       onPressed: _rmrep,
                       child:  Icon(
                         Icons.remove_circle,
-                        color:Colors.white
+                        color:Colors.white,
                       )
                   ),
                 ),

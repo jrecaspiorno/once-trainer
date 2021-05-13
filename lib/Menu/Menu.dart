@@ -63,15 +63,15 @@ class _MenuState extends State<Menu> {
       //height: double.infinity,
       child: Center(
         heightFactor: double.infinity,
-        child: Flex(
-          mainAxisAlignment: MainAxisAlignment.center,
-          direction: Axis.vertical,
+        child: ListView(
+          shrinkWrap: true,
           children: <Widget>[
             _buildButton('Recomendador', route.RecomdadorPage, Colors.indigo ),
             _buildButton('Lista Ejercicios', route.ListaEjerciciosPage, Colors.indigo),
-            _buildButton('Calentamiento', route.CalentamientoPage, Colors.indigo),
+            _buildButton('Sesiones', route.SessionPage, Colors.indigo),
             _buildButton('Perfil', route.PerfilPage, Colors.deepPurple),
             _buildButton('Ayuda', route.AyudaPage, Colors.green),
+
 
           ],
         ),

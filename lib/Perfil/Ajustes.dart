@@ -104,7 +104,7 @@ class MyButtonType extends StatelessWidget {
           _buildButton('Dolencias', route.DolenciasPage, id),
           _buildButton('Fecha Nacimiento', route.EditarFechaPage, id),
           _buildButton('Cambiar nombre', route.EditarNombrePage, id),
-          _buildButton('Dificultad', route.DificultadPage, null),
+          _buildButton('Nivel', route.DificultadPage, null),
 
         ],
       ),

@@ -24,7 +24,7 @@ class FactoriaCalentamiento {
         .first
         .text;
 
-    List<String> tags = new List<String>();
+    List<String> tags = [];
     final tagsl = file.findAllElements('tag');
     tagsl.map((node) => node.text).forEach(print);
     for(var t in tagsl){

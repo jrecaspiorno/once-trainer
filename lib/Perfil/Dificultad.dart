@@ -12,12 +12,12 @@ class Dificultad extends StatelessWidget {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  _setDiff(int d) {
-    _prefs.setInt('Diff', d);
+  _setDiff(String d) {
+    _prefs.setString('nivel', d);
     _navigationService.goBack();
   }
 
-  SizedBox diff(int d, String text) {
+  SizedBox diff(String d, String text) {
     return SizedBox(
       width: 200,
       height: 80,
@@ -44,7 +44,7 @@ class Dificultad extends StatelessWidget {
     _init();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dificultad'),
+        title: Text('Nivel'),
         backgroundColor: Colors.deepPurple,
       ),
       body: Container(
@@ -56,18 +56,15 @@ class Dificultad extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(30.0),
               ),
-              diff(-1, 'Fácil'),
+              diff("i", 'Iniciacion'),
               Padding(
                 padding: EdgeInsets.all(30.0),
               ),
-              diff(0, 'Normal'),
+              diff('a', 'Avanzado'),
               Padding(
                 padding: EdgeInsets.all(30.0),
               ),
-              diff(1, 'Difícil'),
-              Padding(
-                padding: EdgeInsets.all(30.0),
-              ),
+
             ],
           ),
         ),

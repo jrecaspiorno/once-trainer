@@ -68,16 +68,17 @@ class _MyProfileState extends State<MyProfile> {
           if (data.hasData) {
             UsuarioData mainUser = data.data;
             return ListView(
+              addSemanticIndexes: true,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.all(25),
                 ),
-                MyData(usuarioData: mainUser),
+                IndexedSemantics(index: 0,child: MyData(usuarioData: mainUser)),
                 Padding(
                   padding: EdgeInsets.all(20),
                 ),
                 MyButtonType(),
-                logoutButton(),
+                IndexedSemantics(index:3 ,child: logoutButton()),
                 Padding(
                   padding: EdgeInsets.all(20),
                 ),
@@ -96,35 +97,39 @@ class _MyProfileState extends State<MyProfile> {
 
 class MyButtonType extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
-
-  Flex _buildButton(String label, String route, Object args) {
-    return Flex(
-      direction: Axis.vertical,
-      // mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          width: 330,
-          child: RaisedButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            onPressed: () {
-              if (args != null)
-                _navigationService.navigateTo(route, arguments: args);
-              else
-                _navigationService.navigateTo(route);
-            },
-            color: Colors.deepPurple,
-            textColor: Colors.white,
-            padding: EdgeInsets.all(24.0),
-            child: Text(
-              label,
-              style: TextStyle(fontSize: 30),
-              textAlign: TextAlign.center,
+  int i = 0;
+  IndexedSemantics _buildButton(String label, String route, Object args) {
+    ++i;
+    return IndexedSemantics(
+      index: i,
+      child: Flex(
+        direction: Axis.vertical,
+        // mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 330,
+            child: RaisedButton(
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              onPressed: () {
+                if (args != null)
+                  _navigationService.navigateTo(route, arguments: args);
+                else
+                  _navigationService.navigateTo(route);
+              },
+              color: Colors.deepPurple,
+              textColor: Colors.white,
+              padding: EdgeInsets.all(24.0),
+              child: Text(
+                label,
+                style: TextStyle(fontSize: 30),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 40),
-      ],
+          const SizedBox(height: 40),
+        ],
+      ),
     );
   }
 

@@ -68,42 +68,42 @@ class MyList extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(15, 1, 15, 1),
                   itemCount: ejercicios.length,
                   itemBuilder: (context, index) {
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 30),
-                    );
-                    return Flex(
-                      mainAxisSize: MainAxisSize.min,
-                      direction: Axis.vertical,
-                      textDirection: TextDirection.ltr,
-                      verticalDirection: VerticalDirection.down,
-                      children: [
-                        mySizedBox(),
-                        SizedBox(
-                          width: 270,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            autofocus: true,
-                            onPressed: () {
-                              List<dynamic> arg = List();
-                              ejercicios[index].setDiff(diff);
-                              arg.add(ejercicios[index]);
-                              arg.add('/Lista Ejercicios');
-                              _navigationService.navigateTo(route.EjercicioPage,
-                                  arguments: arg);
-                            },
-                            color: Colors.indigo,
-                            textColor: Colors.white,
-                            padding: EdgeInsets.all(24.0),
-                            child: Text(
-                              ejercicios[index].name,
-                              style: TextStyle(fontSize: 30),
-                              textAlign: TextAlign.center,
+
+                    return IndexedSemantics(
+                      index: index,
+                      child: Flex(
+                        mainAxisSize: MainAxisSize.min,
+                        direction: Axis.vertical,
+                        textDirection: TextDirection.ltr,
+                        verticalDirection: VerticalDirection.down,
+                        children: [
+                          mySizedBox(),
+                          SizedBox(
+                            width: 270,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              onPressed: () {
+                                List<dynamic> arg = [];
+                                ejercicios[index].setDiff(diff);
+                                arg.add(ejercicios[index]);
+                                arg.add('/Lista Ejercicios');
+                                _navigationService.navigateTo(route.EjercicioPage,
+                                    arguments: arg);
+                              },
+                              color: Colors.indigo,
+                              textColor: Colors.white,
+                              padding: EdgeInsets.all(24.0),
+                              child: Text(
+                                ejercicios[index].name,
+                                style: TextStyle(fontSize: 30),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 40),
-                      ].where(notNull).toList(),
+                          const SizedBox(height: 40),
+                        ].where(notNull).toList(),
+                      ),
                     );
                   },
                 );

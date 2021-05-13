@@ -13,8 +13,15 @@ const String AjustesPage = "/Ajustes";
 const String DificultadPage = "/Dificultad";
 const String EditarNombrePage = "/Editar Nombre";
 const String CalentamientoPage = "/Calentamiento";
-const String EjsCalentamientoPage = "/EjsCalentamiento";
 const String EjCalentaminetoBuildPage = "/EjCalentamientoBuild";
+const String EjCalentamientoListPage = "EjCalentamientoList";
 const String AyudaPage = "/Ayuda";
+const String SessionPage = "/PaginaSesion";
+const String SessionDifSel = "/SesionDificultad";
+const String SessionMenuPage = "/SesionMenu";
+const String SessionEjBuildPage = "/SessionEjBuild";
+const String EstiramientosBuildPage = "/EstiramientosBuild";
+const String ListEjsSessionPage = "/SessionEjList";
+const String LoadingPage = "/Loading";
 
 

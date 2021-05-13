@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/Alertas/Alertas.dart';
 import 'package:flutterapp/Data/moor_database.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../SignUpState.dart';
 
@@ -17,7 +18,30 @@ class DatePicker extends StatefulWidget {
 class _DatePickerState extends State<DatePicker> {
   DateTime _dateTime;
   final nameController = TextEditingController();
+  String dif;
+  SharedPreferences _prefs;
+  @override
+  void initState() {
+    _initPrefs();
+    dif = " ";
+    super.initState();
+  }
+  _initPrefs() async {
+    _prefs =  await SharedPreferences.getInstance();
+  }
 
+  _iniciacion() {
+    _prefs.setString('nivel', 'i');
+    setState(() {
+      dif = "i";
+    });
+  }
+  _avanzado(){
+    _prefs.setString('nivel', 'a');
+    setState(() {
+      dif = "a";
+    });
+  }
   @override
   void dispose() {
     nameController.dispose();
@@ -56,10 +80,15 @@ class _DatePickerState extends State<DatePicker> {
 
               actualSelDate(),
 
-              Padding(
-                padding: EdgeInsets.all(40),
-              ),
 
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0,30,0, 30),
+                child: Center(
+                  child: Text("Seleccione su nivel de entrenamiento",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                ),
+              ),
+              selNivel(),
               buttoAccept(context),
 
               Padding(
@@ -175,6 +204,56 @@ class _DatePickerState extends State<DatePicker> {
     return day + "/" + month + "/" + year;
   }
 
+  Widget selNivel() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0,30,5, 30),
+        child: Center(
+          child: ElevatedButton(
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      EdgeInsets.all(15)),
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>((dif == "i") ? Colors.green :Colors.indigo),
+                  shape:
+                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                  textStyle:
+                  MaterialStateProperty.all<TextStyle>(TextStyle(
+                    color: Colors.white,fontSize: 30
+                  ))),
+              onPressed: _iniciacion,
+              child: Text("Iniciacion", textAlign: TextAlign.center ,semanticsLabel: "Iniciacion " + ((dif == "i") ? "Escogido": "No escogido"),))
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(5,30,0, 30),
+        child: Center(
+          child: ElevatedButton(
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      EdgeInsets.all(15)),
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>((dif == "a") ? Colors.green :Colors.indigo),
+                  shape:
+                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                  textStyle:
+                  MaterialStateProperty.all<TextStyle>(TextStyle(
+                    color: Colors.white,
+                      fontSize: 30
+                  ))),
+              onPressed: _avanzado,
+              child: Text("Avanzado" , textAlign: TextAlign.center, semanticsLabel: "Avanzado " + ((dif == "a") ? "Escogido": "No escogido"),)),
+        ),
+      ),
+    ]);
+  }
+
   Widget buttoAccept(BuildContext context) {
     var state = Provider.of<LoginState>(context, listen: false);
     String name = state.getName();
@@ -195,10 +274,12 @@ class _DatePickerState extends State<DatePicker> {
             else context.read<LoginState>().insertarFecha(_dateTime);
             context.read<LoginState>().insert(database);
           } else {
-            var message;
+            var message = "";
             if(_dateTime == null && validName(nameController.text)) message = "Introduza su nombre y fecha de nacimiento";
             if(_dateTime == null &&  !validName(nameController.text)) message = "Seleccione su fecha de nacimiento";
             if(_dateTime != null &&  validName(nameController.text)) message = "Introduzca su nombre";
+            if(message != "" && dif == " ") message += " y su nivel";
+            if(message == "" && dif == " ") message = "Introduzca su nivel";
             alert = Alerts(
               context: context,
               firstButtonText: "Ok",
@@ -214,25 +295,12 @@ class _DatePickerState extends State<DatePicker> {
     );
   }
 
-  Widget GotoLogin() {
-    return Center(
-      child: FlatButton(
-        onPressed: () {
-          context.read<LoginState>().setFecahIntroducida();
-        },
-        child: Text(
-          "¿Ya estas registrado?",
-          style: TextStyle(
-            color: Colors.indigo,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: _dateBuilder(context));
   }
+
+
 }
