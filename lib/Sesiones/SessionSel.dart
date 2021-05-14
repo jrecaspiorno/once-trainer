@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
-import 'package:flutterapp/Sesiones/Session.dart';
-import 'package:flutterapp/Sesiones/SessionsFactory.dart';
+import 'package:flutterapp/Sesiones/Factorias/SessionsFactory.dart';
+import 'package:flutterapp/Sesiones/Transfers/Session.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart' as xml;
 import 'dart:convert';

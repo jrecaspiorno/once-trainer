@@ -21,7 +21,9 @@ const String SessionDifSel = "/SesionDificultad";
 const String SessionMenuPage = "/SesionMenu";
 const String SessionEjBuildPage = "/SessionEjBuild";
 const String EstiramientosBuildPage = "/EstiramientosBuild";
+const String EstiramientosHomePage = "/EstiramientosHome";
+const String EstiramientosListPage = "/EstiramientosList";
 const String ListEjsSessionPage = "/SessionEjList";
-const String LoadingPage = "/Loading";
+
 
 

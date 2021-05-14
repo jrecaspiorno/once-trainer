@@ -3,6 +3,41 @@
         <id>0</id>
         <nameid>Sesion1</nameid>
         <name>Sesión 1</name>
+        <est>estiramientos1</est>
+        <parte>
+            <nombre>Parte 1</nombre>
+            <numero>16</numero>
+            <principiante>
+                <trabajo>00:30</trabajo>
+                <descanso>00:30</descanso>
+                <series>1</series>
+            </principiante>
+            <avanzado>
+                <trabajo>01:00</trabajo>
+                <descanso>00:15</descanso>
+                <series>1</series>
+            </avanzado>
+        </parte>
+        <parte>
+            <numero>3</numero>
+            <nombre>Abdominales</nombre>
+            <principiante>
+                <trabajo>00:30</trabajo>
+                <descanso>00:30</descanso>
+                <series>1</series>
+            </principiante>
+            <avanzado>
+                <trabajo>00:45</trabajo>
+                <descanso>00:15</descanso>
+                <series>2</series>
+            </avanzado>
+        </parte>
+    </sesion>
+    <sesion>
+        <id>1</id>
+        <nameid>Sesion2</nameid>
+        <name>Sesión 2</name>
+        <est>estiramientos2</est>
         <parte>
             <nombre>Parte 1</nombre>
             <numero>16</numero>

@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/NavigationTools/locator.dart';
 import 'package:flutterapp/NavigationTools/navigator_service.dart';
-import 'package:flutterapp/Sesiones/Session.dart';
-import 'package:flutterapp/Sesiones/SessionExerciseFactory.dart';
-import 'package:flutterapp/Sesiones/SessionsExercise.dart';
+import 'package:flutterapp/Sesiones/Factorias/SessionExerciseFactory.dart';
+
 import 'dart:convert';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as route;
+import 'package:flutterapp/Sesiones/Transfers/Session.dart';
+import 'package:flutterapp/Sesiones/Transfers/SessionsExercise.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:xml/xml.dart' as xml;
@@ -45,18 +46,16 @@ class _SessionMenuState extends State<SessionMenu> {
     return ejercicios;
   }
 
-  int s =0;
+  int s = 0;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         // Widget con app prediseñada, esquema
         appBar: AppBar(
           leading: BackButton(
             onPressed: _navigationService.goBack,
           ),
-
           title: Text(widget.session.name),
           backgroundColor: Colors.indigo,
         ),
@@ -81,15 +80,19 @@ class _SessionMenuState extends State<SessionMenu> {
                                 width: 270,
                                 child: ElevatedButton(
                                     style: ButtonStyle(
-                                        padding:
-                                        MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                                        padding: MaterialStateProperty.all<
+                                            EdgeInsets>(EdgeInsets.all(15)),
                                         backgroundColor:
-                                        MaterialStateProperty.all<Color>(Colors.indigo),
-                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.indigo),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
                                           RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(15)),
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
                                         ),
-                                        textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(
+                                        textStyle: MaterialStateProperty.all<
+                                            TextStyle>(TextStyle(
                                           color: Colors.white,
                                         ))),
                                     child: Text("Calentamiento",
@@ -99,7 +102,36 @@ class _SessionMenuState extends State<SessionMenu> {
                           ),
                         ),
                         for (int i = 0; i < widget.session.list.length; ++i)
-                          _sessionButton(i, ejs)
+                          _sessionButton(i, ejs),
+                        IndexedSemantics(
+                          index: s+1,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                            child: SizedBox(
+                                width: 270,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        padding: MaterialStateProperty.all<
+                                            EdgeInsets>(EdgeInsets.all(15)),
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.indigo),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                        ),
+                                        textStyle: MaterialStateProperty.all<
+                                            TextStyle>(TextStyle(
+                                          color: Colors.white,
+                                        ))),
+                                    child: Text("Estiramientos",
+                                        style: TextStyle(fontSize: 35)),
+                                    onPressed: () => _navigationService
+                                        .navigateTo(route.EstiramientosHomePage, arguments: widget.session.estiramientosname))),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -113,13 +145,14 @@ class _SessionMenuState extends State<SessionMenu> {
           ),
         ));
   }
+
   Widget _sessionButton(int pos, List<EjSesion> ejs) {
     s = ++s;
     List<EjSesion> aux = [];
     aux.addAll(ejs);
-    aux = aux.sublist(n, n +  widget.session.list[pos].numero);
-    n = widget.session.list[pos].numero ;
-    aux.sort((a, b) => a.id.compareTo(b.id) );
+    aux = aux.sublist(n, n + widget.session.list[pos].numero);
+    n = widget.session.list[pos].numero;
+    aux.sort((a, b) => a.id.compareTo(b.id));
     return IndexedSemantics(
       index: s,
       child: Padding(
@@ -129,9 +162,9 @@ class _SessionMenuState extends State<SessionMenu> {
           child: ElevatedButton(
               style: ButtonStyle(
                   padding:
-                  MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                      MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.indigo),
+                      MaterialStateProperty.all<Color>(Colors.indigo),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
@@ -142,14 +175,13 @@ class _SessionMenuState extends State<SessionMenu> {
               child: Text(widget.session.list[pos].name,
                   style: TextStyle(fontSize: 35)),
               onPressed: () => _navigationService
-                  .navigateTo(route.ListEjsSessionPage, arguments: [
-                aux,
-                (_prefs.getString('nivel') == "a")
-                    ? widget.session.list[pos].avanzado
-                    : widget.session.list[pos].principiante
-                ,
-                widget.session.list[pos].name
-              ])),
+                      .navigateTo(route.ListEjsSessionPage, arguments: [
+                    aux,
+                    (_prefs.getString('nivel') == "a")
+                        ? widget.session.list[pos].avanzado
+                        : widget.session.list[pos].principiante,
+                    widget.session.list[pos].name
+                  ])),
         ),
       ),
     );
