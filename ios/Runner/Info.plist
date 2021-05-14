@@ -43,6 +43,11 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSHealthShareUsageDescription</key>
 	<string>The app is going to be a app for training, so we need acces to this data to provide users with better exercise routines</string>
 	<key>NSHealthUpdateUsageDescription</key>
@@ -66,10 +71,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-    </dict>
 </dict>
 </plist>
