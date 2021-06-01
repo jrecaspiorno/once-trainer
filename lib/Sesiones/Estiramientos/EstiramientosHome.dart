@@ -12,10 +12,10 @@ import 'package:xml/xml.dart' as xml;
 
 
 class EstiramientosHome extends StatefulWidget {
-
+  int sesid;
   String lname;
 
-  EstiramientosHome({@required this.lname});
+  EstiramientosHome({@required this.lname, @required this.sesid});
 
   @override
   _EstiramientosHomeState createState() => _EstiramientosHomeState();
@@ -96,7 +96,7 @@ class _EstiramientosHomeState extends State<EstiramientosHome> {
                               color: Colors.indigo,
                               padding: EdgeInsets.all(15.0),
                               child: Text('Empezar', style: TextStyle(fontSize: 30)),
-                              onPressed: () => _navigationService.navigateTo(route.EstiramientosListPage, arguments: ejercicios )
+                              onPressed: () => _navigationService.navigateTo(route.EstiramientosListPage, arguments: [ejercicios, widget.sesid] )
                           ),
                         ),
                       ],

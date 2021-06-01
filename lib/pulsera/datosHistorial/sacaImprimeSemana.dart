@@ -118,13 +118,16 @@ class _MySacaImprime extends State<MySaca> {
 
     for (int i = 0; i < _healthDataList.length; i++) {
       actual = _healthDataList[i];
-      if (DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.year).year ==
-              DateTime.fromMillisecondsSinceEpoch(actual.dateFrom.year).year &&
-          DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.month).month ==
+      print(DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.year).year);
+      print(DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.month).month );
+      print(DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.day));
+      if (DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.year) ==
+              DateTime.fromMillisecondsSinceEpoch(actual.dateFrom.year) &&
+          DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.month) ==
               DateTime.fromMillisecondsSinceEpoch(actual.dateFrom.month)
-                  .month &&
-          DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.day).day ==
-              DateTime.fromMillisecondsSinceEpoch(actual.dateFrom.day).day) {
+                   &&
+          DateTime.fromMillisecondsSinceEpoch(anterior.dateFrom.day) ==
+              DateTime.fromMillisecondsSinceEpoch(actual.dateFrom.day)) {
         suma[dia] = suma[dia] + actual.value;
         cont[dia]++;
       } else {

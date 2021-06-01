@@ -15,12 +15,12 @@ class SessionExList extends StatefulWidget {
   final List<EjSesion> ejs;
   final Tarea tarea;
   final String name;
-
+  final int sesid;
   @override
   State<StatefulWidget> createState() => _SessionExListState();
 
   SessionExList(
-      {@required this.ejs, @required this.tarea, @required this.name});
+      {@required this.ejs, @required this.tarea, @required this.name, @required this.sesid});
 }
 
 class _SessionExListState extends State<SessionExList> {
@@ -124,7 +124,8 @@ class _SessionExListState extends State<SessionExList> {
                                               myEjs,
                                               i,
                                               widget.tarea,
-                                            widget.name
+                                            widget.name,
+                                            widget.sesid
                                             ])),
 
 

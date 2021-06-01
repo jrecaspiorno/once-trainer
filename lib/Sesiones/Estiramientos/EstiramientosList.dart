@@ -11,12 +11,13 @@ import 'package:flutterapp/Sesiones/Transfers/Estiramiento.dart';
 
 class EstiramientosList extends StatefulWidget {
   final List<EjEstiramiento> ejs;
+  int sesid;
 
   @override
   State<StatefulWidget> createState() => _EstiramientosListState();
 
   EstiramientosList(
-      {@required this.ejs});
+      {@required this.ejs, @required this.sesid});
 }
 
 class _EstiramientosListState extends State<EstiramientosList> {
@@ -119,6 +120,7 @@ class _EstiramientosListState extends State<EstiramientosList> {
                                   arguments: [
                                     myEjs,
                                     i,
+                                    widget.sesid
                                   ])),
 
 

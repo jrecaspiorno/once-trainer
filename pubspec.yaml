@@ -87,7 +87,30 @@ flutter:
     - assets/sesiones/Sesion1/
     - assets/sesiones/Sesion2/
     - assets/
-    - assets/videos/SentadillaSimple.mp4
+    - assets/videos/S1/
+    - assets/videos/S2/
+    - assets/videos/Estiramientos/E1/
+    - assets/videos/Estiramientos/E2/
+#    - assets/videos/S2E0.mp4
+#    - assets/videos/S2E1.mp4
+#    - assets/videos/S2E2.mp4
+#    - assets/videos/S2E3.mp4
+#    - assets/videos/S2E4.mp4
+#    - assets/videos/S2E5.mp4
+#    - assets/videos/S2E6.mp4
+#    - assets/videos/S2E7.mp4
+#    - assets/videos/S2E8.mp4
+#    - assets/videos/S2E9.mp4
+#    - assets/videos/S2E10.mp4
+#    - assets/videos/S2E11.mp4
+#    - assets/videos/S2E12.mp4
+#    - assets/videos/S2E13.mp4
+#    - assets/videos/S2E14.mp4
+#    - assets/videos/S2E15.mp4
+#    - assets/videos/S2E16.mp4
+#    - assets/videos/S2E17.mp4
+#    - assets/videos/S2E18.mp4
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

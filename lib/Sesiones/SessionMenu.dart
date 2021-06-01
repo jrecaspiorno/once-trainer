@@ -129,7 +129,7 @@ class _SessionMenuState extends State<SessionMenu> {
                                     child: Text("Estiramientos",
                                         style: TextStyle(fontSize: 35)),
                                     onPressed: () => _navigationService
-                                        .navigateTo(route.EstiramientosHomePage, arguments: widget.session.estiramientosname))),
+                                        .navigateTo(route.EstiramientosHomePage, arguments: [widget.session.estiramientosname, widget.session.id]))),
                           ),
                         ),
                       ],
@@ -180,7 +180,8 @@ class _SessionMenuState extends State<SessionMenu> {
                     (_prefs.getString('nivel') == "a")
                         ? widget.session.list[pos].avanzado
                         : widget.session.list[pos].principiante,
-                    widget.session.list[pos].name
+                    widget.session.list[pos].name,
+                    widget.session.id
                   ])),
         ),
       ),

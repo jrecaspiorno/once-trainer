@@ -19,11 +19,12 @@ import 'package:flutterapp/Recomendados/Recomendador.dart';
 import 'package:flutterapp/Registro/DatePicker/DatePicker.dart';
 import 'package:flutterapp/Registro/Registro.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
+import 'package:flutterapp/Sesiones/Ejercicios/ListSesExercises.dart';
+import 'package:flutterapp/Sesiones/Ejercicios/SessionExercisesBuild.dart';
 import 'package:flutterapp/Sesiones/Estiramientos/EstiramientosHome.dart';
 import 'package:flutterapp/Sesiones/Estiramientos/EstiramientosList.dart';
 import 'package:flutterapp/Sesiones/Estiramientos/StrechingBuild.dart';
-import 'file:///C:/Users/Ricardo/StudioProjects/once-trainer/lib/Sesiones/Ejercicios/ListSesExercises.dart';
-import 'file:///C:/Users/Ricardo/StudioProjects/once-trainer/lib/Sesiones/Ejercicios/SessionExercisesBuild.dart';
+
 import 'package:flutterapp/Sesiones/SessionMenu.dart';
 import 'package:flutterapp/Sesiones/SessionSel.dart';
 import 'package:flutterapp/ejercicios/BuildEjercicio.dart';
@@ -134,7 +135,7 @@ class RouteGenerator {
                     ejs: a[0],
                     pos: a[1],
                     tarea: a[2],
-                    name: a[3],
+                    name: a[3], sesid: a[4],
                   ),
               maintainState: false);
         }
@@ -146,24 +147,30 @@ class RouteGenerator {
               builder: (_) => SessionExList(
                     ejs: a[0],
                     tarea: a[1],
-                    name: a[2],
+                    name: a[2], sesid: a[3],
                   ));
         }
       case routes.EstiramientosHomePage:
-        return MaterialPageRoute(
-            builder: (_) => EstiramientosHome(lname: args));
+        {
+          var a = args as List<dynamic>;
+          return MaterialPageRoute(
+              builder: (_) => EstiramientosHome(lname: a[0], sesid: a[1],));
+        }
       case routes.EstiramientosListPage:
+        {
+          var a = args as List<dynamic>;
         return MaterialPageRoute(
-            builder: (_) => EstiramientosList(ejs: args,));
+            builder: (_) => EstiramientosList(ejs: a[0], sesid: a[1],));
+        }
       case routes.EstiramientosBuildPage:
         {
           var a = args as List<dynamic>;
           return MaterialPageRoute(
               builder: (_) => EstiramientosBuild(
                 ejs: a[0],
-                pos: a[1],
+                pos: a[1], sesid: a[2],
               ),
-              maintainState: false);
+              );
         }
     }
   }

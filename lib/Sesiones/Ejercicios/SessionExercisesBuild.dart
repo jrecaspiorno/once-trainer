@@ -16,13 +16,14 @@ class SessionEjBuild extends StatefulWidget {
     @required this.ejs,
     @required this.pos,
     @required this.tarea,
-    @required this.name
+    @required this.name,
+    @required this.sesid,
   });
   String name;
   int pos;
   List<EjSesion> ejs;
   Tarea tarea;
-
+  int sesid;
   @override
   State<StatefulWidget> createState() => _SessionEjBuildState();
 }
@@ -40,8 +41,11 @@ class _SessionEjBuildState extends State<SessionEjBuild> {
     sercount = widget.tarea.series;
     sertot = widget.tarea.series;
     pause = false;
+    int sid = widget.sesid+1;
+    int nej = widget.ejs[widget.pos].id;
+    String ssid = "$sid";
     _controller =
-        VideoPlayerController.asset('assets/videos/SentadillaSimple.mp4');
+        VideoPlayerController.asset('assets/videos/S'+ssid+'/S'+ ssid + 'E'+ '$nej' +'.mp4');
     _initVideoPlayer = _controller.initialize();
 
     super.initState();
@@ -83,7 +87,7 @@ class _SessionEjBuildState extends State<SessionEjBuild> {
   void _end() {
     widget.ejs[widget.pos].setmarcado(true);
     _navigationService.goBack();
-    _navigationService.replaceView(route.ListEjsSessionPage, arguments: [widget.ejs, widget.tarea, widget.name]);
+    _navigationService.replaceView(route.ListEjsSessionPage, arguments: [widget.ejs, widget.tarea, widget.name, widget.sesid]);
   }
 
   @override
@@ -249,7 +253,7 @@ class _SessionEjBuildState extends State<SessionEjBuild> {
                     ))),
                 onPressed: _play,
                 child: Icon((!pause) ? Icons.play_arrow : Icons.pause,
-                  color: Colors.white, semanticLabel: (!pause) ? "Reproducir video" : "Para video",)),
+                  color: Colors.white, semanticLabel: (!pause) ? "Reproducir video" : "Pausar video",)),
           ),
         ),
         Padding(

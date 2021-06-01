@@ -33,7 +33,7 @@ class _MyVplayerState extends State<MyVplayer> {
   @override
   void dispose() {
     _chewieController.dispose();
-
+    widget.videocontroller.dispose();
     super.dispose();
   }
 

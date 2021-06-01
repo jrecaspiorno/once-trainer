@@ -22,9 +22,7 @@ Future <List<HealthDataPoint>> MySacaDatosSemana(String tipo) async{
       HealthDataType.ACTIVE_ENERGY_BURNED,
     ];
 
-    // Set up dates
-    //DateTime startDate = DateTime.utc(2001, 01, 01);
-    //DateTime endDate = DateTime.now();
+
     DateTime endDate = DateTime.now();
     DateTime startDate = endDate.subtract(Duration(days: 7));
 
@@ -32,9 +30,7 @@ Future <List<HealthDataPoint>> MySacaDatosSemana(String tipo) async{
       _isAuthorized = await Health.requestAuthorization();
 
       if (_isAuthorized) {
-        //for (tipoEntrada in types) {
-          /// Calls to 'Health.getHealthDataFromType'
-          /// must be wrapped in a try catch block.b
+
           try {
               List<HealthDataPoint> healthData = await Health
                   .getHealthDataFromType(startDate, endDate, tipoEntrada);
