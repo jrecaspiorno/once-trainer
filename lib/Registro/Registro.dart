@@ -1,6 +1,5 @@
 import 'dart:io' show Platform;
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,12 +8,9 @@ import 'package:flutterapp/Data/moor_database.dart';
 import 'package:flutterapp/Registro/SignUpState.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:apple_sign_in/apple_sign_in.dart' as apple;
-import 'package:flutterapp/Registro/AppleLogin/apple_sign_in_available.dart';
 
-import 'AppleLogin/Auth_Service.dart';
+
 
 class LoginPage extends StatelessWidget {
   Future<bool> _onBackPressed(BuildContext context) {
@@ -29,23 +25,12 @@ class LoginPage extends StatelessWidget {
     return alert.showAlertDialog2();
   }
 
-  Future<void> _signInWithApple(BuildContext context) async {
-    try {
-      final authService = Provider.of<AuthService>(context, listen: false);
-      final user = await authService
-          .signInWithApple(scopes: [apple.Scope.email, apple.Scope.fullName]);
-      print('uid: ${user.uid}');
-    } catch (e) {
-      // TODO: Show alert here
-      print(e);
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<AppDatabase>(context);
-    final appleSignInAvailable =
-        Provider.of<AppleSignInAvailable>(context, listen: false);
+
     return WillPopScope(
       onWillPop: () => _onBackPressed(context),
       child: Scaffold(
@@ -92,7 +77,7 @@ class LoginPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 30),
                   ),
-                  if (appleSignInAvailable.isAvailable)
+                  if (Platform.isIOS)
                     Padding(
                       padding: EdgeInsets.all(30),
                       child: SignInWithAppleButton(
