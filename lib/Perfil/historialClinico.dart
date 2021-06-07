@@ -24,7 +24,6 @@ class MyHistorial extends StatelessWidget {
   }
 
   List<charts.Series<TimeSeriesSales, DateTime>> SacaDatos() {
-    //List<HealthDataPoint> aux = MySacaDatosSemana(tipo);
     List<charts.Series<TimeSeriesSales, DateTime>> data = [];
     return data;
   }

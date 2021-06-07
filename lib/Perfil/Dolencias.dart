@@ -27,7 +27,7 @@ class _StateDolencias extends State<Dolencias> {
       List<String> tags;
       if (rests.isEmpty) {
         String xmlS =
-            await DefaultAssetBundle.of(context).loadString("Tags/tags.xml");
+            await DefaultAssetBundle.of(context).loadString("assets/Tags/tags.xml");
         var file = xml.parse(xmlS);
         var elements = file.findAllElements('tag');
         

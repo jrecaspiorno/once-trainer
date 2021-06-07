@@ -10,6 +10,7 @@ import 'package:flutterapp/Menu/Menu.dart';
 import 'package:flutterapp/NavigationTools/routes_path.dart' as routes;
 import 'package:flutterapp/Perfil/Ajustes.dart';
 import 'package:flutterapp/Perfil/Dificultad.dart';
+import 'package:flutterapp/Perfil/Nivel.dart';
 import 'package:flutterapp/Perfil/Dolencias.dart';
 import 'package:flutterapp/Perfil/EditarNombre.dart';
 import 'package:flutterapp/Perfil/EditarPerfil.dart';
@@ -93,7 +94,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Ajustes());
       case routes.DificultadPage:
         return MaterialPageRoute(builder: (_) => Dificultad());
-
+      case routes.NivelPage:
+        return MaterialPageRoute(builder: (_) => Nivel());
       case routes.AyudaPage:
         return MaterialPageRoute(builder: (_) => MyHelp());
       case routes.EditarNombrePage:
