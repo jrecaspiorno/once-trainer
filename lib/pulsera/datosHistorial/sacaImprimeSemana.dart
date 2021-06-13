@@ -77,7 +77,7 @@ class _MySacaImprime extends State<MySaca> {
         cont++;
         //print(_healthDataList);
         //print(cont);
-        if (cont == 10) {
+        if (cont > 9) {
           // Has esperado 10 seg
           varImprimir = "Error al coger los datos";
           setState(() {});
@@ -101,7 +101,6 @@ class _MySacaImprime extends State<MySaca> {
     //DateTime startDate = endDate.subtract(Duration(days: 6));
     int hacedias = 6;
 
-    // TODO: comprobar el numero de dias que paso (desde sacaImprime)
     HealthDataPoint actual, anterior;
     List<int> cont = [0, 0, 0, 0, 0, 0, 0];
     List<double> suma = [0, 0, 0, 0, 0, 0, 0];
@@ -315,6 +314,7 @@ class _MySacaImprime extends State<MySaca> {
       body: _healthDataList.isEmpty
           ? Center(
               child: Text(varImprimir,
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 40))) // Centrar y mas grande
           //: Semantics (child: TimeSeriesBar.withSampleData(sacaMedia(tipoEntrada.toString(), _healthDataList)), label: "Tabla",),
           : ListView(

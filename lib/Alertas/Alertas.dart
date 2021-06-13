@@ -32,7 +32,6 @@ class Alerts {
   
     showAlertDialog() {
 
-      // set up the buttons
       Widget firstButton = FlatButton(
         child: Text(firstButtonText, style: TextStyle(color:Colors.white, fontSize: 20),),
         onPressed:  () {
@@ -40,7 +39,6 @@ class Alerts {
         },
       );
 
-      // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         title: Text(title, style: TextStyle(color: Colors.white, fontSize: 30)),
         content: Text(message, style: TextStyle(color: Colors.white, fontSize: 20),),
@@ -51,7 +49,6 @@ class Alerts {
         ],
       );
 
-      // show the dialog
       showDialog(
         barrierDismissible: false,
         context: context,
@@ -65,7 +62,6 @@ class Alerts {
   
   showAlertDialog2() {
 
-      // set up the buttons
       Widget firstButton = FlatButton(
         child: Text(firstButtonText, style: TextStyle(color:Colors.white, fontSize: 20),),
       
@@ -82,7 +78,6 @@ class Alerts {
         },
       );
 
-      // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         title: Text(title, style: TextStyle(color: Colors.white, fontSize: 30)),
         content: Text(message, style: TextStyle(color: Colors.white, fontSize: 20),),
@@ -95,7 +90,6 @@ class Alerts {
         ],
       );
 
-      // show the dialog
       showDialog(
         barrierDismissible: false,
         context: context,
@@ -107,7 +101,6 @@ class Alerts {
 
    showAlertDialog3() {
 
-     // set up the buttons
      Widget firstButton = FlatButton(
        child: Text(firstButtonText, style: TextStyle(color:Colors.white, fontSize: 20),),
 
@@ -132,7 +125,6 @@ class Alerts {
        },
      );
 
-     // set up the AlertDialog
      AlertDialog alert = AlertDialog(
        title: Text(title, style: TextStyle(color: Colors.white, fontSize: 30)),
        content: Text(message, style: TextStyle(color: Colors.white, fontSize: 20),),
@@ -145,7 +137,6 @@ class Alerts {
        ],
      );
 
-     // show the dialog
      showDialog(
        barrierDismissible: false,
        context: context,

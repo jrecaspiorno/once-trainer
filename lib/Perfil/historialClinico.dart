@@ -37,7 +37,6 @@ class MyHistorial extends StatelessWidget {
           _buildButton('Peso', "WEIGHT"),
           _buildButton('Ritmo Cardiaco', "HEART_RATE"),
           _buildButton('Energía Quemada', "ACTIVE_ENERGY_BURNED"),
-          //_buildButton('Prueba pulsera', MySaca("HEART_RATE"), context),
         ],
       )),
     );

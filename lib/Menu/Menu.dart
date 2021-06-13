@@ -83,7 +83,6 @@ class _MenuState extends State<Menu> {
     return Flex(
       direction: Axis.vertical,
 
-      // mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
           width: 300,

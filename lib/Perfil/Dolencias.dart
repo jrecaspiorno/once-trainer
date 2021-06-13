@@ -22,7 +22,6 @@ class _StateDolencias extends State<Dolencias> {
     final database = Provider.of<AppDatabase>(context);
 
     Future<void> getRestricciones(BuildContext context) async {
-      //database.restriccionesDAO.deleteAllRes();
       List<Restriccione> rests = await database.restriccionesDAO.getRestfromUser(widget.id);
       List<String> tags;
       if (rests.isEmpty) {
